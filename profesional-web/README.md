@@ -1,5 +1,7 @@
 # Profesional Web - Tarjeta de Visita P&L
 
+[![CI](https://github.com/fjgonzalez25691/profesional-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fjgonzalez25691/profesional-web/actions/workflows/ci.yml)
+
 Landing de diagnóstico rápido construida con Next.js 16, TypeScript estricto y Neon PostgreSQL.
 
 ## 🛠️ Stack Tecnológico
@@ -37,7 +39,7 @@ profesional-web/
 ├── __tests__/             # Tests unitarios y de integración
 ├── app/                   # Next.js App Router
 │   ├── layout.tsx         # Layout principal
-│   ├── page.tsx           # Landing inicial
+│   ├── page.tsx           # Página inicial (landing)
 │   └── globals.css        # Estilos globales (Tailwind 4)
 ├── lib/
 │   ├── db.ts              # Cliente Neon PostgreSQL
@@ -47,6 +49,12 @@ profesional-web/
 ├── components.json        # Configuración Shadcn/ui
 └── vitest.config.mts      # Configuración de Vitest
 ```
+
+## 🚀 Despliegue
+El proyecto se despliega automáticamente en **Vercel** al hacer push a `main`.
+
+- **URL Producción:** [https://fjgaparicio.es](https://fjgaparicio.es)
+- **Guía de Despliegue:** Consultar `../docs/DEPLOY.md` para detalles de configuración y variables de entorno.
 
 ## 📄 Licencia
 Privado.

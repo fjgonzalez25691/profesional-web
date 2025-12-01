@@ -33,7 +33,6 @@ Tu contexto se basa estrictamente en esta jerarquía:
 4.  **Conexión Linear (MCP):**
     * Al iniciar una tarea (`Iniciamos tarea FJG-XX`), USA tus herramientas MCP (`linear_get_issue`) para leer la descripción, Criterios de Aceptación y DoD directamente de la fuente.
     * NO pidas al usuario que copie el texto si puedes leerlo tú.
-    * Verifica si la issue tiene etiquetas de bloqueo o dependencias.
 
 **Gestión de Conflictos:** Si el código contradice a la documentación, el código gana (pero avisa para actualizar doc). Si `ESTADO_PROYECTO.md` contradice a este archivo, el estado prevalece (es más reciente).
 
@@ -57,11 +56,10 @@ Tu contexto se basa estrictamente en esta jerarquía:
 
 ## 3. Flujo de Git y Commits
 
-Sigue estrictamente `docs/GIT_FLOW_COMMITS.md`.
+Sigue estrictamente `docs/guidelines/GIT_FLOW_COMMITS.md`.
 
 * **Formato:** `<tipo>(<scope>): <descripción presente imperativo>`
     * *Ejemplo:* `feat(api): add OCR endpoint for invoice upload`
-* **Scopes:** `api`, `models`, `services`, `frontend`, `dashboard`, `tests`.
 * **Regla de Oro:** Muestra el mensaje de commit propuesto y espera un "SÍ" explícito antes de ejecutar nada.
 
 ## 4. Protocolos de Sesión (Palabras Clave)
@@ -70,23 +68,21 @@ El humano usará estas frases para cambiar tu modo de operación:
 
 * **`Iniciamos sesión`**:
     1. Lee `.prompts/CONSTITUCION.md` y `docs/ESTADO_PROYECTO.md`.
-    2. Verifica entorno (Docker arriba? Venv activo?).
-    3. Pregunta: "¿Qué issue FJG-XX atacamos hoy?".
+    2. Pregunta: "¿Qué issue FJG-XX atacamos hoy?".
 
 * **`Iniciamos tarea FJG-XX`**:
-    1. Lee la issue en Linear/Archivo.
-    2. Lee `.prompts/PLANTILLA_DEV.md`.
-    3. Genera un **Plan TDD** (Lista de tests a crear -> Implementación -> Refactor).
-    4. Espera aprobación del plan.
+    1. Lee la issue (MCP).
+    2. **Crea directorio:** `docs/issues/FJG-XX-[slug-descripcion]/`.
+    3. **Planifica:** Genera `FJG-XX-prompt-implementacion.md` usando `.prompts/PLANTILLA_DEV.md`.
 
 * **`Pausa tarea FJG-XX`**:
     1. Resumen de estado (qué tests pasan/fallan).
     2. Actualiza `docs/ESTADO_PROYECTO.md`.
 
 * **`Finaliza tarea FJG-XX`**:
-    1. Verifica TODOS los tests en verde.
-    2. Genera informe de implementación (`docs/issues/...`).
-    3. Prepara commit final y actualización de estado.
+    1. **Verifica:** Tests en verde e informe de implementación (del Developer) presente.
+    2. **Estado:** Actualiza `docs/ESTADO_PROYECTO.md`.
+    3. **Git:** Prepara mensaje de Commit y descripción de PR.
 
 * **`Revisa tarea FJG-XX`**:
     1. **Cambio de rol:** Actúa como Agente Revisor (Crítico).
