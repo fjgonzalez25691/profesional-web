@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd profesional-web && npm run build",
+  "devCommand": "cd profesional-web && npm run dev",
+  "installCommand": "cd profesional-web && npm install",
+  "outputDirectory": "profesional-web/.next"
+}
