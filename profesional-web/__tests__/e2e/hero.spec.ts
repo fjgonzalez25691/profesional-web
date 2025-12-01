@@ -12,9 +12,9 @@ test.describe('Hero Section', () => {
   });
 
   test('CA-3: Visualiza subtítulo segmentado', async ({ page }) => {
-    const subtitle = page.locator('p').filter({ hasText: 'Para empresas industriales' });
+    const subtitle = page.locator('p').filter({ hasText: 'Para empresas que quieren' });
     await expect(subtitle).toBeVisible();
-    await expect(subtitle).toContainText('Para empresas industriales, logísticas y agencias 5–50M€');
+    await expect(subtitle).toContainText('Para empresas que quieren optimizar costes y ganar eficiencia');
   });
 
   test('CA-4: Visualiza badge de experiencia', async ({ page }) => {
@@ -26,22 +26,11 @@ test.describe('Hero Section', () => {
     const cta = page.getByRole('button', { name: /Diagnóstico gratuito 30 min/i });
     await expect(cta).toBeVisible();
     
-    // Verificar que al hacer click se abre el modal (o el iframe de Calendly se hace visible)
+    // Verificar que al hacer click se abre el modal de Calendly
     await cta.click();
     
-    // Calendly suele inyectar un iframe o un popup.
-    // Buscamos un elemento indicativo del modal o el iframe de Calendly.
-    // Nota: React-Calendly usa un componente PopupModal o Inline.
-    // Asumiremos un selector genérico por ahora o buscaremos el iframe.
-    const calendlyIframe = page.frameLocator('iframe[src*="calendly.com"]');
-    // Esperar a que aparezca algo relacionado con el modal
-    // Si usamos react-calendly PopupModal, crea un div en el root.
-    // Vamos a buscar un elemento que indique apertura, e.g., role="dialog" o simplemente el iframe.
-    // Como no tenemos el código aún, el test fallará, que es lo esperado.
-    
-    // Ajuste para robustez: buscamos el contenedor del modal que crearemos.
-    const modal = page.locator('.calendly-modal, .ReactModalPortal'); 
-    // O simplemente esperamos que el iframe exista en el DOM
+    // Verificar que el iframe de Calendly se carga (es lo más confiable)
+    await page.waitForSelector('iframe[src*="calendly.com"]', { timeout: 10000 });
     const iframe = page.locator('iframe[src*="calendly.com"]');
     await expect(iframe).toBeAttached();
   });

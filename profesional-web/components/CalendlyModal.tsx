@@ -12,7 +12,9 @@ export default function CalendlyModal({ isOpen, onClose }: CalendlyModalProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Defer mounting to avoid hydration issues
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return null;
