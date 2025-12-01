@@ -6,6 +6,7 @@
 1.  **Prohibido ejecutar Git sin permiso:** El agente debe **proponer** el comando y esperar confirmación ("¿Procedo?").
 2.  **Identidad:** No uses tu nombre de modelo. Usa términos genéricos ("Agente implementador").
 3.  **Idioma:** Mensajes de commit SIEMPRE en **Español**.
+4.  **Merge por defecto:** Usar `gh pr merge --squash --delete-branch --auto` salvo instrucciones en contrario.
 
 ---
 
@@ -58,3 +59,17 @@ Antes de sugerir un commit, verifica internamente:
   - [ ] ¿El mensaje sigue el formato `tipo(scope): resumen`?
   - [ ] ¿Está referenciada la Issue?
   - [ ] ¿Has pedido permiso al humano?
+
+## 5. Comandos de Merge
+
+**Comando por defecto para PR:**
+```bash
+gh pr merge --squash --delete-branch --auto
+```
+
+**Opciones:**
+- `--squash`: Combina todos los commits en uno solo (historial limpio)
+- `--delete-branch`: Elimina la rama feature automáticamente
+- `--auto`: Merge automático cuando pasen las verificaciones
+
+**Uso alternativo:** Solo si se especifica usar merge directo o rebase.

@@ -1,8 +1,9 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 1 de diciembre de 2025, 12:55 (Europe/Madrid)*
+*Última actualización: 1 de diciembre de 2025, 15:50 (Europe/Madrid)*
 
-## 🎯 Issue Activa
-**FJG-35**: Setup proyecto Next.js 16 + TypeScript + Neon PostgreSQL (🔄 Finalizando)
+## 🎯 Issues Activas
+**FJG-36**: US-01-002: Vercel Deploy + DNS fjgaparicio.es (🔄 Deploy completado, DNS propagando)  
+**FJG-37**: US-01-003: GitHub Actions CI/CD (✅ Completado, listo para merge)
 
 ## 📊 Estado del Sprint
 **Sprint 1**: La "Tarjeta de Visita" P&L (Fundación)
@@ -58,9 +59,18 @@ profesional-web/
 - Suite básica de tests funcionando
 - Landing page base implementada
 
+### ✅ En Verificación (FJG-36 & FJG-37)
+- **Deploy Vercel**: Configurado y conectado a repositorio
+- **DNS**: Dominio `fjgaparicio.es` migrado a nameservers Vercel
+- **SSL**: Certificado Let's Encrypt aprovisionado
+- **URL Producción**: [https://fjgaparicio.es](https://fjgaparicio.es)
+- **CI/CD**: GitHub Actions configurado (`.github/workflows/ci.yml`) ejecutando Lint, Typecheck, Test y Build
+- **Calidad**: Badge de CI añadido al README
+
 ### 🔄 En Progreso
-- Preparación de PR para mergear FJG-35
-- Generación de informe de implementación
+- Verificación final de pipelines y despliegue
+
+### ⏳ Pendiente (Próximo Sprint)
 
 ### ⏳ Pendiente (Próximo Sprint)
 - Componentes Hero y CTA profesionales
@@ -75,11 +85,12 @@ profesional-web/
 - **Utilidad CSS**: `cn()` para merge de clases (Tailwind + clsx)
 - **Testing**: TDD estricto con Vitest + Testing Library
 
-## 📋 Próximos Pasos (Post FJG-35)
-1. **FJG-36**: Implementar landing page con Hero section
-2. **FJG-37**: Crear formulario de contacto con validación
-3. **FJG-38**: Integración Calendly funcional
-4. **FJG-39**: Schema database para leads (Neon)
+## 📋 Próximos Pasos (FJG-36 Deploy)
+1. **Vercel**: Conectar repositorio y configurar deploy automático
+2. **DNS**: Configurar fjgaparicio.es apuntando a Vercel
+3. **SSL**: Activar certificado automático Let's Encrypt
+4. **Testing**: Verificar https://fjgaparicio.es funcional
+5. **Variables**: Configurar entorno de producción
 
 ## 🔬 Verificación Técnica Actual
 ```bash
