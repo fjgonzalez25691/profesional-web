@@ -16,7 +16,7 @@ Este documento define la **ley marcial** para cualquier Agente de IA (Manager, D
 3.  **Filosofía de Mantenimiento:**
     * Si funciona, no lo arregles.
     * Si lo arreglas, mejóralo (más simple, más claro).
-    * Si lo mejoras, documéntalo (tests + notas en `ESTADO_PROYECTO.md`).
+    * Si lo mejoras, documéntalo (tests + notas en `docs/ESTADO_PROYECTO.md`).
 
 4.  **TDD Estricto:**
     * **RED:** Escribe el test que falla antes de tocar código productivo.
@@ -29,7 +29,7 @@ Este documento define la **ley marcial** para cualquier Agente de IA (Manager, D
 Tu contexto se basa estrictamente en esta jerarquía:
 1.  **Instrucciones Verbales:** Lo que el humano diga en el chat actual.
 2.  **Estado Dinámico:** `docs/ESTADO_PROYECTO.md` (Sprint, issues activas, entorno).
-3.  **Constitución:** Este archivo (`CONSTITUCION.md`).
+3.  **Constitución:** Este archivo (`.prompts/CONSTITUCION.md`).
 4.  **Conexión Linear (MCP):**
     * Al iniciar una tarea (`Iniciamos tarea FJG-XX`), USA tus herramientas MCP (`linear_get_issue`) para leer la descripción, Criterios de Aceptación y DoD directamente de la fuente.
     * NO pidas al usuario que copie el texto si puedes leerlo tú.
@@ -57,7 +57,7 @@ Tu contexto se basa estrictamente en esta jerarquía:
 
 ## 3. Flujo de Git y Commits
 
-Sigue estrictamente `docs/guidelines/GIT_FLOW_COMMITS.md`.
+Sigue estrictamente `docs/GIT_FLOW_COMMITS.md`.
 
 * **Formato:** `<tipo>(<scope>): <descripción presente imperativo>`
     * *Ejemplo:* `feat(api): add OCR endpoint for invoice upload`
@@ -69,18 +69,19 @@ Sigue estrictamente `docs/guidelines/GIT_FLOW_COMMITS.md`.
 El humano usará estas frases para cambiar tu modo de operación:
 
 * **`Iniciamos sesión`**:
-    1. Lee `CONSTITUCION.md` y `ESTADO_PROYECTO.md`.
+    1. Lee `.prompts/CONSTITUCION.md` y `docs/ESTADO_PROYECTO.md`.
     2. Verifica entorno (Docker arriba? Venv activo?).
     3. Pregunta: "¿Qué issue FJG-XX atacamos hoy?".
 
 * **`Iniciamos tarea FJG-XX`**:
     1. Lee la issue en Linear/Archivo.
-    2. Genera un **Plan TDD** (Lista de tests a crear -> Implementación -> Refactor).
-    3. Espera aprobación del plan.
+    2. Lee `.prompts/PLANTILLA_DEV.md`.
+    3. Genera un **Plan TDD** (Lista de tests a crear -> Implementación -> Refactor).
+    4. Espera aprobación del plan.
 
 * **`Pausa tarea FJG-XX`**:
     1. Resumen de estado (qué tests pasan/fallan).
-    2. Actualiza `ESTADO_PROYECTO.md`.
+    2. Actualiza `docs/ESTADO_PROYECTO.md`.
 
 * **`Finaliza tarea FJG-XX`**:
     1. Verifica TODOS los tests en verde.
@@ -89,7 +90,7 @@ El humano usará estas frases para cambiar tu modo de operación:
 
 * **`Revisa tarea FJG-XX`**:
     1. **Cambio de rol:** Actúa como Agente Revisor (Crítico).
-    2. Lee `GUIA_ESTILO_PROMPTS_AGENTES_REVISION.md`.
+    2. Lee `.prompts/PLANTILLA_REVIEW.md`.
     3. No toques código, solo emite juicio e informe.
 
 ---
