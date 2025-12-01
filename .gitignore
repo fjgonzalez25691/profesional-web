@@ -1,2 +1,12 @@
 # Documentación archivada
 docs/archive/
+.vercel
+
+# Archivos de entorno del root
+.env
+.env.local
+
+# Logs y temporales
+*.log
+.DS_Store
+*.pem
