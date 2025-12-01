@@ -2,6 +2,9 @@
 docs/archive/
 .vercel
 
+# Checklists manuales con datos sensibles
+**/FJG-*-checklist-manual.md
+
 # Archivos de entorno del root
 .env
 .env.local
@@ -10,3 +13,4 @@ docs/archive/
 *.log
 .DS_Store
 *.pem
+.env*.local
