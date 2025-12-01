@@ -20,7 +20,7 @@ describe('Home Page', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/Para empresas industriales, logísticas y agencias 5–50M€/i),
+      screen.getByText(/Para empresas que quieren optimizar costes y ganar eficiencia/i),
     ).toBeInTheDocument();
 
     expect(
