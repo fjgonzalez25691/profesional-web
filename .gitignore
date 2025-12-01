@@ -10,3 +10,4 @@ docs/archive/
 *.log
 .DS_Store
 *.pem
+.env*.local
