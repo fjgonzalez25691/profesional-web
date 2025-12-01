@@ -59,16 +59,22 @@ profesional-web/
 - Suite básica de tests funcionando
 - Landing page base implementada
 
-### ✅ En Verificación (FJG-36 & FJG-37)
-- **Deploy Vercel**: Configurado y conectado a repositorio
-- **DNS**: Dominio `fjgaparicio.es` migrado a nameservers Vercel
-- **SSL**: Certificado Let's Encrypt aprovisionado
-- **URL Producción**: [https://fjgaparicio.es](https://fjgaparicio.es)
-- **CI/CD**: GitHub Actions configurado (`.github/workflows/ci.yml`) ejecutando Lint, Typecheck, Test y Build
-- **Calidad**: Badge de CI añadido al README
+### ✅ Completado (FJG-35, FJG-36, FJG-37)
+- **Base**: Setup Next.js 16 + TypeScript + Neon + Vitest
+- **Deploy**: Vercel configurado, DNS `fjgaparicio.es` conectado, SSL activo
+- **CI/CD**: GitHub Actions ejecutando checks de calidad en PRs y Main
+
+### ✅ En Verificación (FJG-38)
+- **Hero Section**: Implementada con copy de alto impacto ("Reduzco tu factura Cloud...")
+- **CTA**: Botón flotante "Diagnóstico gratuito" funcional
+- **Agenda**: Integración con Calendly (Modal)
+- **Tests**: Unitarios e Integración pasando (11/11)
+- **E2E**: Playwright scripts preparados
 
 ### 🔄 En Progreso
-- Verificación final de pipelines y despliegue
+- (Esperando siguiente asignación)
+
+### ⏳ Pendiente (Próximo Sprint)
 
 ### ⏳ Pendiente (Próximo Sprint)
 
