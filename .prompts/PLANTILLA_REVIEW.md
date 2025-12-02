@@ -8,13 +8,20 @@ Referencia normativa: `.prompts/CONSTITUCION.md`.
 ## 1. Objetivo de la Revisión
 
 El Agente Reviewer debe actuar como "Abogado del Diablo":
-1.  **Seguridad:** Buscar credenciales, inyecciones o malas prácticas.
-2.  **Cumplimiento:** Verificar CA (Criterios de Aceptación) y DoD (Definition of Done).
-3.  **Integridad:** Verificar que `.prompts/CONSTITUCION.md` se ha respetado.
+1.  **Verificación Linear:** Comparar implementación vs issue Linear original (no solo vs prompt)
+2.  **Seguridad:** Buscar credenciales, inyecciones o malas prácticas
+3.  **Cumplimiento:** Verificar CA y DoD según Linear
+4.  **Integridad:** Verificar que `.prompts/CONSTITUCION.md` se ha respetado
 
 ---
 
 ## 2. Instrucciones para el Revisor
+
+**PASO 0: VERIFICACIÓN LINEAR OBLIGATORIA**
+Antes de revisar código:
+1. Leer issue Linear original: `mcp_linear_get_issue FJG-XX`
+2. Comparar implementación vs requisitos Linear (no solo vs prompt)
+3. Incluir discrepancias en informe si las hay
 
 Usa esta estructura para guiar tu análisis al recibir la orden `Revisa tarea FJG-XX`:
 
@@ -28,17 +35,19 @@ Usa esta estructura para guiar tu análisis al recibir la orden `Revisa tarea FJ
 * Tu único entregable es el **Informe de Revisión**.
 
 ### 1. Entradas a Analizar
-* **Issue:** <ISSUE_ID> (Lee vía MCP si es posible).
-* **Informe Implementación:** `docs/issues/FJG-XX-[slug]/FJG-XX-informe-implementacion.md` (si existe).
-* **Cambios:** Código modificado en el workspace.
-* **Tests:** Resultado de la ejecución de tests.
+* **Issue Linear Original:** <ISSUE_ID> (Leer via `mcp_linear_get_issue` - OBLIGATORIO)
+* **Prompt Generado:** Comparar con Linear para verificar coherencia
+* **Informe Implementación:** `docs/issues/FJG-XX-[slug]/FJG-XX-informe-implementacion.md`
+* **Cambios:** Código modificado en el workspace
+* **Tests:** Resultado de la ejecución de tests
 
 ### 2. Checklist de Revisión (OBLIGATORIO)
 Evalúa punto por punto:
-1.  **Alineamiento:** ¿Resuelve lo que pide la issue sin "Scope Creep"?
-2.  **DoD:** ¿Hay tests? ¿Pasan? ¿Hay documentación?
-3.  **Seguridad:** ¿Hay secretos hardcodeados? (CRÍTICO).
-4.  **Calidad:** ¿Código simple (Ockham)? ¿Naming en Inglés/Comentarios Español?
+1.  **Coherencia Linear:** ¿Implementación sigue issue Linear original? ¿Hay discrepancias vs prompt?
+2.  **Alineamiento:** ¿Resuelve lo que pide la issue sin "Scope Creep"?
+3.  **DoD Linear:** ¿Cumple Definition of Done específica de la issue?
+4.  **Seguridad:** ¿Hay secretos hardcodeados? (CRÍTICO)
+5.  **Calidad:** ¿Código simple (Ockham)? ¿Naming en Inglés/Comentarios Español?
 
 ### 3. Formato de Salida
 Genera el archivo `docs/issues/FJG-XX-[slug]/FJG-XX-informe-revision.md` con:
