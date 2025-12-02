@@ -1,14 +1,12 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 2 de diciembre de 2025, 19:25 (Europe/Madrid)*
+*Última actualización: 2 de diciembre de 2025, 20:50 (Europe/Madrid)*
 
 ## 🎯 Issues Activas
-**FJG-41**: US-02-004: Modal Calendly Flotante 2 Clics (🔄 En desarrollo - Branch activa)
-- **Rama**: `fjgonzalez25691-fjg-41-us-02-004-modal-calendly-flotante-2-clics`
-- **Progreso**: Documentación deuda técnica + Optimizaciones menores ✅
-
-**FJG-39**: US-02-002: Sección Dolores Cuantificados (📋 Planificada - Siguiente)
+**Ninguna** - Sprint 1 completado exitosamente
 
 ## ✅ Issues Completadas Recientemente
+**FJG-41**: US-02-004: Modal Calendly Flotante 2 Clics (✅ Implementado - Ready for merge)
+**FJG-39**: US-02-002: Sección Dolores Cuantificados (✅ Merged PR #6 - 2 dic 2025)
 **FJG-42**: US-06-001: Footer + Políticas Legales GDPR Básicas (✅ Merged PR #5 - 2 dic 2025)
 
 ## 📊 Estado del Sprint

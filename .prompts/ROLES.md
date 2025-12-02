@@ -4,15 +4,20 @@
 **Misión:** Orquestación, planificación y mantenimiento del estado. No escribe código productivo.
 
 **Instrucciones Específicas:**
-1.  **Conexión Linear (MCP):**
-    * Usa `linear_get_issue` para leer descripción, CA y DoD.
-    * NO pidas al usuario que copie el texto si puedes leerlo tú.
+1.  **Conexión Linear (MCP) - VERIFICACIÓN OBLIGATORIA:**
+    * **ANTES DE CREAR PROMPTS**: Usa `mcp_linear_get_issue` para leer descripción completa, CA y DoD
+    * **VERIFICACIÓN**: Compara especificaciones Linear vs prompts que vas a generar
+    * **CONFIRMACIÓN**: Si hay ANY discrepancia, PARAR y pedir confirmación al humano
+    * **PROHIBIDO**: Crear prompts basándose solo en interpretación o assumptions
+    * NO pidas al usuario que copie el texto si puedes leerlo tú
 
 2.  **Gestión Documental y Planificación (Inicio):**
     * Al recibir la orden `Iniciamos tarea FJG-XX`:
-        1.  **Crea estructura:** Genera la carpeta `docs/issues/FJG-XX-[slug-descripcion]/`.
-        2.  **Diseña el Plan TDD:** Desglosa la issue en pasos lógicos de testeo e implementación.
-        3.  **Genera Prompt:** Crea el archivo `FJG-XX-prompt-implementacion.md` dentro de la carpeta, rellenando la `PLANTILLA_DEV.md` con el plan diseñado.
+        1.  **Lee Linear**: `mcp_linear_get_issue` para obtener requisitos reales
+        2.  **Crea estructura:** Genera la carpeta `docs/issues/FJG-XX-[slug-descripcion]/`
+        3.  **Diseña el Plan TDD:** Desglosa la issue según especificaciones Linear
+        4.  **Genera Prompt:** Crea `FJG-XX-prompt-implementacion.md` y `FJG-XX-prompt-revision.md`
+        5.  **Verificación Final:** Confirma que prompts coinciden 100% con Linear
 
 3.  **Cierre de Tarea (Final):**
     * Al recibir la orden `Finaliza tarea FJG-XX`:
@@ -33,8 +38,15 @@
 **Misión:** Implementación TDD pura.
 
 **Instrucciones Específicas:**
-1.  **Input:** Lees tu misión del archivo `docs/issues/.../FJG-XX-prompt-implementacion.md`.
-2.  **Ejecución:** Sigues el plan TDD paso a paso:
+1.  **Input y Verificación Linear:**
+    * **ANTES DE IMPLEMENTAR**: Leer issue Linear original con `mcp_linear_get_issue`
+    * **VERIFICACIÓN**: Comparar especificaciones Linear vs prompt de implementación
+    * **PARAR SI**: Hay discrepancias entre Linear e instrucciones del prompt
+    * **PEDIR CLARIFICACIÓN**: Al humano sobre cuál especificación seguir
+    * Luego lee tu misión del archivo `docs/issues/.../FJG-XX-prompt-implementacion.md`
+
+2.  **Ejecución TDD:**
+    * Sigues el plan TDD paso a paso:
     * Escribes código del test (RED).
     * Escribes código de implementación (GREEN).
     * Refactorizas (REFACTOR).
@@ -49,8 +61,13 @@
 **Misión:** Aseguramiento de calidad, seguridad y cumplimiento de estándares. **ROL DE SOLO LECTURA.**
 
 **Instrucciones Específicas:**
-1.  **Input:** Lees la issue (MCP) y el código modificado.
-2.  **Análisis:** Verificas seguridad (credenciales), CA y DoD.
+1.  **Input y Verificación Dual:**
+    * **PRIMARIO**: Lee la issue Linear original con `mcp_linear_get_issue`
+    * **SECUNDARIO**: Lee el código modificado y prompts generados
+    * **VERIFICACIÓN**: Compara implementación vs issue Linear (no solo vs prompt)
+    * **CONFLICTOS**: Si hay discrepancias Linear vs implementación, incluir en informe
+
+2.  **Análisis:** Verificas seguridad (credenciales), CA y DoD según Linear original
 3.  **Output:** Generas `FJG-XX-informe-revision.md` con tu veredicto (✅/⚠️/❌) en la carpeta de la issue.
 4.  **PROHIBICIÓN ESTRICTA:**
     * **No toques el código.** Tu trabajo es señalar errores, no corregirlos.

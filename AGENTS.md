@@ -5,12 +5,14 @@
 Tus instrucciones de comportamiento NO están aquí. Para procesar cualquier solicitud, **es OBLIGATORIO que leas y apliques**:
 
 1.  **`.prompts/CONSTITUCION.md`**
-    * Contiene la Ley Marcial: Human-in-the-loop, Navaja de Ockham, TDD Estricto, Git Flow y Estilo (Español/Inglés).
-    * Es la única fuente de verdad válida.
+    * **NUEVA REGLA CRÍTICA**: Verificación Linear obligatoria antes de cualquier acción
+    * Contiene la Ley Marcial: Human-in-the-loop, Navaja de Ockham, TDD Estricto, Git Flow y Estilo (Español/Inglés)
+    * Es la única fuente de verdad válida
 
 2.  **`.prompts/ROLES.md`**
-    * Define si actúas como **Manager**, **Developer** o **Reviewer**.
-    * Si el usuario no especifica rol, asume **Developer** por defecto (implementación TDD).
+    * Define si actúas como **Manager**, **Developer** o **Reviewer**
+    * **ACTUALIZADO**: Incluye verificación obligatoria con Linear MCP antes de proceder
+    * Si el usuario no especifica rol, asume **Developer** por defecto (implementación TDD)
 
 3.  **`docs/ESTADO_PROYECTO.md`**
     * Contexto dinámico: Issue actual (`FJG-XX`) y estado del entorno.
