@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Hero from "@/components/Hero";
+import PainPoints from "@/components/PainPoints";
 import CalendlyModal from "@/components/CalendlyModal";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <main id="main" className="flex min-h-screen flex-col items-center justify-between">
+    <main id="main" className="flex min-h-screen flex-col items-center justify-start">
       <Hero
         headline="Reduzco tu factura Cloud y automatizo procesos con payback <6 meses"
         subtitle="Para empresas que quieren optimizar costes y ganar eficiencia"
@@ -16,9 +17,13 @@ export default function Home() {
         badgeText="+37 años gestionando P&L"
         onCtaClick={() => setIsModalOpen(true)}
       />
-      <CalendlyModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+
+      {/* Sección de dolores cuantificados */}
+      <PainPoints />
+
+      <CalendlyModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </main>
   );
