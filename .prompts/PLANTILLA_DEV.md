@@ -15,23 +15,31 @@ El Manager debe crear el archivo `docs/issues/FJG-XX-[slug]/FJG-XX-prompt-implem
 **Rol:** Agent Developer (Ver `.prompts/ROLES.md`)
 **Objetivo:** <TITULO_ISSUE>
 
-## 0. Constitución (OBLIGATORIO)
-Antes de escribir código, confirma que has leído:
-1.  `.prompts/CONSTITUCION.md`.
-2.  `docs/ESTADO_PROYECTO.md`.
-3.  La issue <ISSUE_ID> (Vía MCP).
+## 0. Verificación Linear (OBLIGATORIO)
+**ANTES DE IMPLEMENTAR, AGENT DEVELOPER DEBE:**
+1. Leer issue Linear original: `mcp_linear_get_issue FJG-XX`
+2. Comparar especificaciones Linear vs este prompt
+3. Si hay discrepancias, PARAR y pedir clarificación al humano
+4. Solo proceder si Linear y prompt coinciden 100%
 
-## 1. Objetivo Funcional
-<RESUMEN_USER_STORY>
+## 1. Constitución (OBLIGATORIO)
+Confirma que has leído:
+1.  `.prompts/CONSTITUCION.md` (Verificación Linear incluida)
+2.  `docs/ESTADO_PROYECTO.md`
+3.  La issue <ISSUE_ID> verificada via Linear MCP
 
-## 2. Criterios de Aceptación (CA)
-* [ ] <CRITERIO_1>
-* [ ] <CRITERIO_2>
+## 1. Objetivo Funcional (VERIFICADO vs Linear)
+<RESUMEN_USER_STORY - CONFIRMADO que coincide con Linear>
 
-## 3. Definición de Hecho (DoD)
-* [ ] Tests pasando (Unitarios/Integración).
-* [ ] Sin credenciales hardcodeadas.
-* [ ] Estilo: Comentarios en ES, Código en EN.
+## 2. Criterios de Aceptación (CA) - COPIADOS DE LINEAR
+* [ ] <CRITERIO_1_EXACTO_SEGUN_LINEAR>
+* [ ] <CRITERIO_2_EXACTO_SEGUN_LINEAR>
+
+## 3. Definición de Hecho (DoD) - SEGÚN LINEAR + ESTÁNDARES
+* [ ] Tests pasando (Unitarios/Integración)
+* [ ] <DOD_ESPECIFICO_DE_LINEAR>
+* [ ] Sin credenciales hardcodeadas
+* [ ] Estilo: Comentarios en ES, Código en EN
 
 ## 4. Archivos Afectados
 **Modificar:**
