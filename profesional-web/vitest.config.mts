@@ -9,6 +9,7 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
     pool: 'threads',
-    include: ['__tests__/**/*.test.{ts,tsx}'],
+    include: ['__tests__/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['**/node_modules/**', '**/.git/**', '__tests__/e2e/**'],
   },
 })

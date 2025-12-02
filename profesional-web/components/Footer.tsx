@@ -4,6 +4,7 @@ export default function Footer() {
   const copyrightYear = 2025;
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contacto@ejemplo.com';
   const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://linkedin.com';
+  const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || 'Tu Nombre';
 
   return (
     <footer className="w-full border-t bg-background py-8 mt-auto">
@@ -48,9 +49,7 @@ export default function Footer() {
           {/* Columna Copyright */}
           <div className="flex flex-col space-y-3 md:items-end md:justify-end">
             <p className="text-sm text-muted-foreground text-center md:text-right">
-              © {copyrightYear} Francisco García.
-              <br />
-              Todos los derechos reservados.
+              © {copyrightYear} {businessName}
             </p>
           </div>
         </div>

@@ -1,11 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Footer from '@/components/Footer';
 
 describe('Footer Component', () => {
-  it('renders copyright text', () => {
+  beforeEach(() => {
+    vi.stubEnv('NEXT_PUBLIC_BUSINESS_NAME', 'Francisco Javier González Aparicio');
+    vi.stubEnv('NEXT_PUBLIC_CONTACT_EMAIL', 'fjgonzalez25691@gmail.com');
+    vi.stubEnv('NEXT_PUBLIC_LINKEDIN_URL', 'https://linkedin.com/in/test');
+  });
+
+  it('renders copyright text with business name from env', () => {
     render(<Footer />);
-    expect(screen.getByText(/© 2025 Francisco García/i)).toBeInTheDocument();
+    expect(screen.getByText(/© 2025 Francisco Javier González Aparicio/i)).toBeInTheDocument();
   });
 
   it('renders legal links', () => {
