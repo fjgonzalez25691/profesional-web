@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InlineWidget } from "react-calendly";
 import { trackEvent } from "@/lib/analytics";
 import {
@@ -11,20 +11,29 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+type UtmParams = {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_content?: string;
+};
+
 interface CalendlyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  source?: 'hero' | 'fab'; // Para diferenciar origen del click
+  source?: 'hero' | 'fab' | 'case_grid'; // Para diferenciar origen del click
   onBookingComplete?: () => void; // Callback para cuando se complete el booking
+  utmParams?: UtmParams;
 }
 
 export default function CalendlyModal({
   isOpen,
   onClose,
   source = 'hero',
-  onBookingComplete
+  onBookingComplete,
+  utmParams,
 }: CalendlyModalProps) {
   const [mounted, setMounted] = useState(false);
+  const calendlyBaseUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/";
 
   useEffect(() => {
     // Defer mounting to avoid hydration issues
@@ -76,7 +85,21 @@ export default function CalendlyModal({
     };
   }, [isOpen, source, onBookingComplete]);
 
-  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/";
+  const calendlyUrl = useMemo(() => {
+    try {
+      const url = new URL(calendlyBaseUrl);
+
+      Object.entries(utmParams || {}).forEach(([key, value]) => {
+        if (value) {
+          url.searchParams.set(key, String(value));
+        }
+      });
+
+      return url.toString();
+    } catch {
+      return calendlyBaseUrl;
+    }
+  }, [utmParams, calendlyBaseUrl]);
 
   if (!mounted) return null;
 

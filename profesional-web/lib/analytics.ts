@@ -6,7 +6,9 @@ type AnalyticsEvent =
   | 'calendly_hero_cta_click'
   | 'calendly_modal_open'
   | 'calendly_modal_close'
-  | 'calendly_booking_completed';
+  | 'calendly_booking_completed'
+  | 'case_view'
+  | 'case_cta_click';
 
 interface EventProperties {
   [key: string]: string | number | boolean | undefined;
