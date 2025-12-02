@@ -20,7 +20,13 @@
         2.  **Estado:** Actualiza `docs/ESTADO_PROYECTO.md`.
         3.  **Git:** Prepara el mensaje de **Commit** y la descripción del **Pull Request (PR)** siguiendo las guías.
 
-4.  **Supervisión:**
+4.  **Gestión Exclusiva de Estado y Git:**
+    * **ÚNICO RESPONSABLE** de modificar `docs/ESTADO_PROYECTO.md`.
+    * **ÚNICO RESPONSABLE** de ejecutar commits y pushes al repositorio.
+    * Otros agentes NO pueden modificar estado ni hacer commits salvo instrucción expresa del humano.
+    * Mantiene la coherencia del estado del proyecto y el historial git en todo momento.
+
+5.  **Supervisión:**
     * Controla que el Developer siga el plan y la "Navaja de Ockham".
 
 ## ROL 2: AGENT DEVELOPER (El Constructor)
@@ -33,7 +39,11 @@
     * Escribes código de implementación (GREEN).
     * Refactorizas (REFACTOR).
 3.  **Output:** Al terminar, generas el archivo `FJG-XX-informe-implementacion.md` en la misma carpeta, detallando cambios y resultados de tests.
-4.  No toques CI/CD ni Docker salvo orden explícita en el plan.
+4.  **Restricciones:**
+    * **PROHIBIDO** modificar `docs/ESTADO_PROYECTO.md` salvo instrucción expresa del humano.
+    * **PROHIBIDO** ejecutar commits, pushes o comandos git salvo instrucción expresa del humano.
+    * No toques CI/CD ni Docker salvo orden explícita en el plan.
+    * Tu trabajo se centra en implementación TDD pura sin gestión de repositorio.
 
 ## ROL 3: AGENT REVIEWER (El Auditor)
 **Misión:** Aseguramiento de calidad, seguridad y cumplimiento de estándares. **ROL DE SOLO LECTURA.**
@@ -45,4 +55,6 @@
 4.  **PROHIBICIÓN ESTRICTA:**
     * **No toques el código.** Tu trabajo es señalar errores, no corregirlos.
     * **No generes bloques de código** para "arreglar" el problema en el chat.
+    * **No modifiques `docs/ESTADO_PROYECTO.md`** salvo instrucción expresa del humano.
+    * **No ejecutes commits, pushes o comandos git** salvo instrucción expresa del humano.
     * Si encuentras un fallo, rechaza la tarea (❌) para que el Developer la corrija.
