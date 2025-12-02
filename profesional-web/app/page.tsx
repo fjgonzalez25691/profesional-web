@@ -3,19 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
 import PainPoints from "@/components/PainPoints";
+import CaseGrid from "@/components/CaseGrid";
 import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
 
+type ModalSource = 'hero' | 'fab' | 'case_grid';
+
+type UtmParams = {
+  utm_source: string;
+  utm_medium: string;
+  utm_content?: string;
+};
+
 export default function Home() {
-  const [modalState, setModalState] = useState<{ isOpen: boolean; source: 'hero' | 'fab' }>({
+  const [modalState, setModalState] = useState<{ isOpen: boolean; source: ModalSource; utmParams?: UtmParams }>({
     isOpen: false,
     source: 'hero'
   });
   const desktopFabRef = useRef<HTMLButtonElement>(null);
   const mobileFabRef = useRef<HTMLButtonElement>(null);
 
-  const openModal = (source: 'hero' | 'fab') => {
-    setModalState({ isOpen: true, source });
+  const openModal = (source: ModalSource, utmParams?: UtmParams) => {
+    setModalState({ isOpen: true, source, utmParams });
   };
 
   const closeModal = () => {
@@ -44,10 +53,18 @@ export default function Home() {
       {/* Sección de dolores cuantificados */}
       <PainPoints />
 
+      {/* Grid de casos de éxito con ROI */}
+      <CaseGrid
+        onCtaClick={(caseId, utmParams) => {
+          openModal('case_grid', utmParams);
+        }}
+      />
+
       <CalendlyModal
         isOpen={modalState.isOpen}
         onClose={closeModal}
         source={modalState.source}
+        utmParams={modalState.utmParams}
       />
 
       {/* Botón flotante para acceso rápido a Calendly */}
