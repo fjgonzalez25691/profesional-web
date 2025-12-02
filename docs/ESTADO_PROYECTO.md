@@ -36,7 +36,7 @@ profesional-web/
 ├── lib/
 │   └── utils.ts          # Utilidades (cn helper)
 ├── .env.example          # Template variables entorno
-├── .env.local            # Variables reales (no en Git)
+│── .env.local            # Variables reales (no en Git)
 ├── vitest.config.mts     # Configuración testing
 ├── components.json       # Config Shadcn/ui
 └── package.json         # Dependencias actualizadas
