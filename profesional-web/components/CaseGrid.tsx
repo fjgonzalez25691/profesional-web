@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from 'react';
-import { ArrowRight, TrendingUp, Clock, Banknote } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -67,23 +67,16 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
               
               <CardContent className="grow flex flex-col justify-between pt-0">
                 <div className="bg-muted/30 rounded-lg p-4 my-4 space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Banknote className="w-4 h-4" /> Inversión
-                    </span>
-                    <span className="font-semibold">{caso.investment}€</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-green-600 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4" /> Ahorro Anual
-                    </span>
-                    <span className="font-bold text-green-700">{caso.savings_annual}€/año</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-blue-600 flex items-center gap-2">
-                      <Clock className="w-4 h-4" /> Payback
-                    </span>
-                    <span className="font-bold text-blue-700">{caso.payback_weeks} semanas</span>
+                  <div className="flex items-start gap-2 text-sm">
+                    <Clock className="w-4 h-4 mt-0.5 text-blue-600 shrink-0" />
+                    <div className="space-y-1">
+                      <span className="text-blue-600 font-medium">Impacto en el trabajo</span>
+                      <p className="font-bold text-foreground">{caso.impact_time}</p>
+                      <p className="text-muted-foreground text-xs">{caso.impact_detail}</p>
+                      <p className="text-blue-700 font-bold text-sm mt-2">
+                        Payback del proyecto: {caso.payback_weeks} semanas
+                      </p>
+                    </div>
                   </div>
                 </div>
 
