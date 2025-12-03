@@ -56,8 +56,8 @@ export default function Home() {
       const clientHeight = doc.clientHeight || window.innerHeight || 1;
       const maxScrollable = scrollHeight - clientHeight;
       const percent = maxScrollable > 0 ? (scrollTop / maxScrollable) * 100 : 0;
-      setShowFloatingCTA(percent > 60);
-      setShowFloatingChat(percent > 60);
+      setShowFloatingCTA(percent > 30);
+      setShowFloatingChat(percent > 30);
     };
 
     handleScroll();

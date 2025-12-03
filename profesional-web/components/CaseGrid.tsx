@@ -5,7 +5,7 @@ import { ArrowRight, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CASOS_MVP } from '@/data/cases';
+import { CASOS_VISIBLES } from '@/data/cases';
 import { trackEvent } from '@/lib/analytics';
 
 type UtmParams = {
@@ -23,7 +23,7 @@ const UTM_MEDIUM = 'case_grid';
 
 export default function CaseGrid({ onCtaClick }: CaseGridProps) {
   useEffect(() => {
-    CASOS_MVP.forEach((caso) => {
+    CASOS_VISIBLES.forEach((caso) => {
       trackEvent('case_view', {
         case_id: caso.id,
         sector: caso.sector,
@@ -47,8 +47,8 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
           data-testid="case-grid-container"
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {CASOS_MVP.map((caso) => (
-            <Card key={caso.id} data-testid="case-card" className="flex flex-col h-full hover:shadow-lg transition-shadow">
+          {CASOS_VISIBLES.map((caso) => (
+            <Card key={caso.id} data-testid={`case-card-${caso.id}`} className="flex flex-col h-full hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
                   <Badge variant="secondary">{caso.sector}</Badge>
