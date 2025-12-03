@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Análisis ROI - Francisco García</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .results { background: #f8fafc; padding: 20px; border-radius: 8px; }
+    .metric { margin: 12px 0; }
+    .metric-label { color: #64748b; font-size: 14px; }
+    .metric-value { color: #0f172a; font-size: 24px; font-weight: 600; }
+    .cta { background: #3b82f6; color: white; padding: 12px 24px;
+           border-radius: 6px; text-decoration: none; display: inline-block; }
+    .disclaimer { color: #94a3b8; font-size: 12px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tu Análisis ROI Personalizado</h1>
+    
+    <div class="results">
+      <div class="metric">
+        <div class="metric-label">Ahorro Anual Estimado</div>
+        <div class="metric-value">{{savingsAnnual}}€</div>
+      </div>
+      
+      <div class="metric">
+        <div class="metric-label">Inversión Estimada</div>
+        <div class="metric-value">{{investment}}€</div>
+      </div>
+      
+      <div class="metric">
+        <div class="metric-label">Periodo Recuperación (Payback)</div>
+        <div class="metric-value">{{paybackMonths}} meses</div>
+      </div>
+      
+      <div class="metric">
+        <div class="metric-label">ROI a 3 años</div>
+        <div class="metric-value">{{roi3Years}}%</div>
+      </div>
+    </div>
+    
+    <p>Basado en tu sector <strong>{{sector}}</strong> y tamaño <strong>{{companySize}}</strong>.</p>
+    
+    <p>
+      <a href="https://fjgaparicio.es/calendly?utm_source=email&utm_campaign=roi-calculator" 
+         class="cta">Agendar Diagnóstico Gratuito 30 min</a>
+    </p>
+    
+    <div class="disclaimer">
+      ⚖️ Estas cifras son estimaciones orientativas. Un diagnóstico real requiere 
+      evaluación personalizada de 30 minutos. No garantizamos resultados específicos.
+    </div>
+  </div>
+</body>
+</html>
