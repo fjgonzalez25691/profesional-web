@@ -178,7 +178,7 @@ test.describe('Lead Capture Flow', () => {
   });
 
   test('should send complete lead data structure', async ({ page }) => {
-    let capturedPayload: any;
+    let capturedPayload: unknown;
 
     // Mock con captura de payload para verificación
     await page.route('**/api/leads', async (route, request) => {
