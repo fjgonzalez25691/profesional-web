@@ -36,15 +36,26 @@ export default function Hero({
           {subtitle}
         </p>
 
-        {/* Spacer for layout visual balance on desktop */}
-        <div className="h-8 md:hidden"></div>
+        {/* CTA */}
+        <div className="flex w-full justify-center md:justify-start">
+          <button
+            onClick={onCtaClick}
+            aria-label={ctaText}
+            className={cn(
+              "inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl transition-all",
+              "hover:scale-105 hover:bg-blue-700 hover:shadow-2xl active:scale-95"
+            )}
+          >
+            {ctaText}
+          </button>
+        </div>
       </div>
 
       {/* Image Container */}
       <div className="relative mt-8 flex w-full max-w-md items-center justify-center md:mt-0 md:w-1/2 md:justify-end">
         <div className="relative aspect-square w-full max-w-[400px] overflow-hidden rounded-2xl bg-slate-200 shadow-2xl">
-           <Image
-            src="/hero-profile.webp" 
+          <Image
+            src="/hero-profile.webp"
             alt="Hero profile - Francisco Javier González"
             fill
             className="object-cover"
@@ -52,18 +63,6 @@ export default function Hero({
           />
         </div>
       </div>
-
-      {/* Floating CTA */}
-      <button
-        onClick={onCtaClick}
-        className={cn(
-          "fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transform rounded-full",
-          "bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-2xl active:scale-95",
-          "md:bottom-10 md:left-auto md:right-10 md:translate-x-0"
-        )}
-      >
-        {ctaText}
-      </button>
     </section>
   );
 }
