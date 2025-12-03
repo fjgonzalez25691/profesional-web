@@ -23,21 +23,23 @@ describe('Home Page', () => {
       screen.getByText(/Para empresas que quieren optimizar costes y ganar eficiencia/i),
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: /Diagnóstico gratuito 30 min/i }),
-    ).toBeInTheDocument();
+    // Verificar que existen los botones flotantes (2: desktop y mobile)
+    const calendlyButtons = screen.getAllByLabelText(/Agendar reunión/i);
+    expect(calendlyButtons).toHaveLength(2);
   });
 
   it('opens modal on CTA click', () => {
     render(<Home />);
-    const cta = screen.getByRole('button', { name: /Diagnóstico gratuito 30 min/i });
-    
+
+    // Obtener todos los botones de Calendly (hay 2: desktop y mobile)
+    const calendlyButtons = screen.getAllByLabelText(/Agendar reunión/i);
+
     // Modal shouldn't be visible initially
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    
-    // Click CTA
-    fireEvent.click(cta);
-    
+
+    // Click en el primer botón (cualquiera de los dos debería funcionar)
+    fireEvent.click(calendlyButtons[0]);
+
     // Modal should be visible
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });

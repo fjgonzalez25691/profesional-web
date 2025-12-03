@@ -40,20 +40,20 @@ export default function FloatingCalendlyButton({
         aria-label="Agendar reunión"
         className="fixed top-6 right-6 z-50
                    hidden md:flex items-center gap-2
-                   bg-primary text-primary-foreground
-                   px-4 py-2 rounded-lg shadow-lg
-                   transition-all duration-200
-                   hover:scale-105 hover:shadow-xl
-                   focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-                   active:scale-95"
+                   bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
+                   text-white px-5 py-3 rounded-full shadow-lg hover:shadow-2xl
+                   transition-all duration-300 ease-out font-bold text-sm
+                   hover:scale-110 active:scale-95
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                   border border-blue-500/20 backdrop-blur-sm"
         type="button"
       >
         <Calendar
           data-testid="calendar-icon-desktop"
-          className="w-5 h-5"
+          className="w-4 h-4 animate-pulse"
           aria-hidden="true"
         />
-        <span className="text-sm font-medium">Diagnóstico 30 min</span>
+        <span className="font-bold">Diagnóstico</span>
       </button>
 
       {/* Mobile: Bottom-center */}
@@ -62,22 +62,22 @@ export default function FloatingCalendlyButton({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         aria-label="Agendar reunión"
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50
-                   flex md:hidden items-center gap-2
-                   bg-primary text-primary-foreground
-                   px-6 py-3 rounded-full shadow-lg
-                   transition-all duration-200
-                   hover:scale-105 hover:shadow-xl
-                   focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-                   active:scale-95"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+                   flex md:hidden items-center gap-3
+                   bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
+                   text-white px-7 py-4 rounded-full shadow-xl hover:shadow-2xl
+                   transition-all duration-300 ease-out font-bold text-base
+                   hover:scale-110 active:scale-95
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                   border border-blue-500/20 backdrop-blur-sm"
         type="button"
       >
         <Calendar
           data-testid="calendar-icon-mobile"
-          className="w-5 h-5"
+          className="w-5 h-5 animate-pulse"
           aria-hidden="true"
         />
-        <span className="text-sm font-medium">Diagnóstico 30 min</span>
+        <span className="font-bold">Diagnóstico 30 min</span>
       </button>
     </>
   );

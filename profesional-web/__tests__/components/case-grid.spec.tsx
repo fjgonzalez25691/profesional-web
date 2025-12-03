@@ -37,12 +37,13 @@ describe('CaseGrid Component', () => {
     });
   });
 
-  it('muestra el bloque de ROI destacado para cada caso', () => {
+  it('muestra el bloque de impacto en el trabajo para cada caso', () => {
     render(<CaseGrid />);
     
     CASOS_MVP.forEach((caso) => {
-      expect(screen.getByText(`${caso.savings_annual}€/año`)).toBeInTheDocument();
-      expect(screen.getByText(`${caso.payback_weeks} semanas`)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(escapeRegExp(caso.impact_time), 'i'))).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(escapeRegExp(caso.impact_detail), 'i'))).toBeInTheDocument();
+      expect(screen.getByText(`Payback del proyecto: ${caso.payback_weeks} semanas`)).toBeInTheDocument();
     });
   });
 
