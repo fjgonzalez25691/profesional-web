@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import ChatbotModal, { ChatMessage } from "./ChatbotModal";
 
 const BOT_RESPONSES = [
@@ -14,7 +14,6 @@ export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const typingTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const createId = useCallback(() => {
     if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -23,48 +22,65 @@ export default function ChatbotWidget() {
     return `msg-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   }, []);
 
-  const sendMockResponse = useCallback(() => {
-    setIsTyping(true);
-    if (typingTimeout.current) clearTimeout(typingTimeout.current);
-
-    typingTimeout.current = setTimeout(() => {
-      const response = BOT_RESPONSES[Math.floor(Math.random() * BOT_RESPONSES.length)];
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          sender: "bot",
-          text: response,
-          timestamp: new Date(),
-        },
-      ]);
-      setIsTyping(false);
-    }, process.env.NODE_ENV === "test" ? 100 : 1200);
-  }, [createId]);
-
-  const handleSend = useCallback((text: string) => {
-    setMessages((prev) => [
-      ...prev,
-      {
+  const handleSend = useCallback(
+    async (text: string) => {
+      const userMessage: ChatMessage = {
         id: createId(),
         sender: "user",
         text,
         timestamp: new Date(),
-      },
-    ]);
-    sendMockResponse();
-  }, [createId, sendMockResponse]);
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setIsTyping(true);
+
+      const history = [...messages, userMessage].map((m) => ({
+        role: m.sender === "bot" ? "assistant" : "user",
+        content: m.text,
+      }));
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Chat API error");
+        }
+
+        const data = await response.json();
+        const botText: string = data?.message || BOT_RESPONSES[0];
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: createId(),
+            sender: "bot",
+            text: botText,
+            timestamp: new Date(),
+          },
+        ]);
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: createId(),
+            sender: "bot",
+            text: "Disculpa, error técnico. Puedes agendar una consulta directa.",
+            timestamp: new Date(),
+          },
+        ]);
+      } finally {
+        setIsTyping(false);
+      }
+    },
+    [createId, messages],
+  );
 
   const handleToggle = () => setIsOpen((prev) => !prev);
   const handleClose = () => setIsOpen(false);
-
-  useEffect(() => {
-    return () => {
-      if (typingTimeout.current) {
-        clearTimeout(typingTimeout.current);
-      }
-    };
-  }, []);
 
   return (
     <>
