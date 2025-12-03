@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Viste tu ahorro?</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; color: #0f172a; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .cta { background: #3b82f6; color: white; padding: 12px 24px;
+           border-radius: 6px; text-decoration: none; display: inline-block; }
+    .metric { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¿Viste tu ahorro de {{savingsAnnual}}€?</h1>
+    <p>Hola {{name}},</p>
+    <p>
+      Hace 24 horas calculaste un ahorro potencial de <strong class="metric">{{savingsAnnual}}€/año</strong>
+      con payback de solo {{paybackMonths}} meses.
+    </p>
+    <p>¿Quieres validar estos números en una llamada de 30 minutos?</p>
+    <a href="{{calendlyLink}}" class="cta">Agendar Diagnóstico Gratuito</a>
+  </div>
+</body>
+</html>
