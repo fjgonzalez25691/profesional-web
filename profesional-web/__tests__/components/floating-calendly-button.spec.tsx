@@ -29,7 +29,7 @@ describe('FloatingCalendlyButton', () => {
 
     const mobileButton = screen.getByTestId('calendar-icon-mobile').closest('button');
     expect(mobileButton).toHaveClass('fixed');
-    expect(mobileButton).toHaveClass('bottom-4');
+    expect(mobileButton).toHaveClass('bottom-6');
     expect(mobileButton).toHaveClass('left-1/2');
     expect(mobileButton).toHaveClass('-translate-x-1/2');
     expect(mobileButton).toHaveClass('flex');
@@ -87,11 +87,14 @@ describe('FloatingCalendlyButton', () => {
     expect(mobileIcon).toBeInTheDocument();
   });
 
-  it('ambos botones muestran el texto "Diagnóstico 30 min"', () => {
+  it('botones muestran textos correctos (mobile: "Diagnóstico 30 min", desktop: "Diagnóstico")', () => {
     const mockOnClick = vi.fn();
     render(<FloatingCalendlyButton onClick={mockOnClick} />);
 
-    const texts = screen.getAllByText('Diagnóstico 30 min');
-    expect(texts).toHaveLength(2);
+    // Mobile button tiene el texto completo
+    expect(screen.getByText('Diagnóstico 30 min')).toBeInTheDocument();
+
+    // Desktop button tiene el texto corto
+    expect(screen.getByText('Diagnóstico')).toBeInTheDocument();
   });
 });
