@@ -22,8 +22,10 @@ export default function Home() {
     source: 'hero'
   });
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+  const [showFloatingChat, setShowFloatingChat] = useState(false);
   const desktopFabRef = useRef<HTMLButtonElement>(null);
   const mobileFabRef = useRef<HTMLButtonElement>(null);
+  const chatbotRef = useRef<HTMLDivElement>(null);
 
   const openModal = (source: ModalSource, utmParams?: UtmParams) => {
     setModalState({ isOpen: true, source, utmParams });
@@ -42,7 +44,7 @@ export default function Home() {
     }
   }, [modalState.isOpen, modalState.source]);
 
-  // Mostrar FAB solo tras 45% de scroll
+  // Mostrar FAB de Calendly y botón flotante de chatbot solo tras 25% de scroll
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -54,7 +56,8 @@ export default function Home() {
       const clientHeight = doc.clientHeight || window.innerHeight || 1;
       const maxScrollable = scrollHeight - clientHeight;
       const percent = maxScrollable > 0 ? (scrollTop / maxScrollable) * 100 : 0;
-      setShowFloatingCTA(percent > 45);
+      setShowFloatingCTA(percent > 60);
+      setShowFloatingChat(percent > 60);
     };
 
     handleScroll();
@@ -65,10 +68,15 @@ export default function Home() {
   return (
     <main id="main" className="flex min-h-screen flex-col items-center justify-start">
       <Hero
-        headline="Reduzco tu factura Cloud y automatizo procesos con payback <6 meses"
-        subtitle="Para empresas que quieren optimizar costes y ganar eficiencia"
-        badgeText="+37 años gestionando P&L"
+        headline="Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud"
+        subtitle="Menos costes, menos errores y más tiempo para lo importante."
+        badgeText="+37 años dirigiendo operaciones y equipos en empresas reales. Ahora uso la tecnología para mejorar tus números, no para complicarte la vida."
         onCtaClick={() => openModal('hero')}
+        onSecondaryCta={() => {
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('open-chatbot'));
+          }
+        }}
       />
 
       {/* Sección de dolores cuantificados */}
@@ -96,7 +104,9 @@ export default function Home() {
         visible={showFloatingCTA}
       />
 
-      <ChatbotWidget />
+      <div ref={chatbotRef}>
+        <ChatbotWidget visible={showFloatingChat} />
+      </div>
     </main>
   );
 }
