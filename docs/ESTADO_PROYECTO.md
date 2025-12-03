@@ -1,17 +1,18 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 3 de diciembre de 2025, 14:00 (Europe/Madrid)*
+*Última actualización: 3 de diciembre de 2025, 15:30 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - EN DESARROLLO
-**FJG-81**: In2-DT-01: Instrumentación mínima de conversión (CTA + booking Calendly)
+**FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX
 - **Status**: ✅ IN PROGRESS (iniciada por Agent Manager)
-- **Prioridad**: 2 Story Points 
-- **Proyecto**: In2-02 Landing & Conversión Directa
+- **Prioridad**: 5 Story Points (High)
+- **Proyecto**: In2-03 Chatbot IA Cualificación Leads
 - **Sprint**: S2 (Cycle 2cce504b)
-- **Rama**: fjgonzalez25691-fjg-81-in2-dt-01-instrumentacion-minima-de-conversion-cta-booking
-- **Prompts generados**: ✅ FJG-81-prompt-implementacion.md + FJG-81-prompt-revision.md
-- **Scope verificado**: ✅ Tracking CTA clicks + Calendly bookings (NO scroll avanzado)
+- **Rama**: fjgonzalez25691-fjg-43-us-03-001-chatbot-ui-flotante-mobile-ux
+- **Prompts generados**: ✅ FJG-43-prompt-implementacion.md + FJG-43-prompt-revision.md
+- **Scope verificado**: ✅ UI flotante responsive + mock responses (NO backend integrado)
 
 ## ✅ Issues Completadas Recientemente
+**FJG-81**: In2-DT-01: Instrumentación mínima de conversión (CTA + booking Calendly) (✅ Done - PR #10 merged 3 dic 2025)
 **FJG-40**: US-02-003: Grid 3 Casos Éxito con ROI Específico (✅ Done - PR #8 merged 2 dic 2025)
 **FJG-41**: US-02-004: Modal Calendly Flotante 2 Clics (✅ Done - PR #7 merged 2 dic 2025)  
 **FJG-39**: US-02-002: Sección Dolores Cuantificados (✅ Done - PR #6 merged 2 dic 2025)
@@ -27,9 +28,11 @@
 - **Meta**: Tener presencia digital operativa inmediata
 - **Progreso**: ✅ Todas las issues fundamentales implementadas y mergeadas
 
-**Sprint 2**: Próximo ciclo iniciado
-- **Issues Planificadas**: FJG-81 (Analytics), FJG-46 (Grid 5 Casos), FJG-43 (Chatbot UI)
+**Sprint 2**: En progreso - Optimización & Analytics
+- **Issues Planificadas**: FJG-81 ✅ (Analytics), FJG-46 (Grid 5 Casos), FJG-43 (Chatbot UI)
+- **Issues Completadas**: FJG-81 (Tracking conversión CTA + Calendly)
 - **Foco**: Optimización conversión y expansión funcionalidades
+- **Progreso**: 1/3 issues completadas (33%)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
@@ -107,26 +110,34 @@ profesional-web/
 - **Testing**: Suite completa Vitest + coverage ✅
 - **Variables entorno**: Configuración segura producción ✅
 
+### ✅ Analytics & Tracking (NUEVO)
+- **Conversión CTA**: Tracking clicks Hero + FAB ✅
+- **Calendly Booking**: Tracking completado eventos ✅
+- **Privacy compliant**: Sin PII, solo producción ✅
+- **Testing**: 60 tests unitarios analytics (100% pass) ✅
+- **Documentación**: analytics.md para reutilización ✅
+
 ### ✅ Páginas Legales GDPR
 - **/legal/aviso-legal**: Plantilla estándar España ✅
 - **/legal/privacidad**: Política privacidad + cookies ✅
 
-## 📈 Métricas de Éxito Sprint 1 
+## 📈 Métricas de Éxito Sprint 1-2
 - ✅ **Landing funcional**: Hero + Dolores + Casos + Calendly + Footer
 - ✅ **Deploy estable**: fjgaparicio.es accesible 24/7
 - ✅ **CI/CD operativo**: Tests automáticos cada PR  
 - ✅ **GDPR compliant**: Políticas legales básicas
-- ✅ **Tests passing**: 100% coverage componentes críticos
+- ✅ **Analytics operativo**: Tracking conversión CTA + Calendly implementado
+- ✅ **Tests robustos**: 60+ tests pasando (100% coverage componentes críticos)
 
 ---
 
-## 🎯 Próximos Objetivos (Sprint 2)
+## 🎯 Próximos Objetivos (Sprint 2 - Continuación)
 
-1. **FJG-81**: Instrumentación analytics (scroll depth, engagement, conversión)
+1. ~~**FJG-81**: Instrumentación analytics~~ ✅ **COMPLETADO**
 2. **FJG-46**: Expansión casos éxito (3 → 5 casos, más sectores)
 3. **FJG-43**: Chatbot UI básico (mock responses, UX mobile/desktop)
 
-El proyecto está en **excelente estado** para continuar con las funcionalidades de optimización y expansión según roadmap planificado.
+El proyecto está en **excelente estado** con analytics operativo para continuar optimización según roadmap planificado.
 
 ### ⏳ Pendiente (Próximo Sprint)
 
@@ -166,4 +177,4 @@ npm run dev      # ✅ Server desarrollo + Footer integrado
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
 ---
-*Última actualización: Agent Manager - 2 diciembre 2025, 19:25*
+*Última actualización: Agent Manager - 3 diciembre 2025, 15:30*
