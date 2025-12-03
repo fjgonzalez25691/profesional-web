@@ -45,6 +45,26 @@ describe('POST /api/chat', () => {
     expect(CHATBOT_SYSTEM_PROMPT).toMatch(/estimaciones orientativas/i);
   });
 
+  it('appends disclaimer when prohibited phrases are detected', async () => {
+    mockCreate.mockResolvedValueOnce({
+      choices: [{ message: { content: 'Te garantizo un resultado 100% seguro' } }],
+    });
+
+    const req = new Request('http://localhost/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [{ role: 'user', content: 'hola' }],
+      }),
+    });
+
+    const res = await POST(req);
+    const data = await res.json();
+
+    expect(data.message).toMatch(/orientativ/i);
+    expect(data.message).toMatch(/garantizo/i);
+  });
+
   it('returns fallback message on timeout', async () => {
     mockCreate.mockImplementationOnce(
       () =>
@@ -63,6 +83,7 @@ describe('POST /api/chat', () => {
 
     const res = await POST(req);
     const data = await res.json();
-    expect(data.message).toMatch(/error técnico/i);
+    expect(data.message).toMatch(/reintenta/i);
+    expect(data.message).toMatch(/30 minutos/i);
   });
 });
