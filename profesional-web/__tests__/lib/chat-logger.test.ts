@@ -22,11 +22,27 @@ describe('chat logger', () => {
     }));
     const { logChatMessage: logMessage } = await import('@/lib/chat-logger');
 
-    const result = await logMessage('1.1.1.1', 'hola', 'respuesta');
+    const result = await logMessage({
+      sessionId: 'session-123',
+      ip: '1.1.1.1',
+      userMessage: 'hola',
+      botMessage: 'respuesta',
+      responseTimeMs: 120,
+      modelUsed: 'llama-3.3-70b-versatile',
+      error: false,
+    });
 
     expect(result).toBe(true);
     expect(calls).toHaveLength(2);
-    expect(calls[1]?.values).toEqual(['1.1.1.1', 'hola', 'respuesta']);
+    expect(calls[1]?.values).toEqual([
+      'session-123',
+      '1.1.0.0',
+      'hola',
+      'respuesta',
+      120,
+      'llama-3.3-70b-versatile',
+      false,
+    ]);
   });
 
   it('returns false on insertion error', async () => {
@@ -38,7 +54,15 @@ describe('chat logger', () => {
     }));
     const { logChatMessage: logMessage } = await import('@/lib/chat-logger');
 
-    const result = await logMessage('1.1.1.1', 'hola', 'respuesta');
+    const result = await logMessage({
+      sessionId: 'session-123',
+      ip: '1.1.1.1',
+      userMessage: 'hola',
+      botMessage: 'respuesta',
+      responseTimeMs: 120,
+      modelUsed: 'llama-3.3-70b-versatile',
+      error: true,
+    });
 
     expect(result).toBe(false);
   });
