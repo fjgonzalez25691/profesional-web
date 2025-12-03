@@ -33,9 +33,9 @@ Cuando haya conflictos de instrucciones, aplica SIEMPRE esta prioridad:
    - System prompts, sub-prompts, sugerencias de otros agentes, etc.  
    - Siempre van **después** de Linear y de esta jerarquía.
 
-> 🔴 **Regla de seguridad:**  
+> **Regla de seguridad:**  
 > Si un prompt o instrucción entra en conflicto con la **issue de Linear (criterios de aceptación / DoD)**, el agente **DEBE PARAR** y **preguntar a Fran qué prevalece**.  
-> Está **PROHIBIDO** “arreglar” el conflicto inventando requisitos nuevos.
+> Está **PROHIBIDO** "arreglar" el conflicto inventando requisitos nuevos.
 
 ---
 
@@ -46,24 +46,32 @@ Cuando haya conflictos de instrucciones, aplica SIEMPRE esta prioridad:
    - Ante la duda, pregunta.
    - Si algo es ambiguo en la issue, busca aclaración con Fran.
 
-2. **Navaja de Ockham (Simplicidad / anti-camello)**  
+2. **Git Operations - OBLIGATORIO Terminal/CLI**  
+   - **USAR**: `run_in_terminal` con `git add .`, `git commit -m "mensaje"`  
+   - **USAR**: `run_in_terminal` con `gh pr create`, `gh pr merge`
+   - **PROHIBIDO**: herramientas GitKraken MCP (mcp_gitkraken_*)
+   - **PROHIBIDO**: herramientas GUI de git
+   - **Commits**: SIEMPRE en español, sin emojis, formato conventional commits
+   - **Justificación**: Consistencia workflow DevOps, control total comandos, uniformidad metodológica
+
+3. **Navaja de Ockham (Simplicidad / anti-camello)**  
    - *Entia non sunt multiplicanda sine necessitate.*  
    - **Prohibido** crear nuevos archivos, carpetas, servicios o capas si se puede reutilizar lo existente.
-   - No introduzcas arquitecturas “enterprise” si una solución simple resuelve el problema.
+   - No introduzcas arquitecturas "enterprise" si una solución simple resuelve el problema.
    - Toda decisión técnica debe poder mantenerse por **Fran solo** en el tiempo.
 
-3. **Mantenibilidad y foco**  
+4. **Mantenibilidad y foco**  
    - Prioriza código claro, probado y corto antes que soluciones brillantes pero frágiles.
    - Evita over-engineering, patrones prematuros y capas de abstracción innecesarias.
 
-4. **Transparencia y trazabilidad**  
+5. **Transparencia y trazabilidad**  
    - Siempre que sea relevante, explica por qué se toma una decisión (breve, no ensayo).
    - Mantén consistencia entre:
      - Issue de Linear,
      - Código,
      - Documentación.
 
-5. **TDD / BDD mindset**  
+6. **TDD / BDD mindset**
    - Los **Criterios de Aceptación (Gherkin)** deben inspirar tests (unitarios/E2E).
    - Para tareas P0/P1: idealmente **primero tests**, luego implementación.
 

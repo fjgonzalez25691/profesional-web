@@ -6,6 +6,7 @@ import PainPoints from "@/components/PainPoints";
 import CaseGrid from "@/components/CaseGrid";
 import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
+import { ChatbotWidget } from "@/components/Chatbot";
 
 type ModalSource = 'hero' | 'fab' | 'case_grid';
 
@@ -94,6 +95,8 @@ export default function Home() {
         mobileRef={mobileFabRef}
         visible={showFloatingCTA}
       />
+
+      <ChatbotWidget />
     </main>
   );
 }
