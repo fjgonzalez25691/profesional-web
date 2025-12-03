@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { InlineWidget } from "react-calendly";
-import { trackEvent } from "@/lib/analytics";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,9 @@ export default function CalendlyModal({
   onBookingComplete,
   utmParams,
 }: CalendlyModalProps) {
+  const { track } = useAnalytics();
   const [mounted, setMounted] = useState(false);
+  const prevIsOpenRef = useRef<boolean | null>(null);
   const calendlyBaseUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/";
 
   useEffect(() => {
@@ -41,15 +43,29 @@ export default function CalendlyModal({
     return () => clearTimeout(timer);
   }, []);
 
-  // Track modal open/close events
+  // Track modal open/close events - solo en transiciones reales
   useEffect(() => {
-    if (isOpen) {
-      trackEvent('calendly_modal_open', { source });
-    } else if (mounted) {
-      // Track close event when modal closes (but only after initial mount)
-      trackEvent('calendly_modal_close', { method: 'click', source });
+    if (!mounted) return;
+
+    const prevIsOpen = prevIsOpenRef.current;
+
+    // Solo trackear si hay un cambio real de estado (prevIsOpen !== null significa que no es el primer efecto)
+    if (prevIsOpen !== null) {
+      if (isOpen && !prevIsOpen) {
+        // Transición: closed → open
+        track('calendly_modal_open', { source });
+      } else if (!isOpen && prevIsOpen) {
+        // Transición: open → closed
+        track('calendly_modal_close', { method: 'click', source });
+      }
+    } else if (isOpen) {
+      // Primer render con isOpen=true → emitir open
+      track('calendly_modal_open', { source });
     }
-  }, [isOpen, source, mounted]);
+
+    // Actualizar referencia para próximo render
+    prevIsOpenRef.current = isOpen;
+  }, [isOpen, source, mounted, track]);
 
   // Calendly event listener para tracking de booking completado
   useEffect(() => {
@@ -58,12 +74,8 @@ export default function CalendlyModal({
       if (e.data.event && e.data.event.indexOf('calendly') === 0) {
         // Evento: calendly.event_scheduled
         if (e.data.event === 'calendly.event_scheduled') {
-          const payload = e.data.payload || {};
-
-          trackEvent('calendly_booking_completed', {
+          track('calendly_booking_completed', {
             source,
-            event_uri: payload.event?.uri,
-            invitee_uri: payload.invitee?.uri,
           });
 
           // Callback opcional para que el componente padre maneje la acción
@@ -83,7 +95,7 @@ export default function CalendlyModal({
         window.removeEventListener('message', handleCalendlyEvent);
       }
     };
-  }, [isOpen, source, onBookingComplete]);
+  }, [isOpen, source, onBookingComplete, track]);
 
   const calendlyUrl = useMemo(() => {
     try {
