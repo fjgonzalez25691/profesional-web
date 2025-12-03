@@ -49,7 +49,11 @@ describe('ROICalculator wizard', () => {
     expect(screen.queryByText(/Ahorro estimado/i)).not.toBeInTheDocument();
   });
 
-  it('envía el email y muestra confirmación', async () => {
+  it('envía el lead y el email y muestra confirmación', async () => {
+    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true, leadId: 'lead-1' }),
+    });
     (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
@@ -68,13 +72,15 @@ describe('ROICalculator wizard', () => {
     fireEvent.click(screen.getByRole('button', { name: /Enviar resultados/i }));
 
     await screen.findByText(/Revisa tu email/i);
-    expect(global.fetch).toHaveBeenCalledWith(
-      '/api/send-roi-email',
-      expect.objectContaining({ method: 'POST' }),
-    );
+    expect((global.fetch as unknown as vi.Mock).mock.calls[0][0]).toBe('/api/leads');
+    expect((global.fetch as unknown as vi.Mock).mock.calls[1][0]).toBe('/api/send-roi-email');
   });
 
   it('muestra error cuando el envío falla', async () => {
+    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ error: 'No pudimos guardar tu lead' }),
+    });
     (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: 'No pudimos enviar email' }),
@@ -93,7 +99,7 @@ describe('ROICalculator wizard', () => {
     fireEvent.click(screen.getByRole('button', { name: /Enviar resultados/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/No pudimos enviar email/i)).toBeInTheDocument();
+      expect(screen.getByText(/No pudimos guardar tu lead/i)).toBeInTheDocument();
     });
   });
 });
