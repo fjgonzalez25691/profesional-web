@@ -68,7 +68,8 @@ export default function ChatbotWidget() {
           {
             id: createId(),
             sender: "bot",
-            text: "Disculpa, error técnico. Puedes agendar una consulta directa.",
+            text:
+              "Disculpa, estoy tardando más de lo esperado. Reintenta en unos segundos o agenda una sesión de 30 minutos para revisarlo juntos.",
             timestamp: new Date(),
           },
         ]);
