@@ -5,6 +5,11 @@ docs/archive/
 # Checklists manuales con datos sensibles
 **/FJG-*-checklist-manual.md
 
+# Scripts de testing con datos sensibles
+scripts/chatbot-test-results.json
+scripts/test-*.json
+scripts/*chatbot*.*
+
 # Archivos de entorno del root
 .env
 .env.local
