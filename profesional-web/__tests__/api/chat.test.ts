@@ -35,6 +35,7 @@ describe('POST /api/chat', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: [{ role: 'user', content: '¿Reducís costes AWS?' }],
+        sessionId: 'session-abc',
       }),
     });
 
@@ -43,6 +44,8 @@ describe('POST /api/chat', () => {
 
     expect(data.message).toContain('Respuesta');
     expect(CHATBOT_SYSTEM_PROMPT).toMatch(/estimaciones orientativas/i);
+    const { logChatMessage } = await import('@/lib/chat-logger');
+    expect(logChatMessage).toHaveBeenCalledWith(expect.objectContaining({ sessionId: 'session-abc' }));
   });
 
   it('appends disclaimer when prohibited phrases are detected', async () => {

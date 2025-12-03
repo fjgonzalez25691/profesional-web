@@ -1,5 +1,5 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 3 de diciembre de 2025, 18:45 (Europe/Madrid)*
+*Última actualización: 3 de diciembre de 2025, 19:20 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - PENDIENTES SPRINT 2
 **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación)
@@ -11,7 +11,7 @@
 - **Scope**: Ampliar casos 3 → 5 (Farmacéutica + Retail E-commerce)
 
 **FJG-47**: US-03-005: Logging Conversaciones Postgres Básico
-- **Status**: 🔄 TODO (pendiente implementación)
+- **Status**: 🔄 IN PROGRESS (rama fjgonzalez25691-fjg-47-us-03-005-logging-conversaciones-postgres-basico activa)
 - **Prioridad**: 2 Story Points (Medium)
 - **Proyecto**: In2-03 Chatbot IA Cualificación Leads  
 - **Sprint**: S2 (Cycle 2cce504b)
@@ -19,7 +19,7 @@
 - **Scope**: Schema + logging conversaciones + sessionId
 
 ## ✅ Issues Completadas Recientemente
-**FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025)
+**FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025 - PR #14 merged)
 **FJG-45**: US-03-003: Guardrails Legales + Fallback Timeout (✅ Done - PR #13 merged 3 dic 2025)
 **FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG (✅ Done - PR #12 merged 3 dic 2025)
 **FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX (✅ Done - PR #11 merged 3 dic 2025)
@@ -45,6 +45,7 @@
 - **Issues Pendientes**: FJG-46 (Grid 5 Casos - 2 SP), FJG-47 (Logging Postgres - 2 SP)  
 - **Foco**: Completar ampliación casos y logging para finalizar chatbot IA completo
 - **Progreso**: 5/7 issues completadas (71% - faltan 4 SP)
+- **Issue Activa**: FJG-47 (rama fjgonzalez25691-fjg-47-us-03-005-logging-conversaciones-postgres-basico creada)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
@@ -201,4 +202,4 @@ npm run dev      # ✅ Server desarrollo + Footer integrado
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
 ---
-*Última actualización: Agent Manager - 3 diciembre 2025, 18:45*
+*Última actualización: Agent Manager - 3 diciembre 2025, 19:20*

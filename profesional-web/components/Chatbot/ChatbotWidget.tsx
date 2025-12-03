@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import ChatbotModal, { ChatMessage } from "./ChatbotModal";
+import { useChatSessionId } from "@/hooks/useChatSessionId";
 
 const BOT_RESPONSES = [
   "¡Hola! Soy el asistente de Francisco. ¿En qué puedo ayudarte?",
@@ -18,6 +19,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const sessionId = useChatSessionId();
 
   useEffect(() => {
     const openListener = () => setIsOpen(true);
@@ -53,7 +55,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: history }),
+          body: JSON.stringify({ messages: history, sessionId }),
         });
 
         if (!response.ok) {
@@ -87,7 +89,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
         setIsTyping(false);
       }
     },
-    [createId, messages],
+    [createId, messages, sessionId],
   );
 
   const handleToggle = () => setIsOpen((prev) => !prev);
