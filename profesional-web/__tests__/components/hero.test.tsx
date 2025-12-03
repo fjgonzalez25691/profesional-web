@@ -6,7 +6,6 @@ describe('Hero Component', () => {
   const defaultProps = {
     headline: 'Test Headline',
     subtitle: 'Test Subtitle',
-    ctaText: 'Test CTA',
     badgeText: 'Test Badge',
   };
 
@@ -22,11 +21,7 @@ describe('Hero Component', () => {
     expect(screen.getByText('Test Badge')).toBeInTheDocument();
   });
 
-  it('renders CTA button', () => {
-    render(<Hero {...defaultProps} />);
-    expect(screen.getByRole('button', { name: 'Test CTA' })).toBeInTheDocument();
-  });
-  
+
   // Test de imagen optimizada (verificar que usa next/image o img con atributos correctos)
   it('renders hero image with priority', () => {
      render(<Hero {...defaultProps} />);

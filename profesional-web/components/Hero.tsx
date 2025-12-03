@@ -1,20 +1,15 @@
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 interface HeroProps {
   headline: string;
   subtitle: string;
-  ctaText: string;
   badgeText: string;
-  onCtaClick?: () => void;
 }
 
 export default function Hero({
   headline,
   subtitle,
-  ctaText,
   badgeText,
-  onCtaClick,
 }: HeroProps) {
   return (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-slate-50 px-4 py-12 text-center md:min-h-screen md:flex-row md:text-left lg:px-24">
@@ -36,19 +31,7 @@ export default function Hero({
           {subtitle}
         </p>
 
-        {/* CTA */}
-        <div className="flex w-full justify-center md:justify-start">
-          <button
-            onClick={onCtaClick}
-            aria-label={ctaText}
-            className={cn(
-              "inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl transition-all",
-              "hover:scale-105 hover:bg-blue-700 hover:shadow-2xl active:scale-95"
-            )}
-          >
-            {ctaText}
-          </button>
-        </div>
+
       </div>
 
       {/* Image Container */}

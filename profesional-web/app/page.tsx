@@ -45,9 +45,7 @@ export default function Home() {
       <Hero
         headline="Reduzco tu factura Cloud y automatizo procesos con payback <6 meses"
         subtitle="Para empresas que quieren optimizar costes y ganar eficiencia"
-        ctaText="Diagnóstico gratuito 30 min"
         badgeText="+37 años gestionando P&L"
-        onCtaClick={() => openModal('hero')}
       />
 
       {/* Sección de dolores cuantificados */}
