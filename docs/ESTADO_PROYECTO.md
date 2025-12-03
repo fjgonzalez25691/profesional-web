@@ -19,6 +19,7 @@
 - **Scope**: Schema + logging conversaciones + sessionId
 
 ## ✅ Issues Completadas Recientemente
+**FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025)
 **FJG-45**: US-03-003: Guardrails Legales + Fallback Timeout (✅ Done - PR #13 merged 3 dic 2025)
 **FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG (✅ Done - PR #12 merged 3 dic 2025)
 **FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX (✅ Done - PR #11 merged 3 dic 2025)
@@ -39,11 +40,11 @@
 - **Progreso**: ✅ Todas las issues fundamentales implementadas y mergeadas
 
 **Sprint 2**: En progreso - Chatbot IA Completo (Finalización)
-- **Issues Planificadas**: FJG-81 ✅, FJG-43 ✅, FJG-44 ✅, FJG-45 ✅, FJG-46 🔄, FJG-47 🔄
-- **Issues Completadas**: FJG-81 (Analytics), FJG-43 (Chatbot UI), FJG-44 (Backend Groq), FJG-45 (Guardrails)
+- **Issues Planificadas**: FJG-81 ✅, FJG-43 ✅, FJG-44 ✅, FJG-45 ✅, FJG-84 ✅, FJG-46 🔄, FJG-47 🔄
+- **Issues Completadas**: FJG-81 (Analytics), FJG-43 (Chatbot UI), FJG-44 (Backend Groq), FJG-45 (Guardrails), FJG-84 (Hero Update)
 - **Issues Pendientes**: FJG-46 (Grid 5 Casos - 2 SP), FJG-47 (Logging Postgres - 2 SP)  
 - **Foco**: Completar ampliación casos y logging para finalizar chatbot IA completo
-- **Progreso**: 4/6 issues completadas (67% - faltan 4 SP)
+- **Progreso**: 5/7 issues completadas (71% - faltan 4 SP)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
