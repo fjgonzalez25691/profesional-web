@@ -24,8 +24,12 @@ function getIp(req: Request) {
 }
 
 export async function POST(req: Request) {
+  let cachedSessionId = "unknown";
+  let cachedUserMessage = "";
+
   try {
-    const { messages } = await getBody(req);
+    const { messages, sessionId } = await getBody(req);
+    cachedSessionId = sessionId || "unknown";
     const ip = getIp(req);
 
     const rate = await checkRateLimit(ip);
@@ -38,6 +42,9 @@ export async function POST(req: Request) {
 
     const groq = getGroqClient();
     const userMessage: string = messages?.[messages.length - 1]?.content || "";
+    cachedUserMessage = userMessage;
+    const startTime = Date.now();
+    let hasError = false;
 
     const completion = await Promise.race([
       groq.chat.completions.create({
@@ -52,23 +59,52 @@ export async function POST(req: Request) {
       new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error("Timeout")), TIMEOUT_MS),
       ),
-    ]);
+    ]).catch((error) => {
+      hasError = true;
+      throw error;
+    });
 
     const botResponse = completion.choices[0].message.content ?? "";
     const validated = validateResponse(botResponse);
 
-    await logChatMessage(ip, userMessage, validated.text);
+    await logChatMessage({
+      sessionId: cachedSessionId,
+      ip,
+      userMessage,
+      botMessage: validated.text,
+      responseTimeMs: Date.now() - startTime,
+      modelUsed: "llama-3.3-70b-versatile",
+      error: hasError,
+    });
 
     return Response.json({ message: validated.text });
   } catch (error: unknown) {
+    const message =
+      "Disculpa, estoy tardando más de lo esperado. Reintenta en unos segundos o agenda una sesión de 30 minutos para revisarlo juntos.";
+
     if (error instanceof Error && error.message === "Timeout") {
-      return Response.json({
-        message:
-          "Disculpa, estoy tardando más de lo esperado. Reintenta en unos segundos o agenda una sesión de 30 minutos para revisarlo juntos.",
+      await logChatMessage({
+        sessionId: cachedSessionId,
+        ip: getIp(req),
+        userMessage: cachedUserMessage,
+        botMessage: message,
+        responseTimeMs: TIMEOUT_MS,
+        modelUsed: "llama-3.3-70b-versatile",
+        error: true,
       });
+      return Response.json({ message });
     }
 
     console.error("Chat API error", error);
+    await logChatMessage({
+      sessionId: cachedSessionId,
+      ip: getIp(req),
+      userMessage: cachedUserMessage,
+      botMessage: message,
+      responseTimeMs: Date.now() - Date.now(), // 0 for unexpected errors
+      modelUsed: "llama-3.3-70b-versatile",
+      error: true,
+    });
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }
