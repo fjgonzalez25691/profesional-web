@@ -39,8 +39,11 @@ export async function getLeads(): Promise<LeadRecord[]> {
     LIMIT 100;
   `;
 
-  return result.map((row: DatabaseRow) => ({
-    ...row,
-    roi_data: typeof row.roi_data === 'string' ? JSON.parse(row.roi_data) : row.roi_data,
-  })) as LeadRecord[];
+  return result.map((row) => {
+    const typedRow = row as DatabaseRow;
+    return {
+      ...typedRow,
+      roi_data: typeof typedRow.roi_data === 'string' ? JSON.parse(typedRow.roi_data) : typedRow.roi_data,
+    };
+  }) as LeadRecord[];
 }
