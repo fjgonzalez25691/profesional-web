@@ -2,6 +2,7 @@ import { CHATBOT_SYSTEM_PROMPT } from "@/prompts/chatbot-system";
 import { getGroqClient } from "@/lib/groq";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { logChatMessage } from "@/lib/chat-logger";
+import { validateResponse } from "@/lib/response-validator";
 
 const TIMEOUT_MS = process.env.NODE_ENV === "test" ? 200 : 8000;
 
@@ -54,14 +55,16 @@ export async function POST(req: Request) {
     ]);
 
     const botResponse = completion.choices[0].message.content ?? "";
+    const validated = validateResponse(botResponse);
 
-    await logChatMessage(ip, userMessage, botResponse);
+    await logChatMessage(ip, userMessage, validated.text);
 
-    return Response.json({ message: botResponse });
+    return Response.json({ message: validated.text });
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "Timeout") {
       return Response.json({
-        message: "Disculpa, error técnico. Puedes agendar una consulta directa.",
+        message:
+          "Disculpa, estoy tardando más de lo esperado. Reintenta en unos segundos o agenda una sesión de 30 minutos para revisarlo juntos.",
       });
     }
 

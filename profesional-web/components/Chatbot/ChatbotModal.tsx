@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef } from "react";
 import { X, Send } from "lucide-react";
 import MessageBubble, { ChatMessage } from "./MessageBubble";
 import { cn } from "@/lib/utils";
+import LegalFooter from "./LegalFooter";
 
 export type { ChatMessage };
 
@@ -114,7 +115,10 @@ export default function ChatbotModal({
           <div ref={scrollRef} />
         </div>
 
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-slate-200 px-3 py-3">
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center gap-2 border-t border-slate-200 px-3 py-3"
+        >
           <input
             ref={inputRef}
             type="text"
@@ -133,6 +137,8 @@ export default function ChatbotModal({
             <Send className="h-4 w-4" />
           </button>
         </form>
+
+        <LegalFooter />
       </div>
     </div>
   );
