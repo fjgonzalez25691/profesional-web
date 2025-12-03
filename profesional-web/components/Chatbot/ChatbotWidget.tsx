@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ChatbotModal, { ChatMessage } from "./ChatbotModal";
 
 const BOT_RESPONSES = [
@@ -10,10 +10,20 @@ const BOT_RESPONSES = [
   "¿Te interesa conocer casos de éxito específicos de tu sector?",
 ];
 
-export default function ChatbotWidget() {
+interface ChatbotWidgetProps {
+  visible?: boolean;
+}
+
+export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    const openListener = () => setIsOpen(true);
+    window.addEventListener("open-chatbot", openListener);
+    return () => window.removeEventListener("open-chatbot", openListener);
+  }, []);
 
   const createId = useCallback(() => {
     if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -92,23 +102,27 @@ export default function ChatbotWidget() {
         isTyping={isTyping}
         onSend={handleSend}
       />
-      <button
-        aria-label="Abrir chatbot"
-        onClick={handleToggle}
-        className="fixed bottom-6 right-6 z-9999 hidden md:flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        type="button"
-      >
-        🤖 Chat
-      </button>
+      {visible && (
+        <>
+          <button
+            aria-label="Abrir chatbot"
+            onClick={handleToggle}
+            className="fixed bottom-6 right-6 z-9999 hidden md:flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            type="button"
+          >
+            🤖 Chat
+          </button>
 
-      <button
-        aria-label="Abrir chatbot"
-        onClick={handleToggle}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-9999 flex md:hidden items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        type="button"
-      >
-        🤖 Chat
-      </button>
+          <button
+            aria-label="Abrir chatbot"
+            onClick={handleToggle}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-9999 flex md:hidden items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            type="button"
+          >
+            🤖 Chat
+          </button>
+        </>
+      )}
     </>
   );
 }

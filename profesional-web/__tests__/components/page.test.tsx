@@ -15,12 +15,12 @@ describe('Home Page', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /Reduzco tu factura Cloud y automatizo procesos con payback <6 meses/i,
+        name: /Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud/i,
       }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/Para empresas que quieren optimizar costes y ganar eficiencia/i),
+      screen.getByText(/Menos costes, menos errores y más tiempo para lo importante./i),
     ).toBeInTheDocument();
     // El CTA flotante no debe mostrarse antes del scroll
     expect(screen.queryByLabelText(/reserva 30 min/i)).not.toBeInTheDocument();
@@ -40,7 +40,7 @@ describe('Home Page', () => {
     render(<Home />);
 
     // Simular scroll >45%
-    Object.defineProperty(window, 'pageYOffset', { configurable: true, value: 600 });
+    Object.defineProperty(window, 'pageYOffset', { configurable: true, value: 700 });
     fireEvent.scroll(window);
 
     // Obtener todos los botones de Calendly (hay 2: desktop y mobile) tras el scroll

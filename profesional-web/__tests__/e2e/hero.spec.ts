@@ -8,22 +8,22 @@ test.describe('Hero Section', () => {
   test('CA-1 & CA-2: Visualiza headline específico y es visible above fold', async ({ page }) => {
     const headline = page.getByRole('heading', { level: 1 });
     await expect(headline).toBeVisible();
-    await expect(headline).toContainText('Reduzco tu factura Cloud y automatizo procesos con payback <6 meses');
+    await expect(headline).toContainText('Hago que tu negocio gane más y gaste menos usando IA');
   });
 
   test('CA-3: Visualiza subtítulo segmentado', async ({ page }) => {
-    const subtitle = page.locator('p').filter({ hasText: 'Para empresas que quieren' });
+    const subtitle = page.locator('p').filter({ hasText: 'Menos costes' });
     await expect(subtitle).toBeVisible();
-    await expect(subtitle).toContainText('Para empresas que quieren optimizar costes y ganar eficiencia');
+    await expect(subtitle).toContainText('Menos costes, menos errores y más tiempo para lo importante');
   });
 
   test('CA-4: Visualiza badge de experiencia', async ({ page }) => {
-    const badge = page.getByText('+37 años gestionando P&L');
+    const badge = page.getByText('+37 años dirigiendo operaciones', { exact: false });
     await expect(badge).toBeVisible();
   });
 
   test('CA-5 & CA-6: CTA flotante y Modal Calendly', async ({ page }) => {
-    const cta = page.getByRole('button', { name: /Diagnóstico gratuito 30 min/i });
+    const cta = page.getByRole('button', { name: /Agendar diagnóstico/i });
     await expect(cta).toBeVisible();
     
     // Verificar que al hacer click se abre el modal de Calendly
