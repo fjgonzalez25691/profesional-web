@@ -78,8 +78,9 @@ export default function Hero({
           <Image
             src="/hero-profile.webp"
             alt="Hero profile - Francisco Javier González"
-            fill
-            className="object-cover"
+            width={380}
+            height={380}
+            className="object-cover w-full h-full"
             priority
           />
         </div>
