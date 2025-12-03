@@ -178,12 +178,25 @@ test.describe('Lead Capture Flow', () => {
   });
 
   test('should send complete lead data structure', async ({ page }) => {
-    let capturedPayload: unknown;
+    interface CapturedPayload {
+      email: string;
+      sector: string;
+      companySize: string;
+      pains: string[];
+      roiData: {
+        investment: number;
+        savingsAnnual: number;
+        paybackMonths: number;
+        roi3Years?: number;
+      };
+    }
+    
+    let capturedPayload: CapturedPayload | undefined;
 
     // Mock con captura de payload para verificación
     await page.route('**/api/leads', async (route, request) => {
       if (request.method() === 'POST') {
-        capturedPayload = request.postDataJSON();
+        capturedPayload = request.postDataJSON() as CapturedPayload;
 
         await route.fulfill({
           status: 200,
@@ -218,16 +231,18 @@ test.describe('Lead Capture Flow', () => {
 
     // Verificar estructura completa del lead capturado
     expect(capturedPayload).toBeDefined();
-    expect(capturedPayload.email).toBe(testEmail);
-    expect(capturedPayload.sector).toBe('farmaceutica');
-    expect(capturedPayload.companySize).toBe('50M+');
-    expect(capturedPayload.pains).toContain('cloud-costs');
-    expect(capturedPayload.pains).toContain('manual-processes');
-    expect(capturedPayload.roiData).toBeDefined();
-    expect(capturedPayload.roiData.investment).toBeGreaterThan(0);
-    expect(capturedPayload.roiData.savingsAnnual).toBeGreaterThan(0);
-    expect(capturedPayload.roiData.paybackMonths).toBeGreaterThan(0);
-    expect(capturedPayload.roiData).toHaveProperty('roi3Years');
+    if (capturedPayload) {
+      expect(capturedPayload.email).toBe(testEmail);
+      expect(capturedPayload.sector).toBe('farmaceutica');
+      expect(capturedPayload.companySize).toBe('50M+');
+      expect(capturedPayload.pains).toContain('cloud-costs');
+      expect(capturedPayload.pains).toContain('manual-processes');
+      expect(capturedPayload.roiData).toBeDefined();
+      expect(capturedPayload.roiData.investment).toBeGreaterThan(0);
+      expect(capturedPayload.roiData.savingsAnnual).toBeGreaterThan(0);
+      expect(capturedPayload.roiData.paybackMonths).toBeGreaterThan(0);
+      expect(capturedPayload.roiData).toHaveProperty('roi3Years');
+    }
   });
 
   test('should handle API database errors gracefully', async ({ page }) => {
