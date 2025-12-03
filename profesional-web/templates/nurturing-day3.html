@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Última oportunidad: Diagnóstico gratuito</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; color: #0f172a; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .cta { background: #3b82f6; color: white; padding: 12px 24px;
+           border-radius: 6px; text-decoration: none; display: inline-block; }
+    .disclaimer { font-size: 12px; color: #94a3b8; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Última oportunidad: Diagnóstico gratuito</h1>
+    <p>Hola {{name}},</p>
+    <p>Esta es mi última invitación para validar tu ahorro de {{savingsAnnual}}€/año.</p>
+    <p>Agendas abiertas solo esta semana.</p>
+    <a href="{{calendlyLink}}" class="cta">Agendar Ahora</a>
+    <p class="disclaimer">
+      ¿No estás interesado? <a href="{{unsubscribeLink}}">Desuscribir</a>
+    </p>
+  </div>
+</body>
+</html>
