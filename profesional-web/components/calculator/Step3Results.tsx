@@ -1,9 +1,11 @@
-import type { ROIResult } from '@/lib/calculator/types';
+import { useState } from 'react';
+import type { CompanySize, ROIResult, Sector } from '@/lib/calculator/types';
 import { cn } from '@/lib/utils';
 
 type Step3ResultsProps = {
   result: ROIResult;
   email: string;
+  userData: { sector: Sector; companySize: CompanySize };
   onEmailChange: (value: string) => void;
 };
 
@@ -12,8 +14,45 @@ const formatCurrency = (value: number) => {
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
-export function Step3Results({ result, email, onEmailChange }: Step3ResultsProps) {
+export function Step3Results({ result, email, userData, onEmailChange }: Step3ResultsProps) {
   const hasData = result.savingsAnnual > 0 || result.investment > 0;
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email) {
+      setErrorMessage('Introduce un email');
+      setStatus('error');
+      return;
+    }
+
+    setStatus('sending');
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/send-roi-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          roiData: result,
+          userData,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error((data as { error?: string }).error || 'No pudimos enviar email');
+      }
+
+      setStatus('success');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No pudimos enviar email';
+      setErrorMessage(message);
+      setStatus('error');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -49,16 +88,11 @@ export function Step3Results({ result, email, onEmailChange }: Step3ResultsProps
         </div>
       </div>
 
-      <form
-        className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-slate-900">Recibe análisis completo</h3>
           <p className="text-sm text-slate-600">
-            Guardamos tu email para enviarte el reporte detallado (envío siguiente US, sin envío automático ahora).
+            Enviamos tus métricas ROI al email que indiques para que puedas compartirlas con tu equipo/CFO.
           </p>
         </div>
 
@@ -76,14 +110,24 @@ export function Step3Results({ result, email, onEmailChange }: Step3ResultsProps
           />
           <button
             type="submit"
+            disabled={status === 'sending'}
             className={cn(
               'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition',
-              'bg-blue-600 text-white hover:bg-blue-700'
+              'bg-blue-600 text-white hover:bg-blue-700',
+              status === 'sending' ? 'opacity-80' : ''
             )}
           >
-            Guardar (sin enviar)
+            {status === 'sending' ? 'Enviando...' : 'Enviar resultados'}
           </button>
         </div>
+
+        {status === 'success' && (
+          <p className="mt-3 text-sm font-semibold text-emerald-700">Revisa tu email</p>
+        )}
+
+        {status === 'error' && errorMessage && (
+          <p className="mt-3 text-sm font-semibold text-red-700">{errorMessage}</p>
+        )}
       </form>
     </div>
   );
