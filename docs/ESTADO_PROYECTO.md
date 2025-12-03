@@ -1,18 +1,27 @@
 # ESTADO ACTUAL DEL PROYECTO
 *Última actualización: 3 de diciembre de 2025, 18:45 (Europe/Madrid)*
 
-## 🎯 Issues Activas - EN DESARROLLO
-**FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG
-- **Status**: ✅ IN PROGRESS (iniciada por Agent Manager)
-- **Prioridad**: 8 Story Points (High) 
+## 🎯 Issues Activas - PENDIENTES SPRINT 2
+**FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación)
+- **Status**: 🔄 TODO (pendiente implementación)
+- **Prioridad**: 2 Story Points (Low)  
 - **Proyecto**: In2-03 Chatbot IA Cualificación Leads
 - **Sprint**: S2 (Cycle 2cce504b)
-- **Rama**: fjgonzalez25691-fjg-44-us-03-002-backend-groq-prompt-engineering-sin-rag
-- **Prompts generados**: ✅ FJG-44-prompt-implementacion.md + FJG-44-prompt-revision.md
-- **Scope verificado**: ✅ Anti-camello (Prompt Engineering puro, NO RAG, <5€/mes)
-- **Dependencias**: FJG-43 ✅ (UI completada), FJG-40 ✅ (casos base implementados)
+- **Dependencias**: FJG-40 ✅ (Grid 3 casos base completado)
+- **Scope**: Ampliar casos 3 → 5 (Farmacéutica + Retail E-commerce)
+
+**FJG-47**: US-03-005: Logging Conversaciones Postgres Básico
+- **Status**: 🔄 TODO (pendiente implementación)
+- **Prioridad**: 2 Story Points (Medium)
+- **Proyecto**: In2-03 Chatbot IA Cualificación Leads  
+- **Sprint**: S2 (Cycle 2cce504b)
+- **Dependencias**: FJG-35 ✅ (Postgres), FJG-44 ✅ (API chat funcionando)
+- **Scope**: Schema + logging conversaciones + sessionId
 
 ## ✅ Issues Completadas Recientemente
+**FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025)
+**FJG-45**: US-03-003: Guardrails Legales + Fallback Timeout (✅ Done - PR #13 merged 3 dic 2025)
+**FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG (✅ Done - PR #12 merged 3 dic 2025)
 **FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX (✅ Done - PR #11 merged 3 dic 2025)
 **FJG-81**: In2-DT-01: Instrumentación mínima de conversión (CTA + booking Calendly) (✅ Done - PR #10 merged 3 dic 2025)
 **FJG-40**: US-02-003: Grid 3 Casos Éxito con ROI Específico (✅ Done - PR #8 merged 2 dic 2025)
@@ -30,18 +39,18 @@
 - **Meta**: Tener presencia digital operativa inmediata
 - **Progreso**: ✅ Todas las issues fundamentales implementadas y mergeadas
 
-**Sprint 2**: En progreso - Chatbot IA & Backend
-- **Issues Planificadas**: FJG-81 ✅ (Analytics), FJG-43 ✅ (Chatbot UI), FJG-44 🔄 (Backend Groq)
-- **Issues Completadas**: FJG-81 (Analytics), FJG-43 (Chatbot UI flotante responsive)
-- **Issue Activa**: FJG-44 (Backend Groq + Prompt Engineering SIN RAG) - 8 SP
-- **Foco**: Implementación chatbot IA con anti-camello approach (prompt engineering vs RAG)
-- **Progreso**: 2/3 issues completadas (67%)
+**Sprint 2**: En progreso - Chatbot IA Completo (Finalización)
+- **Issues Planificadas**: FJG-81 ✅, FJG-43 ✅, FJG-44 ✅, FJG-45 ✅, FJG-84 ✅, FJG-46 🔄, FJG-47 🔄
+- **Issues Completadas**: FJG-81 (Analytics), FJG-43 (Chatbot UI), FJG-44 (Backend Groq), FJG-45 (Guardrails), FJG-84 (Hero Update)
+- **Issues Pendientes**: FJG-46 (Grid 5 Casos - 2 SP), FJG-47 (Logging Postgres - 2 SP)  
+- **Foco**: Completar ampliación casos y logging para finalizar chatbot IA completo
+- **Progreso**: 5/7 issues completadas (71% - faltan 4 SP)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
-### Sprint 2 (Días 8-14) - In2-02/03 Landing & Chatbot
-- **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) - 2 SP [High] 
-- **FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG - 8 SP [High] ✅ IN PROGRESS
+### Sprint 2 (Días 8-14) - In2-02/03 Landing & Chatbot - FINALIZACIÓN
+- **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) - 2 SP [Low] ✅ TODO  
+- **FJG-47**: US-03-005: Logging Conversaciones Postgres Básico - 2 SP [Medium] ✅ TODO
 
 ### Sprint 3 (Días 15-21) - In2-04 Lead Magnet ROI  
 - **FJG-48**: US-04-001: Calculadora ROI Frontend Interactiva - 5 SP [High]
