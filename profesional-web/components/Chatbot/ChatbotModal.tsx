@@ -67,7 +67,7 @@ export default function ChatbotModal({
       role="dialog"
       aria-modal="true"
       aria-label="Chatbot"
-      className="fixed inset-0 z-[9999] flex items-end justify-center md:justify-end"
+      className="fixed inset-0 z-9999 flex items-end justify-center md:justify-end"
     >
       <button
         aria-label="Cerrar chatbot"
