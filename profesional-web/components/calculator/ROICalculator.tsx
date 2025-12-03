@@ -156,7 +156,14 @@ export default function ROICalculator() {
           />
         )}
 
-        {step === 3 && <Step3Results result={result} email={email} onEmailChange={setEmail} />}
+        {step === 3 && (
+          <Step3Results
+            result={result}
+            email={email}
+            userData={{ sector: inputs.sector, companySize: inputs.companySize }}
+            onEmailChange={setEmail}
+          />
+        )}
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
           <Button

@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import ROICalculator from '@/components/calculator/ROICalculator';
 
 const completeStep1 = () => {
@@ -7,7 +8,18 @@ const completeStep1 = () => {
   fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 };
 
+const originalFetch = global.fetch;
+
 describe('ROICalculator wizard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    global.fetch = vi.fn() as unknown as typeof fetch;
+  });
+
+  afterAll(() => {
+    global.fetch = originalFetch;
+  });
+
   it('calcula escenario cloud y muestra resultados + form email', () => {
     render(<ROICalculator />);
 
@@ -35,5 +47,53 @@ describe('ROICalculator wizard', () => {
 
     expect(screen.getByText(/Campo requerido/i)).toBeInTheDocument();
     expect(screen.queryByText(/Ahorro estimado/i)).not.toBeInTheDocument();
+  });
+
+  it('envía el email y muestra confirmación', async () => {
+    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true }),
+    });
+
+    render(<ROICalculator />);
+    completeStep1();
+
+    fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
+    fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
+      target: { value: '8500' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'ceo@empresa.com' } });
+    fireEvent.click(screen.getByRole('button', { name: /Enviar resultados/i }));
+
+    await screen.findByText(/Revisa tu email/i);
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/send-roi-email',
+      expect.objectContaining({ method: 'POST' }),
+    );
+  });
+
+  it('muestra error cuando el envío falla', async () => {
+    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+      ok: false,
+      json: async () => ({ error: 'No pudimos enviar email' }),
+    });
+
+    render(<ROICalculator />);
+    completeStep1();
+
+    fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
+    fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
+      target: { value: '8500' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'ceo@empresa.com' } });
+    fireEvent.click(screen.getByRole('button', { name: /Enviar resultados/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/No pudimos enviar email/i)).toBeInTheDocument();
+    });
   });
 });
