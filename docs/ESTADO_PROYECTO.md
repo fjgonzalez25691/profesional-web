@@ -1,17 +1,19 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 3 de diciembre de 2025, 15:30 (Europe/Madrid)*
+*Última actualización: 3 de diciembre de 2025, 18:45 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - EN DESARROLLO
-**FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX
+**FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG
 - **Status**: ✅ IN PROGRESS (iniciada por Agent Manager)
-- **Prioridad**: 5 Story Points (High)
+- **Prioridad**: 8 Story Points (High) 
 - **Proyecto**: In2-03 Chatbot IA Cualificación Leads
 - **Sprint**: S2 (Cycle 2cce504b)
-- **Rama**: fjgonzalez25691-fjg-43-us-03-001-chatbot-ui-flotante-mobile-ux
-- **Prompts generados**: ✅ FJG-43-prompt-implementacion.md + FJG-43-prompt-revision.md
-- **Scope verificado**: ✅ UI flotante responsive + mock responses (NO backend integrado)
+- **Rama**: fjgonzalez25691-fjg-44-us-03-002-backend-groq-prompt-engineering-sin-rag
+- **Prompts generados**: ✅ FJG-44-prompt-implementacion.md + FJG-44-prompt-revision.md
+- **Scope verificado**: ✅ Anti-camello (Prompt Engineering puro, NO RAG, <5€/mes)
+- **Dependencias**: FJG-43 ✅ (UI completada), FJG-40 ✅ (casos base implementados)
 
 ## ✅ Issues Completadas Recientemente
+**FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX (✅ Done - PR #11 merged 3 dic 2025)
 **FJG-81**: In2-DT-01: Instrumentación mínima de conversión (CTA + booking Calendly) (✅ Done - PR #10 merged 3 dic 2025)
 **FJG-40**: US-02-003: Grid 3 Casos Éxito con ROI Específico (✅ Done - PR #8 merged 2 dic 2025)
 **FJG-41**: US-02-004: Modal Calendly Flotante 2 Clics (✅ Done - PR #7 merged 2 dic 2025)  
@@ -28,17 +30,18 @@
 - **Meta**: Tener presencia digital operativa inmediata
 - **Progreso**: ✅ Todas las issues fundamentales implementadas y mergeadas
 
-**Sprint 2**: En progreso - Optimización & Analytics
-- **Issues Planificadas**: FJG-81 ✅ (Analytics), FJG-46 (Grid 5 Casos), FJG-43 (Chatbot UI)
-- **Issues Completadas**: FJG-81 (Tracking conversión CTA + Calendly)
-- **Foco**: Optimización conversión y expansión funcionalidades
-- **Progreso**: 1/3 issues completadas (33%)
+**Sprint 2**: En progreso - Chatbot IA & Backend
+- **Issues Planificadas**: FJG-81 ✅ (Analytics), FJG-43 ✅ (Chatbot UI), FJG-44 🔄 (Backend Groq)
+- **Issues Completadas**: FJG-81 (Analytics), FJG-43 (Chatbot UI flotante responsive)
+- **Issue Activa**: FJG-44 (Backend Groq + Prompt Engineering SIN RAG) - 8 SP
+- **Foco**: Implementación chatbot IA con anti-camello approach (prompt engineering vs RAG)
+- **Progreso**: 2/3 issues completadas (67%)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
 ### Sprint 2 (Días 8-14) - In2-02/03 Landing & Chatbot
 - **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) - 2 SP [High] 
-- **FJG-43**: US-03-001: Chatbot UI Flotante + Mobile UX - 5 SP [High]
+- **FJG-44**: US-03-002: Backend Groq + Prompt Engineering SIN RAG - 8 SP [High] ✅ IN PROGRESS
 
 ### Sprint 3 (Días 15-21) - In2-04 Lead Magnet ROI  
 - **FJG-48**: US-04-001: Calculadora ROI Frontend Interactiva - 5 SP [High]
@@ -110,7 +113,14 @@ profesional-web/
 - **Testing**: Suite completa Vitest + coverage ✅
 - **Variables entorno**: Configuración segura producción ✅
 
-### ✅ Analytics & Tracking (NUEVO)
+### ✅ Chatbot UI Completo (NUEVO)
+- **Widget Flotante**: Botón responsive mobile/desktop ✅
+- **Modal Responsivo**: 400x600px desktop, fullscreen mobile ✅  
+- **Accesibilidad**: ARIA labels, keyboard navigation ✅
+- **Mock Integration**: Respuestas dummy para testing UI ✅
+- **Tests UI**: Suite completa chatbot components ✅
+
+### ✅ Analytics & Tracking 
 - **Conversión CTA**: Tracking clicks Hero + FAB ✅
 - **Calendly Booking**: Tracking completado eventos ✅
 - **Privacy compliant**: Sin PII, solo producción ✅
@@ -126,22 +136,27 @@ profesional-web/
 - ✅ **Deploy estable**: fjgaparicio.es accesible 24/7
 - ✅ **CI/CD operativo**: Tests automáticos cada PR  
 - ✅ **GDPR compliant**: Políticas legales básicas
+- ✅ **Chatbot UI operativo**: Widget flotante + modal responsive implementado
 - ✅ **Analytics operativo**: Tracking conversión CTA + Calendly implementado
 - ✅ **Tests robustos**: 60+ tests pasando (100% coverage componentes críticos)
 
 ---
 
-## 🎯 Próximos Objetivos (Sprint 2 - Continuación)
+## 🎯 Próximos Objetivos (Sprint 2 - Finalización)
 
 1. ~~**FJG-81**: Instrumentación analytics~~ ✅ **COMPLETADO**
-2. **FJG-46**: Expansión casos éxito (3 → 5 casos, más sectores)
-3. **FJG-43**: Chatbot UI básico (mock responses, UX mobile/desktop)
+2. ~~**FJG-43**: Chatbot UI básico~~ ✅ **COMPLETADO** 
+3. **FJG-44**: Backend Groq + Prompt Engineering ✅ **EN DESARROLLO**
 
-El proyecto está en **excelente estado** con analytics operativo para continuar optimización según roadmap planificado.
+El proyecto está en **excelente estado** con chatbot UI completamente operativo, analytics funcionando, y backend IA iniciado siguiendo enfoque anti-camello (prompt engineering vs RAG).
 
-### ⏳ Pendiente (Próximo Sprint)
+### ⏳ Pendiente (Sprint 2 - Finalización)
+- Backend Groq integration con prompt engineering
+- Rate limiting y logging básico Postgres
+- Testing TDD completo backend API
+- Frontend-backend integration final chatbot
 
-### ⏳ Pendiente (Próximo Sprint)
+### ⏳ Pendiente (Sprint 3)
 - Componentes Hero y CTA profesionales
 - Formulario de contacto con validación
 - Integración completa Calendly
@@ -154,10 +169,10 @@ El proyecto está en **excelente estado** con analytics operativo para continuar
 - **Utilidad CSS**: `cn()` para merge de clases (Tailwind + clsx)
 - **Testing**: TDD estricto con Vitest + Testing Library
 
-## 📋 Próximos Pasos (Sprint 1)
-1. **FJG-41**: Finalizar modal Calendly flotante (En desarrollo)
-2. **FJG-39**: Completar sección dolores cuantificados (Planificada)
-3. **Nueva tarea**: Métricas scroll/engagement (Documentada en deuda técnica)
+## 📋 Próximos Pasos (Sprint 2)
+1. **FJG-44**: Finalizar backend Groq + prompt engineering (En desarrollo TDD)
+2. **FJG-46**: Grid 5 casos éxito (expansión casos base FJG-40)  
+3. **Testing**: Validar integration completa chatbot frontend-backend
 
 ## 🔬 Verificación Técnica Actual
 ```bash
@@ -177,4 +192,4 @@ npm run dev      # ✅ Server desarrollo + Footer integrado
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
 ---
-*Última actualización: Agent Manager - 3 diciembre 2025, 15:30*
+*Última actualización: Agent Manager - 3 diciembre 2025, 18:45*
