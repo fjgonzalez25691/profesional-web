@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Home from '../../app/page';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -22,17 +22,31 @@ describe('Home Page', () => {
     expect(
       screen.getByText(/Para empresas que quieren optimizar costes y ganar eficiencia/i),
     ).toBeInTheDocument();
-
-    // Verificar que existen los botones flotantes (2: desktop y mobile)
-    const calendlyButtons = screen.getAllByLabelText(/Agendar reunión/i);
-    expect(calendlyButtons).toHaveLength(2);
+    // El CTA flotante no debe mostrarse antes del scroll
+    expect(screen.queryByLabelText(/reserva 30 min/i)).not.toBeInTheDocument();
   });
 
-  it('opens modal on CTA click', () => {
+  it('opens modal on CTA click', async () => {
+    // Simular página con scroll
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 2000,
+    });
+    Object.defineProperty(document.documentElement, 'clientHeight', {
+      configurable: true,
+      value: 1000,
+    });
+
     render(<Home />);
 
-    // Obtener todos los botones de Calendly (hay 2: desktop y mobile)
-    const calendlyButtons = screen.getAllByLabelText(/Agendar reunión/i);
+    // Simular scroll >45%
+    Object.defineProperty(window, 'pageYOffset', { configurable: true, value: 600 });
+    fireEvent.scroll(window);
+
+    // Obtener todos los botones de Calendly (hay 2: desktop y mobile) tras el scroll
+    const calendlyButtons = await waitFor(() =>
+      screen.getAllByLabelText(/reserva 30 min/i)
+    );
 
     // Modal shouldn't be visible initially
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

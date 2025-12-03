@@ -20,6 +20,7 @@ export default function Home() {
     isOpen: false,
     source: 'hero'
   });
+  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const desktopFabRef = useRef<HTMLButtonElement>(null);
   const mobileFabRef = useRef<HTMLButtonElement>(null);
 
@@ -40,12 +41,33 @@ export default function Home() {
     }
   }, [modalState.isOpen, modalState.source]);
 
+  // Mostrar FAB solo tras 45% de scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleScroll = () => {
+      const doc = document.documentElement;
+      const body = document.body;
+      const scrollTop = window.scrollY || window.pageYOffset || doc.scrollTop || body.scrollTop || 0;
+      const scrollHeight = doc.scrollHeight || body.scrollHeight || 1;
+      const clientHeight = doc.clientHeight || window.innerHeight || 1;
+      const maxScrollable = scrollHeight - clientHeight;
+      const percent = maxScrollable > 0 ? (scrollTop / maxScrollable) * 100 : 0;
+      setShowFloatingCTA(percent > 45);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <main id="main" className="flex min-h-screen flex-col items-center justify-start">
       <Hero
         headline="Reduzco tu factura Cloud y automatizo procesos con payback <6 meses"
         subtitle="Para empresas que quieren optimizar costes y ganar eficiencia"
         badgeText="+37 años gestionando P&L"
+        onCtaClick={() => openModal('hero')}
       />
 
       {/* Sección de dolores cuantificados */}
@@ -70,6 +92,7 @@ export default function Home() {
         onClick={() => openModal('fab')}
         desktopRef={desktopFabRef}
         mobileRef={mobileFabRef}
+        visible={showFloatingCTA}
       />
     </main>
   );
