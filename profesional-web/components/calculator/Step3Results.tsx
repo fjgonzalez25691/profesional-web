@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import type { CompanySize, ROIResult, Sector } from '@/lib/calculator/types';
+import type { CalculatorInputs, CompanySize, ROIResult, Sector } from '@/lib/calculator/types';
 import { cn } from '@/lib/utils';
 
 type Step3ResultsProps = {
   result: ROIResult;
   email: string;
   userData: { sector: Sector; companySize: CompanySize };
+  pains: CalculatorInputs['pains'];
   onEmailChange: (value: string) => void;
 };
 
@@ -14,7 +15,7 @@ const formatCurrency = (value: number) => {
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
-export function Step3Results({ result, email, userData, onEmailChange }: Step3ResultsProps) {
+export function Step3Results({ result, email, userData, pains, onEmailChange }: Step3ResultsProps) {
   const hasData = result.savingsAnnual > 0 || result.investment > 0;
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -31,6 +32,22 @@ export function Step3Results({ result, email, userData, onEmailChange }: Step3Re
     setErrorMessage(null);
 
     try {
+      const leadResponse = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          sector: userData.sector,
+          companySize: userData.companySize,
+          pains,
+          roiData: result,
+        }),
+      });
+
+      if (!leadResponse.ok) {
+        throw new Error('No pudimos guardar tu lead');
+      }
+
       const response = await fetch('/api/send-roi-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

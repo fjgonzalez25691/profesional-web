@@ -161,6 +161,7 @@ export default function ROICalculator() {
             result={result}
             email={email}
             userData={{ sector: inputs.sector, companySize: inputs.companySize }}
+            pains={inputs.pains}
             onEmailChange={setEmail}
           />
         )}
