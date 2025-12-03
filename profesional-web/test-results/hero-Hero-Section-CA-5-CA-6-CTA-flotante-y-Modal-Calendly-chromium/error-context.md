@@ -1,0 +1,115 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - main [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - paragraph [ref=e6]: +37 años dirigiendo operaciones y equipos en empresas reales. Ahora uso la tecnología para mejorar tus números, no para complicarte la vida.
+          - heading "Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud" [level=1] [ref=e7]
+          - paragraph [ref=e8]: Menos costes, menos errores y más tiempo para lo importante.
+          - generic [ref=e9]:
+            - button "Agendar diagnóstico" [ref=e10]:
+              - text: Agendar diagnóstico
+              - img
+            - button "Hablar con el asistente IA" [ref=e11]:
+              - img
+              - text: Hablar con el asistente IA
+        - img "Hero profile - Francisco Javier González" [ref=e14]
+      - generic [ref=e16]:
+        - heading "¿Te pasa esto?" [level=2] [ref=e17]
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - img "Problema" [ref=e20]
+            - paragraph [ref=e23]: Procesos manuales
+            - paragraph [ref=e24]: 2-4 h/día picando facturas/albaranes
+          - generic [ref=e25]:
+            - img "Problema" [ref=e26]
+            - paragraph [ref=e29]: Factura cloud
+            - paragraph [ref=e30]: AWS/Azure subió >30% sin explicación
+          - generic [ref=e31]:
+            - img "Problema" [ref=e32]
+            - paragraph [ref=e35]: Forecasting
+            - paragraph [ref=e36]: Previsiones Excel fallan 20-30%
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "Casos reales, resultados tangibles" [level=2] [ref=e40]
+          - paragraph [ref=e41]: No es teoría. Son soluciones implementadas en empresas reales con ROI medible.
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]:
+                - generic [ref=e46]: Logística
+                - generic [ref=e47]: 8M€
+              - generic [ref=e48]: 42.000€/año verificando albaranes en papel
+              - generic [ref=e49]: "Solución: OCR + flujo automático a ERP"
+              - paragraph [ref=e50]: Validado con CEO (email/contrato)
+            - generic [ref=e51]:
+              - generic [ref=e53]:
+                - img [ref=e54]
+                - generic [ref=e57]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e58]: +35 h/semana liberadas del equipo administrativo
+                  - paragraph [ref=e59]: ≈ 0,8 jornada completa
+                  - paragraph [ref=e60]: "Payback del proyecto: 6 semanas"
+              - button "Ver detalles" [ref=e61]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - generic [ref=e65]: Agencia Marketing
+                - generic [ref=e66]: 12M€
+              - generic [ref=e67]: Factura AWS 8,5K€/mes sin control
+              - generic [ref=e68]: "Solución: Rightsizing + Reserved Instances"
+              - paragraph [ref=e69]: Validado con CEO (email/contrato)
+            - generic [ref=e70]:
+              - generic [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e76]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e77]: +25 h/mes liberadas en análisis manual de costes
+                  - paragraph [ref=e78]: Visibilidad diaria de la factura cloud
+                  - paragraph [ref=e79]: "Payback del proyecto: 4 semanas"
+              - button "Ver detalles" [ref=e80]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]:
+                - generic [ref=e84]: Fabricante Industrial
+                - generic [ref=e85]: 25M€
+              - generic [ref=e86]: Forecasting de demanda falla un 30%
+              - generic [ref=e87]: "Solución: ML predicción + alertas automáticas"
+              - paragraph [ref=e88]: Validado con CEO (email/contrato)
+            - generic [ref=e89]:
+              - generic [ref=e91]:
+                - img [ref=e92]
+                - generic [ref=e95]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e96]: −40 h/mes en rehacer planes de producción
+                  - paragraph [ref=e97]: Menos urgencias y cambios de turno de última hora
+                  - paragraph [ref=e98]: "Payback del proyecto: 5 semanas"
+              - button "Ver detalles" [ref=e99]:
+                - text: Ver detalles
+                - img
+  - contentinfo [ref=e100]:
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - heading "Legal" [level=3] [ref=e104]
+        - link "Aviso Legal" [ref=e105] [cursor=pointer]:
+          - /url: /legal/aviso-legal
+        - link "Política de Privacidad" [ref=e106] [cursor=pointer]:
+          - /url: /legal/privacidad
+      - generic [ref=e107]:
+        - heading "Social" [level=3] [ref=e108]
+        - link "LinkedIn" [ref=e109] [cursor=pointer]:
+          - /url: www.linkedin.com/in/francisco-javier-gonzález-aparicio-259507222
+        - link "Email" [ref=e110] [cursor=pointer]:
+          - /url: mailto:fjgonzalez25691@gmail.com
+      - paragraph [ref=e112]: © 2025 Francisco Javier González Aparicio
+  - button "Open Next.js Dev Tools" [ref=e118] [cursor=pointer]:
+    - img [ref=e119]
+  - alert [ref=e122]
+```
