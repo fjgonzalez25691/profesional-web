@@ -5,8 +5,9 @@ const sendMock = vi.fn();
 vi.mock('resend', () => {
   class Resend {
     emails = { send: sendMock };
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {}
+    constructor() {
+      // Empty constructor
+    }
   }
   return { Resend };
 });

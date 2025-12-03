@@ -6,12 +6,19 @@ import { Resend } from 'resend';
 type NurturingStage = 'day1' | 'day3';
 
 export interface LeadRecord {
-  id: string;
+  id: string | number;
   email: string;
   name?: string;
+  company?: string;
   savings_annual?: number | null;
   payback_months?: number | null;
   calendly_link?: string | null;
+  roi_data?: Record<string, unknown>;
+  pains?: Record<string, unknown>;
+  nurturing_stage?: string;
+  last_email_sent_at?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 const templatesMap: Record<NurturingStage, string> = {

@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { sendNurturingEmail } from '@/lib/email/nurturing';
+import { sendNurturingEmail, type LeadRecord } from '@/lib/email/nurturing';
 
 const AUTH_HEADER = 'authorization';
 
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   `;
 
   for (const lead of day1Leads.rows) {
-    await sendNurturingEmail(lead as any, 'day1');
+    await sendNurturingEmail(lead as unknown as LeadRecord, 'day1');
     await sql`
       UPDATE leads
       SET nurturing_stage = 1, last_email_sent_at = NOW()
@@ -36,7 +36,7 @@ export async function GET(req: Request) {
   `;
 
   for (const lead of day3Leads.rows) {
-    await sendNurturingEmail(lead as any, 'day3');
+    await sendNurturingEmail(lead as unknown as LeadRecord, 'day3');
     await sql`
       UPDATE leads
       SET nurturing_stage = 2, last_email_sent_at = NOW()
