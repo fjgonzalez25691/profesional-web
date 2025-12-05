@@ -1,10 +1,12 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 3 de diciembre de 2025, 19:45 (Europe/Madrid)*
+*Última actualización: 5 de diciembre de 2025, 12:30 (Europe/Madrid)*
 
-## 🎯 Issues Activas - PENDIENTES SPRINT 2
-**Sprint 2 COMPLETADO 100%** - Todas las issues finalizadas exitosamente
+## 🎯 Issues Activas - SPRINT 3 EN CURSO
+**Sprint 3 - Lead Magnet ROI** - Calculadora ROI con validaciones implementada
 
 ## ✅ Issues Completadas Recientemente
+**FJG-87**: US-DT-04-ST02-CLOUD – Ajuste ROI y validaciones para cloud (✅ Done - 5 dic 2025 - PR #24 merged)
+**FJG-86**: US-DT-04-ST01-CORE – Lógica común de ROI por tamaño de empresa (✅ Done - 5 dic 2025 - PR #23 merged)
 **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) (✅ Done - 3 dic 2025 - PR #16 merged)
 **FJG-47**: US-03-005: Logging Conversaciones Postgres Básico (✅ Done - 3 dic 2025 - PR #15 merged)
 **FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025 - PR #14 merged)
@@ -99,7 +101,7 @@ profesional-web/
 ### ✅ Landing Page Completa
 - **Hero Section**: Propuesta valor P&L + CTA directo ✅
 - **Pain Points**: 3 dolores cuantificados (2-4h/día, AWS >30%, forecasting 20-30%) ✅  
-- **Case Grid**: 3 casos ROI específicos (payback 4-7 semanas, ahorro 35-85K€/año) ✅
+- **Case Grid**: 5 casos ROI específicos (payback 4-7 semanas, ahorro 35-85K€/año) ✅
 - **Modal Calendly**: Agendamiento 2 clics, responsive mobile/desktop ✅
 - **Footer**: 3 columnas + políticas GDPR ✅
 
@@ -109,54 +111,58 @@ profesional-web/
 - **Testing**: Suite completa Vitest + coverage ✅
 - **Variables entorno**: Configuración segura producción ✅
 
-### ✅ Chatbot UI Completo (NUEVO)
+### ✅ Chatbot IA Completo
 - **Widget Flotante**: Botón responsive mobile/desktop ✅
 - **Modal Responsivo**: 400x600px desktop, fullscreen mobile ✅  
+- **Backend Groq**: Prompt engineering SIN RAG + streaming ✅
+- **Guardrails**: Validación legal + timeout + rate limiting ✅
+- **Logging Postgres**: Registro conversaciones para análisis ✅
 - **Accesibilidad**: ARIA labels, keyboard navigation ✅
-- **Mock Integration**: Respuestas dummy para testing UI ✅
-- **Tests UI**: Suite completa chatbot components ✅
+
+### ✅ Calculadora ROI Interactiva (NUEVO)
+- **Lógica por tamaño**: Revenue/inventario dinámicos según `companySize` ✅
+- **Inversión escalada**: Base + multiplicador por pain y tamaño ✅
+- **Ahorro cloud prudente**: 27.5% (ajustado desde 35%) ✅
+- **Validaciones robustas**: Rango cloud (100€-300k€) + coherencia vs facturación (máx 40%) ✅
+- **ROI cap**: >1.000% cappeado con flag de caso extremo ✅
+- **UI/Email consistentes**: Formato ROI aplicado en ambos canales ✅
 
 ### ✅ Analytics & Tracking 
 - **Conversión CTA**: Tracking clicks Hero + FAB ✅
 - **Calendly Booking**: Tracking completado eventos ✅
 - **Privacy compliant**: Sin PII, solo producción ✅
-- **Testing**: 60 tests unitarios analytics (100% pass) ✅
+- **Testing**: 120+ tests unitarios (100% pass) ✅
 - **Documentación**: analytics.md para reutilización ✅
 
 ### ✅ Páginas Legales GDPR
 - **/legal/aviso-legal**: Plantilla estándar España ✅
 - **/legal/privacidad**: Política privacidad + cookies ✅
 
-## 📈 Métricas de Éxito Sprint 1-2
+## 📈 Métricas de Éxito Sprint 1-3
 - ✅ **Landing funcional**: Hero + Dolores + Casos + Calendly + Footer
 - ✅ **Deploy estable**: fjgaparicio.es accesible 24/7
 - ✅ **CI/CD operativo**: Tests automáticos cada PR  
 - ✅ **GDPR compliant**: Políticas legales básicas
-- ✅ **Chatbot UI operativo**: Widget flotante + modal responsive implementado
-- ✅ **Analytics operativo**: Tracking conversión CTA + Calendly implementado
-- ✅ **Tests robustos**: 60+ tests pasando (100% coverage componentes críticos)
+- ✅ **Chatbot IA completo**: Backend Groq + guardrails + logging operativo
+- ✅ **Calculadora ROI prudente**: Validaciones robustas + ahorro realista
+- ✅ **Tests robustos**: 120+ tests pasando (100% coverage componentes críticos)
 
 ---
 
-## 🎯 Próximos Objetivos (Sprint 2 - Finalización)
+## 🎯 Próximos Objetivos (Sprint 3 - En Curso)
 
-1. ~~**FJG-81**: Instrumentación analytics~~ ✅ **COMPLETADO**
-2. ~~**FJG-43**: Chatbot UI básico~~ ✅ **COMPLETADO** 
-3. **FJG-44**: Backend Groq + Prompt Engineering ✅ **EN DESARROLLO**
+1. ~~**FJG-86**: Lógica común ROI por tamaño~~ ✅ **COMPLETADO**
+2. ~~**FJG-87**: Ajuste cloud + validaciones~~ ✅ **COMPLETADO**
+3. **FJG-49**: Email HTML Resultados ROI (pendiente)
+4. **FJG-51**: Lead Capture Postgres + Validación (pendiente)
+5. **FJG-52**: Dashboard Admin Leads Ultra-Light (pendiente)
 
-El proyecto está en **excelente estado** con chatbot UI completamente operativo, analytics funcionando, y backend IA iniciado siguiendo enfoque anti-camello (prompt engineering vs RAG).
+El proyecto está en **excelente estado** con calculadora ROI operativa, validaciones robustas implementadas, y lógica de cálculo prudente basada en tamaño de empresa.
 
-### ⏳ Pendiente (Sprint 2 - Finalización)
-- Backend Groq integration con prompt engineering
-- Rate limiting y logging básico Postgres
-- Testing TDD completo backend API
-- Frontend-backend integration final chatbot
-
-### ⏳ Pendiente (Sprint 3)
-- Componentes Hero y CTA profesionales
-- Formulario de contacto con validación
-- Integración completa Calendly
-- Schema base de datos para leads
+### ⏳ Pendiente (Sprint 3 - Lead Magnet ROI)
+- Email HTML con resultados ROI (sin PDF Puppeteer)
+- Lead capture con validación y almacenamiento Postgres
+- Dashboard admin ultra-light para gestión leads
 
 ## 🎨 Convenciones Activas
 - **Idioma código**: INGLÉS (variables, funciones, componentes)
@@ -165,22 +171,22 @@ El proyecto está en **excelente estado** con chatbot UI completamente operativo
 - **Utilidad CSS**: `cn()` para merge de clases (Tailwind + clsx)
 - **Testing**: TDD estricto con Vitest + Testing Library
 
-## 📋 Próximos Pasos (Sprint 2)
-1. **FJG-44**: Finalizar backend Groq + prompt engineering (En desarrollo TDD)
-2. **FJG-46**: Grid 5 casos éxito (expansión casos base FJG-40)  
-3. **Testing**: Validar integration completa chatbot frontend-backend
+## 📋 Próximos Pasos (Sprint 3)
+1. **FJG-49**: Email HTML Resultados ROI (siguiente prioridad)
+2. **FJG-51**: Lead Capture Postgres + Validación
+3. **FJG-52**: Dashboard Admin Leads Ultra-Light
 
 ## 🔬 Verificación Técnica Actual
 ```bash
 # Stack verificado funcionando
-npm run build    # ✅ Next.js 16 + TypeScript strict + Footer
-npm run lint     # ✅ Sin errores (Tailwind v4 + fix shrink-0)
-npm run test     # ✅ 27/27 tests pasando (Vitest + Testing Library)
-npm run dev      # ✅ Server desarrollo + Footer integrado
+npm run build    # ✅ Next.js 16 + TypeScript strict + ROI Calculator
+npm run lint     # ✅ Sin errores (Tailwind v4 + validaciones)
+npm run test     # ✅ 120+ tests pasando (Vitest + Testing Library + Playwright)
+npm run dev      # ✅ Server desarrollo + ROI Calculator operativo
 ```
 
 ## 📈 Métricas y Estado Legal
-- **Tests**: 27/27 pasando (100% success rate)
+- **Tests**: 120+ pasando (100% success rate)
 - **GDPR**: ✅ Compliant (Art. 13 + LSSI España)
 - **Deploy**: ✅ https://fjgaparicio.es operativo
 - **SSL**: ✅ Let's Encrypt activo
@@ -188,4 +194,4 @@ npm run dev      # ✅ Server desarrollo + Footer integrado
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
 ---
-*Última actualización: Agent Manager - 3 diciembre 2025, 19:45*
+*Última actualización: Agent Manager - 5 diciembre 2025, 12:30*

@@ -19,3 +19,5 @@ scripts/*chatbot*.*
 .DS_Store
 *.pem
 .env*.local
+
+.project 

@@ -58,12 +58,12 @@ describe('calculateROI', () => {
 
     const result = calculateROI(inputs);
 
-    expect(result.savingsAnnual).toBe(18200);
+    expect(result.savingsAnnual).toBe(13000);
     expect(result.investment).toBe(5200);
-    expect(result.paybackMonths).toBe(3);
-    expect(result.roi3Years).toBe(950);
+    expect(result.paybackMonths).toBe(5);
+    expect(result.roi3Years).toBe(650);
     const roiFormatted = formatRoiWithCap(result.roi3Years);
-    expect(roiFormatted.label).toBe('950%');
+    expect(roiFormatted.label).toBe('650%');
     expect(roiFormatted.isCapped).toBe(false);
   });
 
@@ -78,10 +78,10 @@ describe('calculateROI', () => {
 
     const result = calculateROI(inputs);
 
-    expect(result.savingsAnnual).toBe(33450);
+    expect(result.savingsAnnual).toBe(29550);
     expect(result.investment).toBe(7700);
     expect(result.paybackMonths).toBe(3);
-    expect(result.roi3Years).toBe(1203);
+    expect(result.roi3Years).toBe(1051);
     const roiFormatted = formatRoiWithCap(result.roi3Years);
     expect(roiFormatted.label).toBe('> 1.000%');
     expect(roiFormatted.isCapped).toBe(true);

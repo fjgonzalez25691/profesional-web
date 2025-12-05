@@ -82,6 +82,21 @@ describe('ROICalculator wizard', () => {
     expect(screen.queryByText(/Ahorro estimado/i)).not.toBeInTheDocument();
   });
 
+  it('bloquea valores fuera de rango en horas manuales', () => {
+    render(<ROICalculator />);
+
+    completeStep1();
+
+    fireEvent.click(screen.getByLabelText(/Reducir procesos manuales/i));
+    fireEvent.change(screen.getByLabelText(/Horas manuales a la semana/i), {
+      target: { value: '200' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    expect(screen.getByText(/manuales semanales deben estar entre/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
+  });
+
   it('envía el lead y el email y muestra confirmación', async () => {
     (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
       ok: true,
