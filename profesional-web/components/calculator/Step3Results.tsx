@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { CalculatorInputs, CompanySize, ROIResult, Sector } from '@/lib/calculator/types';
+import { formatRoiWithCap } from '@/lib/calculator/calculateROI';
 import { cn } from '@/lib/utils';
 
 type Step3ResultsProps = {
@@ -19,6 +20,7 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
   const hasData = result.savingsAnnual > 0 || result.investment > 0;
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const roiDisplay = formatRoiWithCap(result.roi3Years);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -94,7 +96,12 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
           </div>
           <div className="rounded-xl bg-amber-50 p-4 text-amber-900">
             <p className="text-sm font-medium">ROI 3 años</p>
-            <p className="text-2xl font-bold">{hasData ? `${result.roi3Years}%` : 'N/A'}</p>
+            <p className="text-2xl font-bold" data-testid="roi-3y">
+              {hasData ? roiDisplay.label : 'N/A'}
+            </p>
+            {hasData && roiDisplay.isCapped && (
+              <p className="mt-1 text-xs font-semibold text-amber-700">Caso extremo (ROI cap aplicado)</p>
+            )}
           </div>
         </div>
 
@@ -102,6 +109,7 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
           <p>Ahorro estimado: ~{formatCurrency(result.savingsAnnual)}€/año</p>
           <p>Inversión: ~{formatCurrency(result.investment)}€</p>
           <p>Payback: {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}</p>
+          <p>ROI 3 años: {hasData ? roiDisplay.label : 'N/A'}</p>
         </div>
       </div>
 

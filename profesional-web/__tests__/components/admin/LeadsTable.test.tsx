@@ -8,7 +8,7 @@ const lead: LeadRecord = {
   name: 'Lead',
   sector: 'agencia',
   company_size: '10-25M',
-  roi_data: { savingsAnnual: 35700, paybackMonths: 1, roi3Years: 3247 },
+  roi_data: { savingsAnnual: 35700, paybackMonths: 1, roi3Years: 3226, investment: 3220 },
   nurturing_stage: 1,
   calendly_booked: false,
   created_at: '2024-01-01T00:00:00.000Z',

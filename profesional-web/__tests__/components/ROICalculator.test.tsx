@@ -32,8 +32,9 @@ describe('ROICalculator wizard', () => {
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
     expect(screen.getByText(/Ahorro estimado: ~35\.700€\/año/i)).toBeInTheDocument();
-    expect(screen.getByText(/Inversión: ~3\.200€/i)).toBeInTheDocument();
+    expect(screen.getByText(/Inversión: ~3\.220€/i)).toBeInTheDocument();
     expect(screen.getByText(/Payback: 1 mes/i)).toBeInTheDocument();
+    expect(screen.getByText(/ROI 3 años: > 1\.000%/i)).toBeInTheDocument();
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
 
