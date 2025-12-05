@@ -66,10 +66,10 @@ export default function ROICalculator() {
     const nextErrors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly', string>> = {};
 
     if (inputs.pains.includes('cloud-costs')) {
-      const value = inputs.cloudSpendMonthly;
-      if (isMissingValue(value)) {
+      if (isMissingValue(inputs.cloudSpendMonthly)) {
         nextErrors.cloudSpendMonthly = 'Campo requerido';
-      } else {
+      } else if (inputs.cloudSpendMonthly !== undefined) {
+        const value = inputs.cloudSpendMonthly;
         if (value < CLOUD_MIN || value > CLOUD_MAX) {
           nextErrors.cloudSpendMonthly = `El gasto cloud mensual debe estar entre ${CLOUD_MIN.toLocaleString('es-ES')}€ y ${CLOUD_MAX.toLocaleString('es-ES')}€`;
         } else {
