@@ -31,17 +31,17 @@ describe('FloatingCalendlyButton', () => {
     expect(desktopButton).toHaveClass('md:flex');
   });
 
-  it('botón mobile tiene posición bottom-center', () => {
+  it('botón mobile se muestra como icono en bottom-left y apilable', () => {
     const mockOnClick = vi.fn();
     render(<FloatingCalendlyButton onClick={mockOnClick} />);
 
     const [, mobileButton] = screen.getAllByRole('button', { name: /reserva 30 min/i });
     expect(mobileButton).toHaveClass('fixed');
-    expect(mobileButton).toHaveClass('bottom-6');
-    expect(mobileButton).toHaveClass('left-1/2');
-    expect(mobileButton).toHaveClass('-translate-x-1/2');
+    expect(mobileButton).toHaveClass('bottom-20');
+    expect(mobileButton).toHaveClass('right-4');
     expect(mobileButton).toHaveClass('flex');
     expect(mobileButton).toHaveClass('md:hidden');
+    expect(mobileButton.textContent).toBe('🗓️');
   });
 
   it('llama a onClick y tracking cuando se hace click en cualquier botón', () => {
@@ -83,23 +83,25 @@ describe('FloatingCalendlyButton', () => {
     render(<FloatingCalendlyButton onClick={mockOnClick} />);
 
     const buttons = screen.getAllByRole('button', { name: /reserva 30 min/i });
-    buttons.forEach(button => {
-      expect(button).toHaveClass('z-50');
-    });
+    const [desktopButton, mobileButton] = buttons;
+    expect(desktopButton).toHaveClass('z-50');
+    expect(mobileButton.className).toMatch(/z-\[/);
   });
 
   it('ambos botones muestran el texto con emoji de calendario', () => {
     const mockOnClick = vi.fn();
     render(<FloatingCalendlyButton onClick={mockOnClick} />);
 
-    expect(screen.getAllByText('🗓️ Reserva 30 min')).toHaveLength(2);
+    expect(screen.getByText('🗓️ Reserva 30 min')).toBeInTheDocument();
+    const [, mobileButton] = screen.getAllByRole('button', { name: /reserva 30 min/i });
+    expect(mobileButton.textContent).toBe('🗓️');
   });
 
   it('botones muestran textos correctos (mobile: "Diagnóstico 30 min", desktop: "Diagnóstico")', () => {
     const mockOnClick = vi.fn();
     render(<FloatingCalendlyButton onClick={mockOnClick} />);
 
-    expect(screen.getAllByText('🗓️ Reserva 30 min')).toHaveLength(2);
+    expect(screen.getByText('🗓️ Reserva 30 min')).toBeInTheDocument();
   });
 
   it('no renderiza nada cuando visible es false', () => {
