@@ -63,11 +63,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20 * 52 * 25 * 0.7 = 18,200€
+      // FJG-88: 20 * 52 * 25 * 0.5 = 13,000€ (reducido de 70% a 50%)
       // Investment: 3600 + (1000 * 1) = 4,600€
-      await expect(page.getByText(/Ahorro estimado: ~18\.200€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~13\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~4\.600€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 3 meses/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 4 meses/i)).toBeVisible();
     });
 
     test('calcula ROI para manual-processes con 35h/semana', async ({ page }) => {
@@ -79,11 +79,66 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('35');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35 * 52 * 25 * 0.7 = 31,850€
+      // FJG-88: 35 * 52 * 25 * 0.5 = 22,750€ (reducido de 70% a 50%)
       // Investment: 3600 + (1000 * 1.2) = 4,800€
-      await expect(page.getByText(/Ahorro estimado: ~31\.850€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~22\.750€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 3 meses/i)).toBeVisible();
+    });
+
+    test('calcula ROI para manual-processes con 40h/semana (CA2)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir procesos manuales/i).click();
+      await page.getByLabel(/Horas manuales a la semana/i).fill('40');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // FJG-88 CA2: Orden de magnitud razonable para pyme
+      // 40 * 52 * 25 * 0.5 = 26,000€
+      // Investment: 3600 + (1000 * 1.2) = 4,800€
+      await expect(page.getByText(/Ahorro estimado: ~26\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
+    });
+
+    test('valida campo requerido en manual-processes', async ({ page }) => {
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+      await page.getByLabel(/Reducir procesos manuales/i).click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/Campo requerido/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado/i)).not.toBeVisible();
+    });
+
+    test('valida campo requerido con valor 0', async ({ page }) => {
+      await page.locator('label:has-text("Logística")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir procesos manuales/i).click();
+      await page.getByLabel(/Horas manuales a la semana/i).fill('0');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Con valor 0, la validación debería tratarlo como valor inválido (campo requerido o fuera de rango)
+      const hasRequiredError = await page.getByText(/Campo requerido/i).isVisible().catch(() => false);
+      const hasRangeError = await page.getByText(/horas manuales semanales deben estar entre/i).isVisible().catch(() => false);
+      expect(hasRequiredError || hasRangeError).toBeTruthy();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('bloquea valores fuera de rango max (200h)', async ({ page }) => {
+      await page.locator('label:has-text("Industrial")').click();
+      await page.locator('label[for="size-25-50M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir procesos manuales/i).click();
+      await page.getByLabel(/Horas manuales a la semana/i).fill('200');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/horas manuales semanales deben estar entre/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
   });
 
@@ -197,8 +252,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('35');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35 * 52 * 25 * 0.7 = 31,850€
-      await expect(page.getByText(/Ahorro estimado: ~31\.850€\/año/i)).toBeVisible();
+      // FJG-88: 35 * 52 * 25 * 0.5 = 22,750€
+      await expect(page.getByText(/Ahorro estimado: ~22\.750€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~4\.600€/i)).toBeVisible();
     });
 
@@ -310,9 +365,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Cloud: 28,050€ + Manual: 18,200€ = 46,250€
+      // Cloud: 28,050€ + Manual (FJG-88): 20*52*25*0.5 = 13,000€ = 41,050€
       // Investment: 3,220€ + 4,800€ = 8,020€
-      await expect(page.getByText(/Ahorro estimado: ~46\.250€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~41\.050€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~8\.020€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
     });
@@ -350,11 +405,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // Cloud: 10000 * 12 * 0.275 = 33,000€
-      // Manual: 25 * 52 * 25 * 0.7 = 22,750€
+      // Manual (FJG-88): 25 * 52 * 25 * 0.5 = 16,250€
       // Forecasting: 35M * 0.08 * 0.20 * 0.5 = 280,000€
-      // Total: 335,750€
+      // Total: 329,250€
       // Investment: 3,460€ + 5,200€ + 6,440€ = 15,100€
-      await expect(page.getByText(/Ahorro estimado: ~335\.750€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~329\.250€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~15\.100€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
@@ -374,12 +429,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // Cloud: 20000 * 12 * 0.275 = 66,000€
-      // Manual: 40 * 52 * 25 * 0.7 = 36,400€
+      // Manual (FJG-88): 40 * 52 * 25 * 0.5 = 26,000€
       // Forecasting: 60M * 0.08 * 0.25 * 0.5 = 600,000€
       // Inventory: 6M * 0.12 * 0.4 = 288,000€
-      // Total: 990,400€
+      // Total: 980,000€
       // Investment: 3,700€ + 5,600€ + 7,000€ + 7,000€ = 23,300€
-      await expect(page.getByText(/Ahorro estimado: ~990\.400€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~980\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~23\.300€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
@@ -428,9 +483,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('80');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 80 * 52 * 25 * 0.7 = 72,800€
+      // FJG-88: 80 * 52 * 25 * 0.5 = 52,000€
       // Investment: 3600 + (1000 * 2) = 5,600€
-      await expect(page.getByText(/Ahorro estimado: ~72\.800€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~52\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
     });
 

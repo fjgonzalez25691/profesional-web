@@ -39,6 +39,8 @@ const INVESTMENT_MULTIPLIER: Record<PainPoint, number> = {
   inventory: 1400,
 };
 
+const MANUAL_IMPROVEMENT_RATE = 0.5;
+
 export function getRevenueFromSize(companySize: CompanySize) {
   return REVENUE_BY_SIZE[companySize];
 }
@@ -74,7 +76,7 @@ export function calculateROI(inputs: CalculatorInputs): ROIResult {
 
   if (inputs.pains.includes('manual-processes') && inputs.manualHoursWeekly) {
     const costPerHour = 25;
-    const annualSavings = inputs.manualHoursWeekly * 52 * costPerHour * 0.7;
+    const annualSavings = inputs.manualHoursWeekly * 52 * costPerHour * MANUAL_IMPROVEMENT_RATE;
     totalSavingsAnnual += annualSavings;
     totalInvestment += getInvestmentForPain('manual-processes', size);
   }

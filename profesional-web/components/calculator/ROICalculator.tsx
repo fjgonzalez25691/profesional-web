@@ -14,6 +14,8 @@ type WizardStep = 1 | 2 | 3;
 const CLOUD_MIN = 100;
 const CLOUD_MAX = 300_000;
 const CLOUD_REVENUE_RATIO = 0.4; // 40% máximo de facturación estimada
+const MANUAL_MIN = 1;
+const MANUAL_MAX = 168; // 7 días * 24h
 
 const initialInputs: CalculatorInputs = {
   companySize: '10-25M',
@@ -83,6 +85,11 @@ export default function ROICalculator() {
 
     if (inputs.pains.includes('manual-processes') && isMissingValue(inputs.manualHoursWeekly)) {
       nextErrors.manualHoursWeekly = 'Campo requerido';
+    } else if (inputs.pains.includes('manual-processes') && inputs.manualHoursWeekly !== undefined) {
+      const value = inputs.manualHoursWeekly;
+      if (value < MANUAL_MIN || value > MANUAL_MAX) {
+        nextErrors.manualHoursWeekly = `Las horas manuales semanales deben estar entre ${MANUAL_MIN} y ${MANUAL_MAX}`;
+      }
     }
 
     setErrors(nextErrors);
