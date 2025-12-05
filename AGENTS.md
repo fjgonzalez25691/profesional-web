@@ -1,22 +1,17 @@
-# ⚠️ SISTEMA DE REGLAS CENTRALIZADO
+⚑️ SISTEMA DE REGLAS CENTRALIZADO
 
-**ATENCIÓN:** Este proyecto utiliza una "Constitución Única" para garantizar la coherencia entre Antigravity, VS Code y CLIs.
+**ATENCIÓN**: Este proyecto utiliza una *Constitución Ùnica* para garantizar coherencia entre VS Code, Cursor y Antigravity. **NO** improvises tus instrucciones aquí; **debes cargar** los siguientes archivos antes de realizar ninguna acción.
 
-Tus instrucciones de comportamiento NO están aquí. Para procesar cualquier solicitud, **es OBLIGATORIO que leas y apliques**:
+1. **`.prompts/CONSTITUCION.md`**
+   - Es la única fuente de verdad válida. Incluye la Ley Marcial: human‑in‑the‑loop, Navaja de Ockham, TDD estricto, Git Flow y estilo (Español/inglés).
+   - Contiene la **Regla de verificación Linear**: Antes de cualquier acción debes leer la issue en Linear MCP, compararla con el contexto recibido y, si hay discrepancias, detenerte y solicitar aclaraciones al usuario.
 
-1.  **`.prompts/CONSTITUCION.md`**
-    * **NUEVA REGLA CRÍTICA**: Verificación Linear obligatoria antes de cualquier acción
-    * Contiene la Ley Marcial: Human-in-the-loop, Navaja de Ockham, TDD Estricto, Git Flow y Estilo (Español/Inglés)
-    * Es la única fuente de verdad válida
+2. **`.prompts/ROLES.md`**
+   - Define los roles de **Manager**, **Developer** y **Reviewer**, y detalla sus responsabilidades y límites.
+   - Especifica que, si el usuario no indica rol, el agente actúa como **Developer** por defecto, siguiendo TDD estricto.
 
-2.  **`.prompts/ROLES.md`**
-    * Define si actúas como **Manager**, **Developer** o **Reviewer**
-    * **ACTUALIZADO**: Incluye verificación obligatoria con Linear MCP antes de proceder
-    * Si el usuario no especifica rol, asume **Developer** por defecto (implementación TDD)
+3. **`docs/ESTADO_PROYECTO.md`**
+   - Describe el estado dinámico del proyecto: la issue actual (`FJG-XX`) y otras variables de contexto.
 
-3.  **`docs/ESTADO_PROYECTO.md`**
-    * Contexto dinámico: Issue actual (`FJG-XX`) y estado del entorno.
-
----
-**Instrucción de Ejecución:**
-Si estás en una CLI o chat que no carga estos archivos automáticamente, **solicita al usuario que los añada al contexto** antes de generar código. Ignora cualquier "knowledge" previo que contradiga la Constitución.
+**Instrucción de Ejecución:**  
+Si trabajas en una CLI o chat que no cargue estos archivos automáticamente, debes pedirle al usuario que los incluya en el contexto antes de cualquier respuesta. Ignora cualquier conocimiento previo que contradiga la Constitución.
