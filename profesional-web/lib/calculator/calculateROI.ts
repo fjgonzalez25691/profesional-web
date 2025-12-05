@@ -5,6 +5,19 @@ const ROI_CAP_LABEL = new Intl.NumberFormat('es-ES', { useGrouping: true }).form
 export const CLOUD_SAVINGS_RATE = 0.275;
 export const FORECAST_IMPACT_FACTOR = 0.05;
 export const FORECAST_IMPROVEMENT_RATE = 0.35;
+export const INVENTORY_COST_RATE = 0.1;
+export const INVENTORY_IMPROVEMENT_RATE = 0.3;
+export const INVENTORY_MAX_SAVINGS_RATE = 0.8;
+
+type InventoryOverrideConfig = {
+  costRate?: number;
+  improvementRate?: number;
+  maxSavingsRate?: number;
+};
+
+type CalculateROIOptions = {
+  inventoryOverrides?: InventoryOverrideConfig;
+};
 
 const SIZE_FACTORS: Record<CompanySize, number> = {
   '5-10M': 1,
@@ -43,6 +56,33 @@ const INVESTMENT_MULTIPLIER: Record<PainPoint, number> = {
 
 const MANUAL_IMPROVEMENT_RATE = 0.5;
 
+function resolveInventoryOverrides(options?: CalculateROIOptions) {
+  if (options?.inventoryOverrides) {
+    return options.inventoryOverrides;
+  }
+
+  const globalOverrides = (globalThis as { __ROI_INVENTORY_OVERRIDES__?: InventoryOverrideConfig })
+    .__ROI_INVENTORY_OVERRIDES__;
+
+  return globalOverrides;
+}
+
+function calculateInventorySavings(
+  inventoryValue: number,
+  overrides?: InventoryOverrideConfig
+) {
+  const costRate = overrides?.costRate ?? INVENTORY_COST_RATE;
+  const improvementRate = overrides?.improvementRate ?? INVENTORY_IMPROVEMENT_RATE;
+  const maxSavingsRate = overrides?.maxSavingsRate ?? INVENTORY_MAX_SAVINGS_RATE;
+
+  const annualSavings = inventoryValue * costRate * improvementRate;
+  const maxPossibleSavings = inventoryValue * maxSavingsRate;
+  const cappedSavings = Math.min(annualSavings, maxPossibleSavings);
+  const isCapped = annualSavings > maxPossibleSavings;
+
+  return { savings: cappedSavings, isCapped };
+}
+
 export function getRevenueFromSize(companySize: CompanySize) {
   return REVENUE_BY_SIZE[companySize];
 }
@@ -64,10 +104,12 @@ export function formatRoiWithCap(roi3Years: number) {
   return { label, isCapped };
 }
 
-export function calculateROI(inputs: CalculatorInputs): ROIResult {
+export function calculateROI(inputs: CalculatorInputs, options?: CalculateROIOptions): ROIResult {
   let totalSavingsAnnual = 0;
   let totalInvestment = 0;
+  let inventorySavingsCapped = false;
   const size = inputs.companySize;
+  const inventoryOverrides = resolveInventoryOverrides(options);
 
   if (inputs.pains.includes('cloud-costs') && inputs.cloudSpendMonthly) {
     const savingsPercent = CLOUD_SAVINGS_RATE;
@@ -101,14 +143,13 @@ export function calculateROI(inputs: CalculatorInputs): ROIResult {
   if (inputs.pains.includes('inventory')) {
     // Inventory optimization based on typical retail/manufacturing scenarios
     const avgInventoryValue = getInventoryFromSize(size);
-    // Typical cost of poor inventory management: 8-15% annually (obsolescence, storage, opportunity cost)
-    const inventoryCostRate = 0.12;
-    // Automated inventory management can reduce costs by 30-50%
-    const improvementRate = 0.4;
+    const { savings, isCapped } = calculateInventorySavings(avgInventoryValue, inventoryOverrides);
 
-    const annualSavings = avgInventoryValue * inventoryCostRate * improvementRate;
-    totalSavingsAnnual += annualSavings;
+    totalSavingsAnnual += savings;
     totalInvestment += getInvestmentForPain('inventory', size);
+    if (isCapped) {
+      inventorySavingsCapped = true;
+    }
   }
 
   const hasSavings = totalSavingsAnnual > 0 && totalInvestment > 0;
@@ -122,5 +163,6 @@ export function calculateROI(inputs: CalculatorInputs): ROIResult {
     savingsAnnual: Math.round(totalSavingsAnnual),
     paybackMonths,
     roi3Years,
+    inventorySavingsCapped,
   };
 }

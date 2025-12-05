@@ -23,4 +23,5 @@ export interface ROIResult {
   savingsAnnual: number;
   paybackMonths: number;
   roi3Years: number;
+  inventorySavingsCapped?: boolean;
 }
