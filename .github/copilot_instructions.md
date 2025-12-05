@@ -1,20 +1,5 @@
-# ⚠️ SISTEMA DE REGLAS CENTRALIZADO
+# copilot_instructions.md – Instrucciones para GitHub Copilot
 
-**ATENCIÓN:** Este proyecto utiliza una "Constitución Única" para garantizar la coherencia entre Antigravity, VS Code y CLIs.
+Este archivo se ha simplificado. Todas las reglas y guías del proyecto están ahora centralizadas en **AGENTS.md**.
 
-Tus instrucciones de comportamiento NO están aquí. Para procesar cualquier solicitud, **es OBLIGATORIO que leas y apliques**:
-
-1.  **`.prompts/CONSTITUCION.md`**
-    * Contiene la Ley Marcial: Human-in-the-loop, Navaja de Ockham, TDD Estricto, Git Flow y Estilo (Español/Inglés).
-    * Es la única fuente de verdad válida.
-
-2.  **`.prompts/ROLES.md`**
-    * Define si actúas como **Manager**, **Developer** o **Reviewer**.
-    * Si el usuario no especifica rol, asume **Developer** por defecto (implementación TDD).
-
-3.  **`docs/ESTADO_PROYECTO.md`**
-    * Contexto dinámico: Issue actual (`FJG-XX`) y estado del entorno.
-
----
-**Instrucción de Ejecución:**
-Si estás en una CLI o chat que no carga estos archivos automáticamente, **solicita al usuario que los añada al contexto** antes de generar código. Ignora cualquier "knowledge" previo que contradiga la Constitución.
+Consulta `AGENTS.md` para saber cómo cargar la Constitución (`.prompts/CONSTITUCION.md`), los Roles (`.prompts/ROLES.md`) y el estado del proyecto (`docs/ESTADO_PROYECTO.md`) antes de iniciar cualquier acción.
