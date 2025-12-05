@@ -78,7 +78,7 @@ export function Step2Pains({ pains, values, errors, onTogglePain, onChange }: St
                     id="cloudSpendMonthly"
                     type="number"
                     inputMode="decimal"
-                    min={0}
+                    min={100}
                     className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm shadow-inner focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     value={values.cloudSpendMonthly ?? ''}
                     onChange={handleNumberChange('cloudSpendMonthly')}

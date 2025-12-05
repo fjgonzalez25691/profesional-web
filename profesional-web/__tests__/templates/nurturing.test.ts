@@ -26,11 +26,11 @@ describe('Templates nurturing', () => {
     const template = Handlebars.compile(source);
     const output = template({
       name: 'Fran',
-      savingsAnnual: '35.700',
+      savingsAnnual: '28.050',
       paybackMonths: 1,
       calendlyLink: 'https://cal.com',
     });
-    expect(output).toContain('35.700');
+    expect(output).toContain('28.050');
     expect(output).toContain('1');
     expect(output).toContain('Fran');
   });

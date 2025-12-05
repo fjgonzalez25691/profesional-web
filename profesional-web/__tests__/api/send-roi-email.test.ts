@@ -36,10 +36,10 @@ describe('POST /api/send-roi-email', () => {
     const payload = {
       email: 'ceo@empresa.com',
       roiData: {
-        savingsAnnual: 35700,
+        savingsAnnual: 28050,
         investment: 3220,
         paybackMonths: 1,
-        roi3Years: 3226,
+        roi3Years: 2513,
       },
       userData: {
         sector: 'agencia',
@@ -59,7 +59,7 @@ describe('POST /api/send-roi-email', () => {
     expect(sendMock).toHaveBeenCalledTimes(1);
     const args = sendMock.mock.calls[0][0];
     expect(args.to).toBe('ceo@empresa.com');
-    expect(args.html).toContain('35.700');
+    expect(args.html).toContain('28.050');
     expect(args.html).toContain('3.220');
     expect(args.html).toContain('1');
     expect(args.html).toContain('&gt; 1.000%');
@@ -92,10 +92,10 @@ describe('POST /api/send-roi-email', () => {
         body: JSON.stringify({
           email: 'ceo@empresa.com',
           roiData: {
-            savingsAnnual: 35700,
+            savingsAnnual: 28050,
             investment: 3220,
             paybackMonths: 1,
-            roi3Years: 3226,
+            roi3Years: 2513,
           },
           userData: {
             sector: 'agencia',

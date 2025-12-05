@@ -19,9 +19,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('8500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 8500 * 12 * 0.35 = 35,700€
-      await expect(page.getByText(/Ahorro estimado: ~35\.700€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 8500 * 12 * 0.275 = 28,050€
+      // Investment: 2500 + (600 * 1.2) = 3,220€
+      await expect(page.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.220€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
       await expect(page.getByText(/Recibe análisis completo/i)).toBeVisible();
     });
@@ -35,9 +36,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('15000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 15000 * 12 * 0.35 = 63,000€
-      await expect(page.getByText(/Ahorro estimado: ~63\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 15000 * 12 * 0.275 = 49,500€
+      // Investment: 2500 + (600 * 1.6) = 3,460€
+      await expect(page.getByText(/Ahorro estimado: ~49\.500€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.460€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
@@ -62,8 +64,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // 20 * 52 * 25 * 0.7 = 18,200€
+      // Investment: 3600 + (1000 * 1) = 4,600€
       await expect(page.getByText(/Ahorro estimado: ~18\.200€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~4\.600€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 3 meses/i)).toBeVisible();
     });
 
@@ -77,6 +80,7 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // 35 * 52 * 25 * 0.7 = 31,850€
+      // Investment: 3600 + (1000 * 1.2) = 4,800€
       await expect(page.getByText(/Ahorro estimado: ~31\.850€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
@@ -93,9 +97,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('30');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20M * 0.08 * 0.30 * 0.5 = 240,000€
-      await expect(page.getByText(/Ahorro estimado: ~240\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 17.5M * 0.08 * 0.30 * 0.5 = 210,000€
+      // Investment: 4200 + (1400 * 1.2) = 5,880€
+      await expect(page.getByText(/Ahorro estimado: ~210\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
 
@@ -108,9 +113,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('18');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20M * 0.08 * 0.18 * 0.5 = 144,000€
-      await expect(page.getByText(/Ahorro estimado: ~144\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 35M * 0.08 * 0.18 * 0.5 = 252,000€
+      // Investment: 4200 + (1400 * 1.6) = 6,440€
+      await expect(page.getByText(/Ahorro estimado: ~252\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
 
@@ -123,10 +129,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('10');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20M * 0.08 * 0.10 * 0.5 = 80,000€
-      await expect(page.getByText(/Ahorro estimado: ~80\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
+      // 8M * 0.08 * 0.10 * 0.5 = 32,000€
+      // Investment: 4200 + (1400 * 1) = 5,600€
+      await expect(page.getByText(/Ahorro estimado: ~32\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
     });
   });
 
@@ -139,9 +146,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 1M * 0.12 * 0.4 = 48,000€
-      await expect(page.getByText(/Ahorro estimado: ~48\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 1.2M * 0.12 * 0.4 = 57,600€
+      // Investment: 4200 + (1400 * 1.2) = 5,880€
+      await expect(page.getByText(/Ahorro estimado: ~57\.600€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
@@ -153,10 +161,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 1M * 0.12 * 0.4 = 48,000€ (mismo cálculo independiente de tamaño)
-      await expect(page.getByText(/Ahorro estimado: ~48\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
+      // 6M * 0.12 * 0.4 = 288,000€
+      // Investment: 4200 + (1400 * 2) = 7,000€
+      await expect(page.getByText(/Ahorro estimado: ~288\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~7\.000€/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
   });
 
@@ -174,8 +183,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('30');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/Ahorro estimado: ~240\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 35M * 0.08 * 0.30 * 0.5 = 420,000€
+      await expect(page.getByText(/Ahorro estimado: ~420\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
     });
 
     test('Logística + manual-processes', async ({ page }) => {
@@ -187,8 +197,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('35');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
+      // 35 * 52 * 25 * 0.7 = 31,850€
       await expect(page.getByText(/Ahorro estimado: ~31\.850€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~4\.600€/i)).toBeVisible();
     });
 
     test('Retail + inventory', async ({ page }) => {
@@ -199,8 +210,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/Ahorro estimado: ~48\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 1.2M * 0.12 * 0.4 = 57,600€
+      await expect(page.getByText(/Ahorro estimado: ~57\.600€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
     });
 
     test('Otro + cloud-costs', async ({ page }) => {
@@ -212,9 +224,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('5000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 5000 * 12 * 0.35 = 21,000€
-      await expect(page.getByText(/Ahorro estimado: ~21\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 5000 * 12 * 0.275 = 16,500€
+      await expect(page.getByText(/Ahorro estimado: ~16\.500€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.220€/i)).toBeVisible();
     });
   });
 
@@ -232,9 +244,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('3000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 3000 * 12 * 0.35 = 12,600€
-      await expect(page.getByText(/Ahorro estimado: ~12\.600€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 3000 * 12 * 0.275 = 9,900€
+      // Investment: 2500 + (600 * 1) = 3,100€
+      await expect(page.getByText(/Ahorro estimado: ~9\.900€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.100€/i)).toBeVisible();
     });
 
     test('10-25M empresa mediana', async ({ page }) => {
@@ -246,8 +259,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('8500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/Ahorro estimado: ~35\.700€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 8500 * 12 * 0.275 = 28,050€
+      await expect(page.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.220€/i)).toBeVisible();
     });
 
     test('25-50M empresa mediana-grande', async ({ page }) => {
@@ -259,8 +273,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('15000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/Ahorro estimado: ~63\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 15000 * 12 * 0.275 = 49,500€
+      await expect(page.getByText(/Ahorro estimado: ~49\.500€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.460€/i)).toBeVisible();
     });
 
     test('50M+ empresa grande', async ({ page }) => {
@@ -272,9 +287,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('25000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 25000 * 12 * 0.35 = 105,000€
-      await expect(page.getByText(/Ahorro estimado: ~105\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 25000 * 12 * 0.275 = 82,500€
+      // Investment: 2500 + (600 * 2) = 3,700€
+      await expect(page.getByText(/Ahorro estimado: ~82\.500€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.700€/i)).toBeVisible();
     });
   });
 
@@ -294,10 +310,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Cloud: 35,700€ + Manual: 18,200€ = 53,900€
-      // Investment: 3,200€ + 4,800€ = 8,000€
-      await expect(page.getByText(/Ahorro estimado: ~53\.900€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~8\.000€/i)).toBeVisible();
+      // Cloud: 28,050€ + Manual: 18,200€ = 46,250€
+      // Investment: 3,220€ + 4,800€ = 8,020€
+      await expect(page.getByText(/Ahorro estimado: ~46\.250€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~8\.020€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
     });
 
@@ -311,10 +327,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Forecasting: 120,000€ + Inventory: 48,000€ = 168,000€
-      // Investment: 5,800€ + 5,800€ = 11,600€
-      await expect(page.getByText(/Ahorro estimado: ~168\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~11\.600€/i)).toBeVisible();
+      // Forecasting: 17.5M * 0.08 * 0.15 * 0.5 = 105,000€
+      // Inventory: 1.2M * 0.12 * 0.4 = 57,600€
+      // Total: 162,600€
+      // Investment: 5,880€ + 5,880€ = 11,760€
+      await expect(page.getByText(/Ahorro estimado: ~162\.600€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~11\.760€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
@@ -331,10 +349,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Cloud: 42,000€ + Manual: 22,750€ + Forecasting: 160,000€ = 224,750€
-      // Investment: 3,200€ + 4,800€ + 5,800€ = 13,800€
-      await expect(page.getByText(/Ahorro estimado: ~224\.750€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~13\.800€/i)).toBeVisible();
+      // Cloud: 10000 * 12 * 0.275 = 33,000€
+      // Manual: 25 * 52 * 25 * 0.7 = 22,750€
+      // Forecasting: 35M * 0.08 * 0.20 * 0.5 = 280,000€
+      // Total: 335,750€
+      // Investment: 3,460€ + 5,200€ + 6,440€ = 15,100€
+      await expect(page.getByText(/Ahorro estimado: ~335\.750€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~15\.100€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
@@ -352,11 +373,15 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Cloud: 84,000€ + Manual: 36,400€ + Forecasting: 200,000€ + Inventory: 48,000€ = 368,400€
-      // Investment: 3,200€ + 4,800€ + 5,800€ + 5,800€ = 19,600€
-      await expect(page.getByText(/Ahorro estimado: ~368\.400€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~19\.600€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
+      // Cloud: 20000 * 12 * 0.275 = 66,000€
+      // Manual: 40 * 52 * 25 * 0.7 = 36,400€
+      // Forecasting: 60M * 0.08 * 0.25 * 0.5 = 600,000€
+      // Inventory: 6M * 0.12 * 0.4 = 288,000€
+      // Total: 990,400€
+      // Investment: 3,700€ + 5,600€ + 7,000€ + 7,000€ = 23,300€
+      await expect(page.getByText(/Ahorro estimado: ~990\.400€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~23\.300€/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
   });
 
@@ -388,9 +413,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('100');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 100 * 12 * 0.35 = 420€
-      await expect(page.getByText(/Ahorro estimado: ~420€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+      // 100 * 12 * 0.275 = 330€
+      // Investment: 3,100€
+      await expect(page.getByText(/Ahorro estimado: ~330€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~3\.100€/i)).toBeVisible();
     });
 
     test('valores altos en manual-processes', async ({ page }) => {
@@ -403,8 +429,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // 80 * 52 * 25 * 0.7 = 72,800€
+      // Investment: 3600 + (1000 * 2) = 5,600€
       await expect(page.getByText(/Ahorro estimado: ~72\.800€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~4\.800€/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
     });
 
     test('error de forecasting muy bajo (5%)', async ({ page }) => {
@@ -416,9 +443,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('5');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20M * 0.08 * 0.05 * 0.5 = 40,000€
-      await expect(page.getByText(/Ahorro estimado: ~40\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 17.5M * 0.08 * 0.05 * 0.5 = 35,000€
+      await expect(page.getByText(/Ahorro estimado: ~35\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
     });
 
     test('error de forecasting muy alto (50%)', async ({ page }) => {
@@ -430,9 +457,9 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('50');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 20M * 0.08 * 0.50 * 0.5 = 400,000€
-      await expect(page.getByText(/Ahorro estimado: ~400\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~5\.800€/i)).toBeVisible();
+      // 60M * 0.08 * 0.50 * 0.5 = 1,200,000€
+      await expect(page.getByText(/Ahorro estimado: ~1\.200\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~7\.000€/i)).toBeVisible();
     });
   });
 });

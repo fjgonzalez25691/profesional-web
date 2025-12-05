@@ -31,7 +31,7 @@ describe('ROI email template', () => {
     const template = Handlebars.compile(source);
 
     const html = template({
-      savingsAnnual: '35.700',
+      savingsAnnual: '28.050',
       investment: '3.220',
       paybackMonths: 1,
       roi3Years: '> 1.000%',
@@ -39,7 +39,7 @@ describe('ROI email template', () => {
       companySize: '10-25M',
     });
 
-    expect(html).toContain('35.700€');
+    expect(html).toContain('28.050€');
     expect(html).toContain('3.220€');
     expect(html).toContain('1 meses');
     expect(html).toContain('&gt; 1.000%');

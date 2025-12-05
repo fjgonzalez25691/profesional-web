@@ -2,6 +2,7 @@ import type { CalculatorInputs, CompanySize, PainPoint, ROIResult } from './type
 
 export const ROI_CAP_PERCENT = 1000;
 const ROI_CAP_LABEL = new Intl.NumberFormat('es-ES', { useGrouping: true }).format(ROI_CAP_PERCENT);
+export const CLOUD_SAVINGS_RATE = 0.275;
 
 const SIZE_FACTORS: Record<CompanySize, number> = {
   '5-10M': 1,
@@ -65,7 +66,7 @@ export function calculateROI(inputs: CalculatorInputs): ROIResult {
   const size = inputs.companySize;
 
   if (inputs.pains.includes('cloud-costs') && inputs.cloudSpendMonthly) {
-    const savingsPercent = 0.35;
+    const savingsPercent = CLOUD_SAVINGS_RATE;
     const annualSavings = inputs.cloudSpendMonthly * 12 * savingsPercent;
     totalSavingsAnnual += annualSavings;
     totalInvestment += getInvestmentForPain('cloud-costs', size);

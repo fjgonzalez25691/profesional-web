@@ -31,11 +31,43 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/Ahorro estimado: ~35\.700€\/año/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeInTheDocument();
     expect(screen.getByText(/Inversión: ~3\.220€/i)).toBeInTheDocument();
     expect(screen.getByText(/Payback: 1 mes/i)).toBeInTheDocument();
     expect(screen.getByText(/ROI 3 años: > 1\.000%/i)).toBeInTheDocument();
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
+  });
+
+  it('bloquea valores fuera de rango en gasto cloud', () => {
+    render(<ROICalculator />);
+
+    completeStep1();
+
+    fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
+    fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
+      target: { value: '50' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    expect(screen.getByText(/gasto cloud mensual debe estar entre/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
+  });
+
+  it('valida que el gasto cloud anual no supere el 40% de la facturación estimada', () => {
+    render(<ROICalculator />);
+
+    fireEvent.click(screen.getByLabelText(/Industrial/i));
+    fireEvent.click(screen.getByLabelText(/5-10M/i));
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
+    fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
+      target: { value: '280000' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    expect(screen.getByText(/supera el 40% de la facturación estimada/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
   it('requiere importe cloud cuando se selecciona el dolor', () => {
