@@ -32,17 +32,17 @@ describe('ROI email template', () => {
 
     const html = template({
       savingsAnnual: '35.700',
-      investment: '3.200',
+      investment: '3.220',
       paybackMonths: 1,
-      roi3Years: 3247,
+      roi3Years: '> 1.000%',
       sector: 'agencia',
       companySize: '10-25M',
     });
 
     expect(html).toContain('35.700€');
-    expect(html).toContain('3.200€');
+    expect(html).toContain('3.220€');
     expect(html).toContain('1 meses');
-    expect(html).toContain('3247%');
+    expect(html).toContain('&gt; 1.000%');
     expect(html).toContain('agencia');
     expect(html).toContain('10-25M');
   });

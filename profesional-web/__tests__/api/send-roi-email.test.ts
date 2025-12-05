@@ -16,7 +16,7 @@ vi.mock('fs', async () => {
   const actual = await vi.importActual<typeof import('fs')>('fs');
   return {
     ...actual,
-    readFileSync: vi.fn(() => '<div>{{savingsAnnual}}€ {{sector}}</div>'),
+    readFileSync: vi.fn(() => '<div>{{savingsAnnual}}€ {{investment}}€ {{paybackMonths}} {{roi3Years}} {{sector}} {{companySize}}</div>'),
   };
 });
 
@@ -37,9 +37,9 @@ describe('POST /api/send-roi-email', () => {
       email: 'ceo@empresa.com',
       roiData: {
         savingsAnnual: 35700,
-        investment: 3200,
+        investment: 3220,
         paybackMonths: 1,
-        roi3Years: 3247,
+        roi3Years: 3226,
       },
       userData: {
         sector: 'agencia',
@@ -60,9 +60,9 @@ describe('POST /api/send-roi-email', () => {
     const args = sendMock.mock.calls[0][0];
     expect(args.to).toBe('ceo@empresa.com');
     expect(args.html).toContain('35.700');
-    expect(args.html).toContain('3.200');
+    expect(args.html).toContain('3.220');
     expect(args.html).toContain('1');
-    expect(args.html).toContain('3247');
+    expect(args.html).toContain('&gt; 1.000%');
     expect(args.html).toContain('agencia');
     expect(args.html).toContain('10-25M');
   });
@@ -93,9 +93,9 @@ describe('POST /api/send-roi-email', () => {
           email: 'ceo@empresa.com',
           roiData: {
             savingsAnnual: 35700,
-            investment: 3200,
+            investment: 3220,
             paybackMonths: 1,
-            roi3Years: 3247,
+            roi3Years: 3226,
           },
           userData: {
             sector: 'agencia',

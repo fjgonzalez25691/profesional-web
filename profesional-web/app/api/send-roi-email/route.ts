@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import Handlebars from 'handlebars';
 import { Resend } from 'resend';
+import { formatRoiWithCap } from '@/lib/calculator/calculateROI';
 
 interface ROIData {
   savingsAnnual: number;
@@ -70,7 +71,7 @@ export async function POST(req: Request) {
     savingsAnnual: formatEuros(savingsAnnual),
     investment: formatEuros(investment),
     paybackMonths,
-    roi3Years,
+    roi3Years: formatRoiWithCap(roi3Years).label,
     sector: userData.sector,
     companySize: userData.companySize,
   });
