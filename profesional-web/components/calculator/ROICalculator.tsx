@@ -5,11 +5,15 @@ import { Step1Company } from '@/components/calculator/Step1Company';
 import { Step2Pains } from '@/components/calculator/Step2Pains';
 import { Step3Results } from '@/components/calculator/Step3Results';
 import { Button } from '@/components/ui/button';
-import { calculateROI } from '@/lib/calculator/calculateROI';
+import { calculateROI, getRevenueFromSize } from '@/lib/calculator/calculateROI';
 import type { CalculatorInputs, PainPoint } from '@/lib/calculator/types';
 import { cn } from '@/lib/utils';
 
 type WizardStep = 1 | 2 | 3;
+
+const CLOUD_MIN = 100;
+const CLOUD_MAX = 300_000;
+const CLOUD_REVENUE_RATIO = 0.4; // 40% máximo de facturación estimada
 
 const initialInputs: CalculatorInputs = {
   companySize: '10-25M',
@@ -59,8 +63,22 @@ export default function ROICalculator() {
   const validateStep2 = () => {
     const nextErrors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly', string>> = {};
 
-    if (inputs.pains.includes('cloud-costs') && isMissingValue(inputs.cloudSpendMonthly)) {
-      nextErrors.cloudSpendMonthly = 'Campo requerido';
+    if (inputs.pains.includes('cloud-costs')) {
+      const value = inputs.cloudSpendMonthly;
+      if (isMissingValue(value)) {
+        nextErrors.cloudSpendMonthly = 'Campo requerido';
+      } else {
+        if (value < CLOUD_MIN || value > CLOUD_MAX) {
+          nextErrors.cloudSpendMonthly = `El gasto cloud mensual debe estar entre ${CLOUD_MIN.toLocaleString('es-ES')}€ y ${CLOUD_MAX.toLocaleString('es-ES')}€`;
+        } else {
+          const annualCloud = value * 12;
+          const estimatedRevenue = getRevenueFromSize(inputs.companySize);
+          const maxCloudAnnual = estimatedRevenue * CLOUD_REVENUE_RATIO;
+          if (annualCloud > maxCloudAnnual) {
+            nextErrors.cloudSpendMonthly = `El gasto cloud anual supera el ${(CLOUD_REVENUE_RATIO * 100).toFixed(0)}% de la facturación estimada`;
+          }
+        }
+      }
     }
 
     if (inputs.pains.includes('manual-processes') && isMissingValue(inputs.manualHoursWeekly)) {

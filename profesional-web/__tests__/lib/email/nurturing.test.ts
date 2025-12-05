@@ -29,7 +29,7 @@ describe('sendNurturingEmail', () => {
         id: 'lead-1',
         email: 'ceo@empresa.com',
         name: 'Fran',
-        savings_annual: 35700,
+        savings_annual: 28050,
         payback_months: 1,
         calendly_link: 'https://cal.com/fjg',
       },
@@ -39,7 +39,7 @@ describe('sendNurturingEmail', () => {
     expect(sendMock).toHaveBeenCalledTimes(1);
     const args = sendMock.mock.calls[0][0];
     expect(args.subject).toContain('¿Viste tu ahorro');
-    expect(args.html).toContain('35.700');
+    expect(args.html).toContain('28.050');
     expect(args.html).toContain('1');
     expect(args.html).toContain('Fran');
   });

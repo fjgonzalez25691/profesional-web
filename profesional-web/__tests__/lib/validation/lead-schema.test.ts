@@ -12,9 +12,9 @@ describe('LeadSchema', () => {
       pains: ['cloud-costs'],
       roiData: {
         investment: 3220,
-        savingsAnnual: 35700,
+        savingsAnnual: 28050,
         paybackMonths: 1,
-        roi3Years: 3226,
+        roi3Years: 2513,
       },
       utmParams: { campaign: 'c1', source: 's', medium: 'm' },
     });

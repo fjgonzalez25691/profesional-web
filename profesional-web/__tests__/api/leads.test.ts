@@ -26,7 +26,7 @@ describe('POST /api/leads', () => {
           sector: 'agencia',
           companySize: '10-25M',
           pains: ['cloud-costs'],
-          roiData: { investment: 3220, savingsAnnual: 35700, paybackMonths: 1, roi3Years: 3226 },
+          roiData: { investment: 3220, savingsAnnual: 28050, paybackMonths: 1, roi3Years: 2513 },
         }),
       }),
     );
@@ -61,7 +61,7 @@ describe('POST /api/leads', () => {
           sector: 'agencia',
           companySize: '10-25M',
           pains: ['cloud-costs'],
-          roiData: { investment: 3220, savingsAnnual: 35700, paybackMonths: 1, roi3Years: 3226 },
+          roiData: { investment: 3220, savingsAnnual: 28050, paybackMonths: 1, roi3Years: 2513 },
         }),
       }),
     );

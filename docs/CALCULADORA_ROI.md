@@ -1,4 +1,5 @@
 # Calculadora ROI - Documentación Técnica
+## Previa a la Implementación de FJG-85 A FJG-91 para fijar hito inicial
 
 ## Índice
 1. [Visión General](#visión-general)

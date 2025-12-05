@@ -109,7 +109,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
           <button
             aria-label="Abrir chatbot"
             onClick={handleToggle}
-            className="fixed bottom-6 right-6 z-[95] hidden md:flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="fixed bottom-6 right-6 z-95 hidden md:flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             type="button"
           >
             🤖 Chat
@@ -118,7 +118,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
           <button
             aria-label="Abrir chatbot"
             onClick={handleToggle}
-            className="fixed bottom-6 right-4 z-[95] flex md:hidden items-center justify-center rounded-full bg-slate-900 h-12 w-12 text-lg font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="fixed bottom-6 right-4 z.95 flex md:hidden items-center justify-center rounded-full bg-slate-900 h-12 w-12 text-lg font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             type="button"
           >
             🤖
