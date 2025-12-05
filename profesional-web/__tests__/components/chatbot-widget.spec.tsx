@@ -29,8 +29,9 @@ describe('ChatbotWidget', () => {
     expect(desktopButton.className).toMatch(/hidden/); // desktop only (md:flex)
 
     expect(mobileButton.className).toMatch(/bottom-6/);
-    expect(mobileButton.className).toMatch(/-translate-x-1\/2/);
+    expect(mobileButton.className).toMatch(/right-4/);
     expect(mobileButton.className).toMatch(/md:hidden/); // mobile only
+    expect(mobileButton.textContent).toBe('🤖');
   });
 
   it('opens modal, focuses input, sends message and receives bot reply', async () => {

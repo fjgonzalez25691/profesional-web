@@ -58,23 +58,25 @@ export default function FloatingCalendlyButton({
         <span className="font-bold">🗓️ Reserva 30 min</span>
       </button>
 
-      {/* Mobile: Bottom-center */}
+      {/* Mobile: Bottom-left icon only */}
       <button
         ref={mobileRef}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         aria-label="🗓️ Reserva 30 min"
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-                   flex md:hidden items-center gap-3
-                   bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
-                   text-white px-7 py-4 rounded-full shadow-xl hover:shadow-2xl
-                   transition-all duration-300 ease-out font-bold text-base
+        className="fixed bottom-20 right-4 z-[90]
+                   flex md:hidden items-center justify-center
+                   h-12 w-12 rounded-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
+                   text-white shadow-xl hover:shadow-2xl
+                   transition-all duration-300 ease-out
                    hover:scale-110 active:scale-95
                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
                    border border-blue-500/20 backdrop-blur-sm"
         type="button"
       >
-        <span className="font-bold">🗓️ Reserva 30 min</span>
+        <span aria-hidden className="text-xl">
+          🗓️
+        </span>
       </button>
     </>
   );
