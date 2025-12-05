@@ -3,6 +3,8 @@ import type { CalculatorInputs, CompanySize, PainPoint, ROIResult } from './type
 export const ROI_CAP_PERCENT = 1000;
 const ROI_CAP_LABEL = new Intl.NumberFormat('es-ES', { useGrouping: true }).format(ROI_CAP_PERCENT);
 export const CLOUD_SAVINGS_RATE = 0.275;
+export const FORECAST_IMPACT_FACTOR = 0.05;
+export const FORECAST_IMPROVEMENT_RATE = 0.35;
 
 const SIZE_FACTORS: Record<CompanySize, number> = {
   '5-10M': 1,
@@ -84,12 +86,12 @@ export function calculateROI(inputs: CalculatorInputs): ROIResult {
   if (inputs.pains.includes('forecasting') && inputs.forecastErrorPercent) {
     // Base calculation on company revenue and forecast error impact
     const avgRevenue = getRevenueFromSize(size);
-    // Forecast errors typically impact 5-15% of revenue through excess inventory, production changes, etc.
-    const impactFactor = 0.08;
+    // Forecast errors impact sobre revenue de forma prudente (~5%)
+    const impactFactor = FORECAST_IMPACT_FACTOR;
     // Cost of error as percentage of impacted revenue
     const errorCostRate = inputs.forecastErrorPercent / 100;
-    // ML/IA can typically reduce forecast error by 40-60%
-    const improvementRate = 0.5;
+    // Mejora conservadora del error (30-40%)
+    const improvementRate = FORECAST_IMPROVEMENT_RATE;
 
     const annualSavings = avgRevenue * impactFactor * errorCostRate * improvementRate;
     totalSavingsAnnual += annualSavings;

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 type Step2PainsProps = {
   pains: PainPoint[];
   values: Pick<CalculatorInputs, 'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent'>;
-  errors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly', string>>;
+  errors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>>;
   onTogglePain: (pain: PainPoint) => void;
   onChange: (values: Partial<CalculatorInputs>) => void;
 };
@@ -120,12 +120,15 @@ export function Step2Pains({ pains, values, errors, onTogglePain, onChange }: St
                     id="forecastErrorPercent"
                     type="number"
                     inputMode="decimal"
-                    min={0}
+                    min={1}
                     className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm shadow-inner focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     value={values.forecastErrorPercent ?? ''}
                     onChange={handleNumberChange('forecastErrorPercent')}
                     placeholder="Ej. 18"
                   />
+                  {errors.forecastErrorPercent && (
+                    <p className="text-sm font-medium text-red-600">{errors.forecastErrorPercent}</p>
+                  )}
                 </div>
               )}
             </div>
