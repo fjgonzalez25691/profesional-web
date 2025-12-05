@@ -1,10 +1,11 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 5 de diciembre de 2025, 14:00 (Europe/Madrid)*
+*Última actualización: 5 de diciembre de 2025, 18:00 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 3 EN CURSO
-**Sprint 3 - Lead Magnet ROI** - Calculadora ROI con validaciones completas implementada
+**Sprint 3 - Lead Magnet ROI** - Serie US-DT-04 COMPLETADA: Calculadora ROI con modelo conservador y validaciones completas
 
 ## ✅ Issues Completadas Recientemente
+**FJG-90**: US-DT-04-ST05-INVENTORY – Ajuste ROI y validaciones para inventario (✅ Done - 5 dic 2025 - PR #27 merged)
 **FJG-89**: US-DT-04-ST04-FORECAST – Ajuste ROI y validaciones para forecasting (✅ Done - 5 dic 2025 - PR #26 merged)
 **FJG-88**: US-DT-04-ST03-MANUAL – Ajuste ROI y validaciones para procesos manuales (✅ Done - 5 dic 2025 - PR #25 merged)
 **FJG-87**: US-DT-04-ST02-CLOUD – Ajuste ROI y validaciones para cloud (✅ Done - 5 dic 2025 - PR #24 merged)

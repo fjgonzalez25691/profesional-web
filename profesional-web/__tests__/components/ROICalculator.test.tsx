@@ -114,14 +114,15 @@ describe('ROICalculator wizard', () => {
   });
 
   it('envía el lead y el email y muestra confirmación', async () => {
-    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    const mockFetch = global.fetch as ReturnType<typeof vi.fn>;
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true, leadId: 'lead-1' }),
-    });
-    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    } as Response);
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ success: true }),
-    });
+    } as Response);
 
     render(<ROICalculator />);
     completeStep1();
@@ -136,19 +137,20 @@ describe('ROICalculator wizard', () => {
     fireEvent.click(screen.getByRole('button', { name: /Enviar resultados/i }));
 
     await screen.findByText(/Revisa tu email/i);
-    expect((global.fetch as unknown as vi.Mock).mock.calls[0][0]).toBe('/api/leads');
-    expect((global.fetch as unknown as vi.Mock).mock.calls[1][0]).toBe('/api/send-roi-email');
+    expect(mockFetch.mock.calls[0][0]).toBe('/api/leads');
+    expect(mockFetch.mock.calls[1][0]).toBe('/api/send-roi-email');
   });
 
   it('muestra error cuando el envío falla', async () => {
-    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    const mockFetch = global.fetch as ReturnType<typeof vi.fn>;
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: 'No pudimos guardar tu lead' }),
-    });
-    (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
+    } as Response);
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: 'No pudimos enviar email' }),
-    });
+    } as Response);
 
     render(<ROICalculator />);
     completeStep1();

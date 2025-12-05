@@ -106,7 +106,7 @@ export default function ROICalculator() {
       const value = inputs.forecastErrorPercent;
       if (isMissingValue(value)) {
         nextErrors.forecastErrorPercent = 'Campo requerido';
-      } else if (value !== undefined && (value < FORECAST_MIN || value > FORECAST_MAX)) {
+      } else if (typeof value === 'number' && (value < FORECAST_MIN || value > FORECAST_MAX)) {
         nextErrors.forecastErrorPercent = `El error de forecast debe estar entre ${FORECAST_MIN}% y ${FORECAST_MAX}%`;
       }
     }
