@@ -67,6 +67,25 @@ describe('calculateROI', () => {
     expect(roiFormatted.isCapped).toBe(false);
   });
 
+  it('calcula forecasting usando revenue por tamaño y supuestos prudentes', () => {
+    const inputs: CalculatorInputs = {
+      companySize: '10-25M',
+      sector: 'retail',
+      pains: ['forecasting'],
+      forecastErrorPercent: 20,
+    };
+
+    const result = calculateROI(inputs);
+
+    expect(result.savingsAnnual).toBe(61250);
+    expect(result.investment).toBe(5880);
+    expect(result.paybackMonths).toBe(1);
+    expect(result.roi3Years).toBe(3025);
+    const roiFormatted = formatRoiWithCap(result.roi3Years);
+    expect(roiFormatted.label).toBe('> 1.000%');
+    expect(roiFormatted.isCapped).toBe(true);
+  });
+
   it('combina múltiples dolores', () => {
     const inputs: CalculatorInputs = {
       companySize: '5-10M',

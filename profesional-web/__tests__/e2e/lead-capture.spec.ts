@@ -63,8 +63,10 @@ test.describe('Lead Capture Flow', () => {
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
     // Paso 3: Verificar resultados ROI mostrados
-    await expect(page.getByText(/Ahorro estimado: ~35\.700€\/año/i)).toBeVisible();
-    await expect(page.getByText(/Inversión: ~3\.200€/i)).toBeVisible();
+    // FJG-87: 8500 * 12 * 0.275 = 28,050€
+    // Investment: 2500 + (600 * 1.2) = 3,220€
+    await expect(page.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeVisible();
+    await expect(page.getByText(/Inversión: ~3\.220€/i)).toBeVisible();
 
     // Completar email y enviar
     const testEmail = `test-${Date.now()}@empresa.com`;

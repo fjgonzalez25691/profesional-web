@@ -1,10 +1,11 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 5 de diciembre de 2025, 12:30 (Europe/Madrid)*
+*Última actualización: 5 de diciembre de 2025, 13:00 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 3 EN CURSO
-**Sprint 3 - Lead Magnet ROI** - Calculadora ROI con validaciones implementada
+**Sprint 3 - Lead Magnet ROI** - Calculadora ROI con validaciones robustas implementada
 
 ## ✅ Issues Completadas Recientemente
+**FJG-88**: US-DT-04-ST03-MANUAL – Ajuste ROI y validaciones para procesos manuales (✅ Done - 5 dic 2025 - PR #25 merged)
 **FJG-87**: US-DT-04-ST02-CLOUD – Ajuste ROI y validaciones para cloud (✅ Done - 5 dic 2025 - PR #24 merged)
 **FJG-86**: US-DT-04-ST01-CORE – Lógica común de ROI por tamaño de empresa (✅ Done - 5 dic 2025 - PR #23 merged)
 **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) (✅ Done - 3 dic 2025 - PR #16 merged)

@@ -152,11 +152,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('30');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 17.5M * 0.08 * 0.30 * 0.5 = 210,000€
+      // 17.5M * 0.05 * 0.30 * 0.35 = 91,875€
       // Investment: 4200 + (1400 * 1.2) = 5,880€
-      await expect(page.getByText(/Ahorro estimado: ~210\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~91\.875€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
     test('calcula ROI para forecasting con 18% error', async ({ page }) => {
@@ -168,11 +168,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('18');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35M * 0.08 * 0.18 * 0.5 = 252,000€
+      // 35M * 0.05 * 0.18 * 0.35 = 110,250€
       // Investment: 4200 + (1400 * 1.6) = 6,440€
-      await expect(page.getByText(/Ahorro estimado: ~252\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~110\.250€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
 
     test('calcula ROI para forecasting con 10% error', async ({ page }) => {
@@ -184,11 +184,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('10');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 8M * 0.08 * 0.10 * 0.5 = 32,000€
+      // 8M * 0.05 * 0.10 * 0.35 = 14,000€
       // Investment: 4200 + (1400 * 1) = 5,600€
-      await expect(page.getByText(/Ahorro estimado: ~32\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~14\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
-      await expect(page.getByText(/Payback: 2 meses/i)).toBeVisible();
+      await expect(page.getByText(/Payback: 5 meses/i)).toBeVisible();
     });
   });
 
@@ -238,8 +238,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('30');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35M * 0.08 * 0.30 * 0.5 = 420,000€
-      await expect(page.getByText(/Ahorro estimado: ~420\.000€\/año/i)).toBeVisible();
+      // 35M * 0.05 * 0.30 * 0.35 = 183,750€
+      await expect(page.getByText(/Ahorro estimado: ~183\.750€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
     });
 
@@ -382,11 +382,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Forecasting: 17.5M * 0.08 * 0.15 * 0.5 = 105,000€
+      // Forecasting: 17.5M * 0.05 * 0.15 * 0.35 = 45,938€
       // Inventory: 1.2M * 0.12 * 0.4 = 57,600€
-      // Total: 162,600€
+      // Total: 103,538€
       // Investment: 5,880€ + 5,880€ = 11,760€
-      await expect(page.getByText(/Ahorro estimado: ~162\.600€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~103\.538€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~11\.760€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
@@ -406,10 +406,10 @@ test.describe('Calculadora ROI', () => {
 
       // Cloud: 10000 * 12 * 0.275 = 33,000€
       // Manual (FJG-88): 25 * 52 * 25 * 0.5 = 16,250€
-      // Forecasting: 35M * 0.08 * 0.20 * 0.5 = 280,000€
-      // Total: 329,250€
+      // Forecasting: 35M * 0.05 * 0.20 * 0.35 = 122,500€
+      // Total: 171,750€
       // Investment: 3,460€ + 5,200€ + 6,440€ = 15,100€
-      await expect(page.getByText(/Ahorro estimado: ~329\.250€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~171\.750€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~15\.100€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 1 mes/i)).toBeVisible();
     });
@@ -430,11 +430,11 @@ test.describe('Calculadora ROI', () => {
 
       // Cloud: 20000 * 12 * 0.275 = 66,000€
       // Manual (FJG-88): 40 * 52 * 25 * 0.5 = 26,000€
-      // Forecasting: 60M * 0.08 * 0.25 * 0.5 = 600,000€
+      // Forecasting: 60M * 0.05 * 0.25 * 0.35 = 262,500€
       // Inventory: 6M * 0.12 * 0.4 = 288,000€
-      // Total: 980,000€
+      // Total: 642,500€
       // Investment: 3,700€ + 5,600€ + 7,000€ + 7,000€ = 23,300€
-      await expect(page.getByText(/Ahorro estimado: ~980\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~642\.500€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~23\.300€/i)).toBeVisible();
       await expect(page.getByText(/Payback: 0 meses/i)).toBeVisible();
     });
@@ -489,6 +489,88 @@ test.describe('Calculadora ROI', () => {
       await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
     });
 
+    test('requiere error de forecast cuando se selecciona el dolor (FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      // NO ingresamos valor de error de forecast
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/Campo requerido/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('bloquea error de forecast en 0% (CA3 FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('0');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('bloquea error de forecast en 80% (CA3 FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('80');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('bloquea error de forecast en 85% (CA2 FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('85');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('valida 79% como máximo permitido (CA2 FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Industrial")').click();
+      await page.locator('label[for="size-25-50M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('79');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // 35M * 0.05 * 0.79 * 0.35 = 483,875€
+      await expect(page.getByText(/Ahorro estimado: ~483\.875€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+    });
+
+    test('valida 1% como mínimo permitido (CA2 FJG-89)', async ({ page }) => {
+      await page.locator('label:has-text("Farmacéutica")').click();
+      await page.locator('label[for="size-5-10M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('1');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // 8M * 0.05 * 0.01 * 0.35 = 1,400€
+      await expect(page.getByText(/Ahorro estimado: ~1\.400€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+    });
+
     test('error de forecasting muy bajo (5%)', async ({ page }) => {
       await page.locator('label:has-text("Farmacéutica")').click();
       await page.locator('label[for="size-10-25M"]').click();
@@ -498,8 +580,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('5');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 17.5M * 0.08 * 0.05 * 0.5 = 35,000€
-      await expect(page.getByText(/Ahorro estimado: ~35\.000€\/año/i)).toBeVisible();
+      // 17.5M * 0.05 * 0.05 * 0.35 = 15,312€
+      await expect(page.getByText(/Ahorro estimado: ~15\.312€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~5\.880€/i)).toBeVisible();
     });
 
@@ -512,8 +594,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('50');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 60M * 0.08 * 0.50 * 0.5 = 1,200,000€
-      await expect(page.getByText(/Ahorro estimado: ~1\.200\.000€\/año/i)).toBeVisible();
+      // 60M * 0.05 * 0.50 * 0.35 = 525,000€
+      await expect(page.getByText(/Ahorro estimado: ~525\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~7\.000€/i)).toBeVisible();
     });
   });

@@ -16,6 +16,8 @@ const CLOUD_MAX = 300_000;
 const CLOUD_REVENUE_RATIO = 0.4; // 40% máximo de facturación estimada
 const MANUAL_MIN = 1;
 const MANUAL_MAX = 168; // 7 días * 24h
+const FORECAST_MIN = 1;
+const FORECAST_MAX = 79;
 
 const initialInputs: CalculatorInputs = {
   companySize: '10-25M',
@@ -29,7 +31,9 @@ const initialInputs: CalculatorInputs = {
 export default function ROICalculator() {
   const [step, setStep] = useState<WizardStep>(1);
   const [inputs, setInputs] = useState<CalculatorInputs>(initialInputs);
-  const [errors, setErrors] = useState<Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly', string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>>
+  >({});
   const [email, setEmail] = useState('');
 
   const updateInputs = (values: Partial<CalculatorInputs>) => {
@@ -49,6 +53,9 @@ export default function ROICalculator() {
       if (isActive && pain === 'manual-processes') {
         cleanup.manualHoursWeekly = undefined;
       }
+      if (isActive && pain === 'forecasting') {
+        cleanup.forecastErrorPercent = undefined;
+      }
 
       return { ...prev, pains: updatedPains, ...cleanup };
     });
@@ -57,13 +64,16 @@ export default function ROICalculator() {
       ...prevErrors,
       ...(pain === 'cloud-costs' ? { cloudSpendMonthly: undefined } : {}),
       ...(pain === 'manual-processes' ? { manualHoursWeekly: undefined } : {}),
+      ...(pain === 'forecasting' ? { forecastErrorPercent: undefined } : {}),
     }));
   };
 
-  const isMissingValue = (value: number | undefined) => value === undefined || Number.isNaN(value) || value <= 0;
+  const isMissingValue = (value: number | undefined) => value === undefined || Number.isNaN(value);
 
   const validateStep2 = () => {
-    const nextErrors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly', string>> = {};
+    const nextErrors: Partial<
+      Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>
+    > = {};
 
     if (inputs.pains.includes('cloud-costs')) {
       if (isMissingValue(inputs.cloudSpendMonthly)) {
@@ -89,6 +99,15 @@ export default function ROICalculator() {
       const value = inputs.manualHoursWeekly;
       if (value < MANUAL_MIN || value > MANUAL_MAX) {
         nextErrors.manualHoursWeekly = `Las horas manuales semanales deben estar entre ${MANUAL_MIN} y ${MANUAL_MAX}`;
+      }
+    }
+
+    if (inputs.pains.includes('forecasting')) {
+      const value = inputs.forecastErrorPercent;
+      if (isMissingValue(value)) {
+        nextErrors.forecastErrorPercent = 'Campo requerido';
+      } else if (value < FORECAST_MIN || value > FORECAST_MAX) {
+        nextErrors.forecastErrorPercent = `El error de forecast debe estar entre ${FORECAST_MIN}% y ${FORECAST_MAX}%`;
       }
     }
 

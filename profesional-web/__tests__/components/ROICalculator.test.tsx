@@ -97,6 +97,22 @@ describe('ROICalculator wizard', () => {
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
+  it('valida rango mínimo y máximo en error de forecast', () => {
+    render(<ROICalculator />);
+
+    completeStep1();
+
+    fireEvent.click(screen.getByLabelText(/Forecasting \/ planificación/i));
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '0' } });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+    expect(screen.getByText(/debe estar entre 1% y 79%/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '85' } });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+    expect(screen.getByText(/debe estar entre 1% y 79%/i)).toBeInTheDocument();
+  });
+
   it('envía el lead y el email y muestra confirmación', async () => {
     (global.fetch as unknown as vi.Mock).mockResolvedValueOnce({
       ok: true,
