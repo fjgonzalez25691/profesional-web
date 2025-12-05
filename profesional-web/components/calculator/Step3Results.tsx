@@ -111,6 +111,15 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
           <p>Payback: {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}</p>
           <p>ROI 3 años: {hasData ? roiDisplay.label : 'N/A'}</p>
         </div>
+
+        {result.inventorySavingsCapped && (
+          <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-3">
+            <p className="text-sm text-amber-800">
+              ⚠️ El ahorro estimado en inventario ha sido ajustado para no superar un umbral razonable respecto al
+              valor de inventario de tu empresa.
+            </p>
+          </div>
+        )}
       </div>
 
       <form className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" onSubmit={handleSubmit}>

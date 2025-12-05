@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  ROI_CAP_PERCENT,
   calculateROI,
   formatRoiWithCap,
   getInventoryFromSize,
   getRevenueFromSize,
   getInvestmentForPain,
+  INVENTORY_COST_RATE,
+  INVENTORY_IMPROVEMENT_RATE,
+  INVENTORY_MAX_SAVINGS_RATE,
 } from '@/lib/calculator/calculateROI';
 import type { CalculatorInputs } from '@/lib/calculator/types';
 
@@ -119,5 +121,46 @@ describe('calculateROI', () => {
     expect(result.investment).toBe(0);
     expect(result.paybackMonths).toBe(0);
     expect(result.roi3Years).toBe(0);
+  });
+
+  it('calcula inventory con supuestos conservadores y flag sin cap', () => {
+    const inputs: CalculatorInputs = {
+      companySize: '10-25M',
+      sector: 'retail',
+      pains: ['inventory'],
+    };
+
+    const result = calculateROI(inputs);
+
+    const inventoryValue = getInventoryFromSize('10-25M');
+    const expectedSavings = inventoryValue * INVENTORY_COST_RATE * INVENTORY_IMPROVEMENT_RATE;
+    expect(result.savingsAnnual).toBe(expectedSavings);
+    expect(result.investment).toBe(5880);
+    expect(result.paybackMonths).toBe(2);
+    expect(result.roi3Years).toBe(1737);
+    expect(result.inventorySavingsCapped).toBe(false);
+  });
+
+  it('cappea ahorro de inventory cuando supera umbral extremo', () => {
+    const inputs: CalculatorInputs = {
+      companySize: '5-10M',
+      sector: 'retail',
+      pains: ['inventory'],
+    };
+
+    const result = calculateROI(inputs, {
+      inventoryOverrides: {
+        costRate: 0.9,
+        improvementRate: 0.95,
+        maxSavingsRate: INVENTORY_MAX_SAVINGS_RATE,
+      },
+    });
+
+    const rawSavings = getInventoryFromSize('5-10M') * 0.9 * 0.95;
+    const maxSavings = getInventoryFromSize('5-10M') * INVENTORY_MAX_SAVINGS_RATE;
+    expect(rawSavings).toBeGreaterThan(maxSavings);
+    expect(result.savingsAnnual).toBe(maxSavings);
+    expect(result.investment).toBe(5600);
+    expect(result.inventorySavingsCapped).toBe(true);
   });
 });
