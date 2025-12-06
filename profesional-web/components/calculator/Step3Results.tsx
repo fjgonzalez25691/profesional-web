@@ -28,6 +28,7 @@ export function Step3Results({ result, warnings, email, userData, pains, onEmail
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const roiDisplay = formatRoiWithCap(result.roi3Years);
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || '#';
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -86,44 +87,56 @@ export function Step3Results({ result, warnings, email, userData, pains, onEmail
         <h3 className="text-lg font-semibold text-slate-900">Resultados estimados</h3>
         <p className="mt-1 text-sm text-slate-600">Cálculo rápido basado en tus inputs.</p>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl bg-blue-50 p-4 text-blue-900">
-            <p className="text-sm font-medium">Ahorro estimado</p>
-            <p className="text-2xl font-bold">~{formatCurrency(result.savingsAnnual)}€/año</p>
-          </div>
-          <div className="rounded-xl bg-slate-50 p-4 text-slate-900">
-            <p className="text-sm font-medium">Inversión</p>
-            <p className="text-2xl font-bold">~{formatCurrency(result.investment)}€</p>
-          </div>
-          <div className="rounded-xl bg-emerald-50 p-4 text-emerald-900">
-            <p className="text-sm font-medium">Payback</p>
-            <p className="text-2xl font-bold">
-              {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}
+        {!hasData ? (
+          <div className="mt-4 rounded-lg border border-slate-300 bg-slate-50 p-4">
+            <p className="text-sm font-semibold text-slate-800">ℹ️ No hemos podido calcular el ROI porque faltan datos.</p>
+            <p className="mt-1 text-sm text-slate-700">
+              Vuelve al paso anterior y selecciona al menos un dolor con sus valores para ver resultados.
             </p>
           </div>
-          <div className="rounded-xl bg-amber-50 p-4 text-amber-900">
-            <p className="text-sm font-medium">ROI 3 años</p>
-            <p className="text-2xl font-bold" data-testid="roi-3y">
-              {hasData ? roiDisplay.label : 'N/A'}
-            </p>
-            {hasData && roiDisplay.isCapped && (
-              <p className="mt-1 text-xs font-semibold text-amber-700">
-                Resultado extremo (&gt; 1.000%). Valida el dato con números reales antes de presentarlo.
-              </p>
-            )}
-          </div>
-        </div>
+        ) : (
+          <>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="rounded-xl bg-blue-50 p-4 text-blue-900">
+                <p className="text-sm font-medium">Ahorro estimado</p>
+                <p className="text-2xl font-bold">~{formatCurrency(result.savingsAnnual)}€/año</p>
+              </div>
+              <div className="rounded-xl bg-slate-50 p-4 text-slate-900">
+                <p className="text-sm font-medium">Inversión</p>
+                <p className="text-2xl font-bold">~{formatCurrency(result.investment)}€</p>
+              </div>
+              <div className="rounded-xl bg-emerald-50 p-4 text-emerald-900">
+                <p className="text-sm font-medium">Payback</p>
+                <p className="text-2xl font-bold">
+                  {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}
+                </p>
+              </div>
+              <div className="rounded-xl bg-amber-50 p-4 text-amber-900">
+                <p className="text-sm font-medium">ROI 3 años</p>
+                <p className="text-2xl font-bold" data-testid="roi-3y">
+                  {hasData ? roiDisplay.label : 'N/A'}
+                </p>
+                {hasData && roiDisplay.isCapped && (
+                  <p className="mt-1 text-xs font-semibold text-amber-700">
+                    ROI extremo (&gt; 1.000%). Este resultado indica una oportunidad muy significativa, pero debe validarse
+                    en una consulta personalizada.
+                  </p>
+                )}
+              </div>
+            </div>
 
-        <div className="mt-5 space-y-1 text-slate-800">
-          <p>Ahorro estimado: ~{formatCurrency(result.savingsAnnual)}€/año</p>
-          <p>Inversión: ~{formatCurrency(result.investment)}€</p>
-          <p>Payback: {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}</p>
-          <p>ROI 3 años: {hasData ? roiDisplay.label : 'N/A'}</p>
-        </div>
+            <div className="mt-5 space-y-1 text-slate-800">
+              <p>Ahorro estimado: ~{formatCurrency(result.savingsAnnual)}€/año</p>
+              <p>Inversión: ~{formatCurrency(result.investment)}€</p>
+              <p>Payback: {hasData ? `${result.paybackMonths} mes${result.paybackMonths === 1 ? '' : 'es'}` : 'N/A'}</p>
+              <p>ROI 3 años: {hasData ? roiDisplay.label : 'N/A'}</p>
+            </div>
+          </>
+        )}
 
-        {warnings.length > 0 && (
-          <div className="mt-4 space-y-2 rounded-md border border-amber-200 bg-amber-50 p-3">
-            <p className="text-sm font-semibold text-amber-800">Avisos de coherencia</p>
+        {hasData && warnings.length > 0 && (
+          <div className="mt-4 space-y-2 rounded-lg border border-amber-300 bg-amber-50 p-4">
+            <p className="text-sm font-semibold text-amber-800">⚠️ Avisos de coherencia</p>
             <ul className="space-y-1 text-sm text-amber-900">
               {warnings.map((warning) => (
                 <li key={warning.type}>{warning.message}</li>
@@ -132,11 +145,30 @@ export function Step3Results({ result, warnings, email, userData, pains, onEmail
           </div>
         )}
 
-        {result.inventorySavingsCapped && (
+        {hasData && result.inventorySavingsCapped && (
           <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-3">
             <p className="text-sm text-amber-800">
               Aviso: el ahorro estimado en inventario ha sido ajustado para no superar un umbral razonable respecto al
               valor de inventario de tu empresa.
+            </p>
+          </div>
+        )}
+
+        {hasData && (
+          <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+            <p className="text-sm font-semibold text-blue-800">ℹ️ Supuestos conservadores</p>
+            <p className="mt-1 text-sm text-blue-700">
+              Este cálculo usa supuestos conservadores basados en casos reales. Los resultados son orientativos y no
+              constituyen una oferta comercial vinculante. Para un diagnóstico preciso,{' '}
+              <a
+                href={calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold underline"
+              >
+                agenda una sesión de 30 minutos gratuita
+              </a>
+              .
             </p>
           </div>
         )}

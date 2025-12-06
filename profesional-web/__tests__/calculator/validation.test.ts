@@ -23,7 +23,9 @@ describe('validateCalculatorInputs', () => {
       pains: ['cloud-costs'],
       cloudSpendMonthly: 800000,
     });
-    expect(errorsHigh.cloudSpendMonthly).toBe('¿Más de 500K€/mes? Verifica el dato');
+    expect(errorsHigh.cloudSpendMonthly).toBe(
+      'Parece muy alto (>500K€/mes). Si es correcto, contáctanos para caso específico'
+    );
 
     const noErrors = validateCalculatorInputs({
       ...baseInputs,

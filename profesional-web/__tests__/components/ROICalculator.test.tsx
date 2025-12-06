@@ -35,7 +35,8 @@ describe('ROICalculator wizard', () => {
     expect(screen.getByText(/Inversión: ~3\.220€/i)).toBeInTheDocument();
     expect(screen.getByText(/Payback: 1 mes/i)).toBeInTheDocument();
     expect(screen.getByText(/ROI 3 años: > 1\.000%/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Resultado extremo \(> 1\.000%\)/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/ROI extremo \(> 1\.000%\)/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Supuestos conservadores/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
 
@@ -67,7 +68,7 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/gasto cloud parece alto/i)).toBeInTheDocument();
+    expect(screen.getByText(/gasto cloud alto/i)).toBeInTheDocument();
     expect(screen.getByText(/Resultados estimados/i)).toBeInTheDocument();
   });
 
@@ -125,7 +126,20 @@ describe('ROICalculator wizard', () => {
     fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '75' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/error de forecast es muy alto/i)).toBeInTheDocument();
+    expect(screen.getByText(/error de forecast muy alto/i)).toBeInTheDocument();
+  });
+
+  it('muestra fallback cuando no hay datos para calcular ROI', () => {
+    render(<ROICalculator />);
+
+    fireEvent.click(screen.getByLabelText(/Agencia Marketing/i));
+    fireEvent.click(screen.getByLabelText(/10-25M/i));
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    expect(screen.getByText(/ℹ️ No hemos podido calcular el ROI porque faltan datos/i)).toBeInTheDocument();
+    expect(screen.queryByText(/ROI 3 años:/i)).not.toBeInTheDocument();
   });
 
   it('envía el lead y el email y muestra confirmación', async () => {

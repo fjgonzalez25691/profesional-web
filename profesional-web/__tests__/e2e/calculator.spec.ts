@@ -451,10 +451,8 @@ test.describe('Calculadora ROI', () => {
       // No seleccionar ningún dolor
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // No debería mostrar resultados válidos (valores en 0 o N/A)
-      const pageContent = await page.textContent('body');
-      expect(pageContent).toContain('Ahorro estimado: ~0€');
-      expect(pageContent).toContain('Inversión: ~0€');
+      await expect(page.getByText(/No hemos podido calcular el ROI porque faltan datos/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado:/i)).toHaveCount(0);
     });
 
     test('valores mínimos en cloud-costs', async ({ page }) => {
@@ -522,7 +520,7 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('80');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/error de forecast es muy alto/i)).toBeVisible();
+      await expect(page.getByText(/error de forecast muy alto/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
 
@@ -595,6 +593,186 @@ test.describe('Calculadora ROI', () => {
       // 60M * 0.05 * 0.50 * 0.35 = 525,000€
       await expect(page.getByText(/Ahorro estimado: ~525\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~7\.000€/i)).toBeVisible();
+    });
+  });
+
+  // ============================================
+  // TESTS ESPECÍFICOS FJG-92 (UX MENSAJES)
+  // ============================================
+
+  test.describe('FJG-92: Mensajes UX y Experiencia de Usuario', () => {
+    test('muestra disclaimer de supuestos conservadores cuando hay resultados', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir costes cloud/i).click();
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('5000');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar que el disclaimer aparece
+      await expect(page.getByText(/ℹ️ Supuestos conservadores/i)).toBeVisible();
+      await expect(
+        page.getByText(/Este cálculo usa supuestos conservadores basados en casos reales/i)
+      ).toBeVisible();
+      await expect(page.getByText(/no constituyen una oferta comercial vinculante/i)).toBeVisible();
+
+      // Verificar que el link a Calendly existe y es correcto
+      const calendlyLink = page.getByRole('link', { name: /agenda una sesión de 30 minutos gratuita/i });
+      await expect(calendlyLink).toBeVisible();
+      await expect(calendlyLink).toHaveAttribute('target', '_blank');
+      await expect(calendlyLink).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    test('NO muestra disclaimer cuando no hay datos (fallback)', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // No seleccionar ningún dolor
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar mensaje fallback
+      await expect(page.getByText(/No hemos podido calcular el ROI porque faltan datos/i)).toBeVisible();
+
+      // Verificar que el disclaimer NO aparece
+      await expect(page.getByText(/ℹ️ Supuestos conservadores/i)).not.toBeVisible();
+    });
+
+    test('muestra warning con emoji cuando gasto cloud es alto (>20% facturación)', async ({ page }) => {
+      await page.locator('label:has-text("Logística")').click();
+      await page.locator('label[for="size-5-10M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Gasto cloud muy alto: 150K€/mes sobre empresa 5-10M (facturación ~8M)
+      // 150K * 12 = 1.8M anual > 20% de 8M
+      await page.getByLabel(/Reducir costes cloud/i).click();
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('150000');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar que aparece el warning con emoji
+      await expect(page.getByText(/⚠️ Avisos de coherencia/i)).toBeVisible();
+      await expect(page.getByText(/⚠️ Gasto cloud alto \(>20% facturación\)/i)).toBeVisible();
+      await expect(page.getByText(/Si el dato es correcto, perfecto/i)).toBeVisible();
+    });
+
+    test('muestra warning ROI extremo con emoji y mensaje mejorado', async ({ page }) => {
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir costes cloud/i).click();
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('8500');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar warning ROI extremo con nuevo copy
+      await expect(page.getByText(/⚠️ Avisos de coherencia/i)).toBeVisible();
+      await expect(page.getByText(/⚠️ ROI extremo \(> 1\.000%\)/i)).toBeVisible();
+      // El mensaje aparece en tarjeta y en warnings, verificamos que existe al menos uno
+      const significativaCount = await page.getByText(/oportunidad muy significativa/i).count();
+      expect(significativaCount).toBeGreaterThan(0);
+    });
+
+    test('muestra mensaje mejorado para gasto cloud >500K', async ({ page }) => {
+      await page.locator('label:has-text("Industrial")').click();
+      await page.locator('label[for="size-50M+"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir costes cloud/i).click();
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('600000');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar nuevo mensaje de validación
+      await expect(
+        page.getByText(/Parece muy alto \(>500K€\/mes\)\. Si es correcto, contáctanos para caso específico/i)
+      ).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+    });
+
+    test('muestra warning forecast error muy alto con emoji y copy mejorado', async ({ page }) => {
+      await page.locator('label:has-text("Industrial")').click();
+      await page.locator('label[for="size-25-50M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('80');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar warning forecast con nuevo copy
+      await expect(page.getByText(/⚠️ Avisos de coherencia/i)).toBeVisible();
+      await expect(page.getByText(/⚠️ Error de forecast muy alto \(>50%\)/i)).toBeVisible();
+      await expect(page.getByText(/Corrige el valor si es un error/i)).toBeVisible();
+      await expect(page.getByText(/valida el ROI con datos reales antes de presentarlo/i)).toBeVisible();
+    });
+
+    test('responsive mobile: mensaje fallback visible en 375px', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // No seleccionar ningún dolor
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar que el mensaje fallback es visible en mobile
+      const fallbackMessage = page.getByText(/No hemos podido calcular el ROI porque faltan datos/i);
+      await expect(fallbackMessage).toBeVisible();
+
+      // Verificar que el texto no se corta (tiene padding adecuado)
+      const box = await fallbackMessage.boundingBox();
+      expect(box).toBeTruthy();
+      if (box) {
+        expect(box.width).toBeLessThan(375); // No debe desbordar
+      }
+    });
+
+    test('responsive mobile: disclaimer visible y link tap-friendly en 375px', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      await page.locator('label:has-text("Agencia Marketing")').click();
+      await page.locator('label[for="size-10-25M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Reducir costes cloud/i).click();
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('5000');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar disclaimer visible en mobile
+      await expect(page.getByText(/ℹ️ Supuestos conservadores/i)).toBeVisible();
+
+      // Verificar que el link es tap-friendly (altura mínima 44px recomendada)
+      const calendlyLink = page.getByRole('link', { name: /agenda una sesión de 30 minutos gratuita/i });
+      await expect(calendlyLink).toBeVisible();
+      const linkBox = await calendlyLink.boundingBox();
+      expect(linkBox).toBeTruthy();
+      // El link debe ser clickeable en mobile (verificamos que existe y es visible)
+    });
+
+    test('responsive mobile: warnings visibles y bien formateados en 375px', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      await page.locator('label:has-text("Industrial")').click();
+      await page.locator('label[for="size-25-50M"]').click();
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('80');
+      await page.getByRole('button', { name: /Siguiente/i }).click();
+
+      // Verificar que warnings se ven bien en mobile
+      const warningsTitle = page.getByText(/⚠️ Avisos de coherencia/i);
+      await expect(warningsTitle).toBeVisible();
+
+      const warningMessage = page.getByText(/⚠️ Error de forecast muy alto/i);
+      await expect(warningMessage).toBeVisible();
+
+      // Verificar que el callout no desborda
+      const warningBox = await warningMessage.boundingBox();
+      expect(warningBox).toBeTruthy();
+      if (warningBox) {
+        expect(warningBox.width).toBeLessThan(375);
+      }
     });
   });
 });
