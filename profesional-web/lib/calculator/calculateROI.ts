@@ -1,3 +1,4 @@
+import { roiConfig } from '@/components/calculator/calculatorConfig';
 import type { CalculatorInputs, CompanySize, PainPoint, ROIResult } from './types';
 
 export const ROI_CAP_PERCENT = 1000;
@@ -17,41 +18,6 @@ type InventoryOverrideConfig = {
 
 type CalculateROIOptions = {
   inventoryOverrides?: InventoryOverrideConfig;
-};
-
-const SIZE_FACTORS: Record<CompanySize, number> = {
-  '5-10M': 1,
-  '10-25M': 1.2,
-  '25-50M': 1.6,
-  '50M+': 2,
-};
-
-const REVENUE_BY_SIZE: Record<CompanySize, number> = {
-  '5-10M': 8_000_000,
-  '10-25M': 17_500_000,
-  '25-50M': 35_000_000,
-  '50M+': 60_000_000,
-};
-
-const INVENTORY_BY_SIZE: Record<CompanySize, number> = {
-  '5-10M': 500_000,
-  '10-25M': 1_200_000,
-  '25-50M': 3_000_000,
-  '50M+': 6_000_000,
-};
-
-const INVESTMENT_BASE: Record<PainPoint, number> = {
-  'cloud-costs': 2500,
-  'manual-processes': 3600,
-  forecasting: 4200,
-  inventory: 4200,
-};
-
-const INVESTMENT_MULTIPLIER: Record<PainPoint, number> = {
-  'cloud-costs': 600,
-  'manual-processes': 1000,
-  forecasting: 1400,
-  inventory: 1400,
 };
 
 const MANUAL_IMPROVEMENT_RATE = 0.5;
@@ -84,18 +50,28 @@ function calculateInventorySavings(
 }
 
 export function getRevenueFromSize(companySize: CompanySize) {
-  return REVENUE_BY_SIZE[companySize];
+  return roiConfig.companySizes[companySize].estimatedRevenue;
 }
 
 export function getInventoryFromSize(companySize: CompanySize) {
-  return INVENTORY_BY_SIZE[companySize];
+  return roiConfig.companySizes[companySize].estimatedInventory;
 }
 
 export function getInvestmentForPain(pain: PainPoint, companySize: CompanySize) {
-  const sizeFactor = SIZE_FACTORS[companySize];
-  const base = INVESTMENT_BASE[pain];
-  const variable = INVESTMENT_MULTIPLIER[pain] * sizeFactor;
-  return Math.round(base + variable);
+  const investmentMultiplier = roiConfig.companySizes[companySize].investmentMultiplier;
+
+  // Mapeo de PainPoint a las keys del config
+  const painConfigMap: Record<PainPoint, keyof typeof roiConfig.pains> = {
+    'cloud-costs': 'cloud',
+    'manual-processes': 'manual',
+    forecasting: 'forecast',
+    inventory: 'inventory',
+  };
+
+  const painKey = painConfigMap[pain];
+  const baseInvestment = roiConfig.pains[painKey].baseInvestment;
+
+  return Math.round(baseInvestment * investmentMultiplier);
 }
 
 export function formatRoiWithCap(roi3Years: number) {

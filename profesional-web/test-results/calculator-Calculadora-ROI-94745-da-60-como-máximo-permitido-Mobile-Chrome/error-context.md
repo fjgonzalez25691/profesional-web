@@ -1,0 +1,85 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]: Lead magnet ROI
+        - heading "Calcula tu ROI en 2 minutos" [level=1] [ref=e7]
+        - paragraph [ref=e8]: "Wizard de 3 pasos con datos mínimos: sector, dolores y inputs clave. Sin envío de email (DoD S3), solo cálculo y captura."
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - paragraph [ref=e12]: Calculadora ROI interactiva
+            - 'heading "3 pasos: datos, dolores, resultados" [level=2] [ref=e13]'
+            - paragraph [ref=e14]: Calcula tu retorno potencial en menos de 2 minutos. Sin emails todavía (DoD S3).
+          - button "Reiniciar" [ref=e15]
+        - generic "progress" [ref=e16]
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - heading "Resultados estimados" [level=3] [ref=e21]
+              - paragraph [ref=e22]: Cálculo rápido basado en tus inputs.
+              - generic [ref=e23]:
+                - generic [ref=e24]:
+                  - paragraph [ref=e25]: Ahorro estimado
+                  - paragraph [ref=e26]: ~367.500€/año
+                - generic [ref=e27]:
+                  - paragraph [ref=e28]: Inversión
+                  - paragraph [ref=e29]: ~40.000€
+                - generic [ref=e30]:
+                  - paragraph [ref=e31]: Payback
+                  - paragraph [ref=e32]: 1 mes
+                - generic [ref=e33]:
+                  - paragraph [ref=e34]: ROI 3 años
+                  - paragraph [ref=e35]: "> 1.000%"
+                  - paragraph [ref=e36]: ROI extremo (> 1.000%). Este resultado indica una oportunidad muy significativa, pero debe validarse en una consulta personalizada.
+              - generic [ref=e37]:
+                - paragraph [ref=e38]: "Ahorro estimado: ~367.500€/año"
+                - paragraph [ref=e39]: "Inversión: ~40.000€"
+                - paragraph [ref=e40]: "Payback: 1 mes"
+                - paragraph [ref=e41]: "ROI 3 años: > 1.000%"
+              - generic [ref=e42]:
+                - paragraph [ref=e43]: ⚠️ Avisos de coherencia
+                - list [ref=e44]:
+                  - listitem [ref=e45]: ⚠️ Error de forecast muy alto (>50%). Corrige el valor si es un error o valida el ROI con datos reales antes de presentarlo.
+                  - listitem [ref=e46]: ⚠️ ROI extremo (> 1.000%). Este resultado indica una oportunidad muy significativa, pero debe validarse en una consulta personalizada.
+              - generic [ref=e47]:
+                - paragraph [ref=e48]: ℹ️ Supuestos conservadores
+                - paragraph [ref=e49]:
+                  - text: Este cálculo usa supuestos conservadores basados en casos reales. Los resultados son orientativos y no constituyen una oferta comercial vinculante. Para un diagnóstico preciso,
+                  - link "agenda una sesión de 30 minutos gratuita" [ref=e50] [cursor=pointer]:
+                    - /url: https://calendly.com/fjgonzalez25691
+                  - text: .
+            - generic [ref=e51]:
+              - generic [ref=e52]:
+                - heading "Recibe análisis completo" [level=3] [ref=e53]
+                - paragraph [ref=e54]: Enviamos tus métricas ROI al email que indiques para que puedas compartirlas con tu equipo/CFO.
+              - generic [ref=e55]:
+                - generic [ref=e56]: Email
+                - textbox "Email" [ref=e57]:
+                  - /placeholder: tuemail@empresa.com
+                - button "Enviar resultados" [ref=e58]
+          - generic [ref=e59]:
+            - button "Anterior" [ref=e60]
+            - button "Nuevo cálculo" [ref=e62]
+  - contentinfo [ref=e63]:
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - heading "Legal" [level=3] [ref=e67]
+        - link "Aviso Legal" [ref=e68] [cursor=pointer]:
+          - /url: /legal/aviso-legal
+        - link "Política de Privacidad" [ref=e69] [cursor=pointer]:
+          - /url: /legal/privacidad
+      - generic [ref=e70]:
+        - heading "Social" [level=3] [ref=e71]
+        - link "LinkedIn" [ref=e72] [cursor=pointer]:
+          - /url: www.linkedin.com/in/francisco-javier-gonzález-aparicio-259507222
+        - link "Email" [ref=e73] [cursor=pointer]:
+          - /url: mailto:fjgonzalez25691@gmail.com
+      - paragraph [ref=e75]: © 2025 Francisco Javier González Aparicio
+  - button "Open Next.js Dev Tools" [ref=e81] [cursor=pointer]:
+    - img [ref=e82]
+  - alert [ref=e85]
+```

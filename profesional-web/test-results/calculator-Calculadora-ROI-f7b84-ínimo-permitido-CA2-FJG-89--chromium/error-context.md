@@ -1,0 +1,79 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]: Lead magnet ROI
+        - heading "Calcula tu ROI en 2 minutos" [level=1] [ref=e7]
+        - paragraph [ref=e8]: "Wizard de 3 pasos con datos mínimos: sector, dolores y inputs clave. Sin envío de email (DoD S3), solo cálculo y captura."
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - paragraph [ref=e12]: Calculadora ROI interactiva
+            - 'heading "3 pasos: datos, dolores, resultados" [level=2] [ref=e13]'
+            - paragraph [ref=e14]: Calcula tu retorno potencial en menos de 2 minutos. Sin emails todavía (DoD S3).
+          - button "Reiniciar" [ref=e15]
+        - generic "progress" [ref=e16]
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - heading "Resultados estimados" [level=3] [ref=e21]
+              - paragraph [ref=e22]: Cálculo rápido basado en tus inputs.
+              - generic [ref=e23]:
+                - generic [ref=e24]:
+                  - paragraph [ref=e25]: Ahorro estimado
+                  - paragraph [ref=e26]: ~6.563€/año
+                - generic [ref=e27]:
+                  - paragraph [ref=e28]: Inversión
+                  - paragraph [ref=e29]: ~25.000€
+                - generic [ref=e30]:
+                  - paragraph [ref=e31]: Payback
+                  - paragraph [ref=e32]: 46 meses
+                - generic [ref=e33]:
+                  - paragraph [ref=e34]: ROI 3 años
+                  - paragraph [ref=e35]: "-21%"
+              - generic [ref=e36]:
+                - paragraph [ref=e37]: "Ahorro estimado: ~6.563€/año"
+                - paragraph [ref=e38]: "Inversión: ~25.000€"
+                - paragraph [ref=e39]: "Payback: 46 meses"
+                - paragraph [ref=e40]: "ROI 3 años: -21%"
+              - generic [ref=e41]:
+                - paragraph [ref=e42]: ℹ️ Supuestos conservadores
+                - paragraph [ref=e43]:
+                  - text: Este cálculo usa supuestos conservadores basados en casos reales. Los resultados son orientativos y no constituyen una oferta comercial vinculante. Para un diagnóstico preciso,
+                  - link "agenda una sesión de 30 minutos gratuita" [ref=e44] [cursor=pointer]:
+                    - /url: https://calendly.com/fjgonzalez25691
+                  - text: .
+            - generic [ref=e45]:
+              - generic [ref=e46]:
+                - heading "Recibe análisis completo" [level=3] [ref=e47]
+                - paragraph [ref=e48]: Enviamos tus métricas ROI al email que indiques para que puedas compartirlas con tu equipo/CFO.
+              - generic [ref=e49]:
+                - generic [ref=e50]: Email
+                - textbox "Email" [ref=e51]:
+                  - /placeholder: tuemail@empresa.com
+                - button "Enviar resultados" [ref=e52]
+          - generic [ref=e53]:
+            - button "Anterior" [ref=e54]
+            - button "Nuevo cálculo" [ref=e56]
+  - contentinfo [ref=e57]:
+    - generic [ref=e59]:
+      - generic [ref=e60]:
+        - heading "Legal" [level=3] [ref=e61]
+        - link "Aviso Legal" [ref=e62] [cursor=pointer]:
+          - /url: /legal/aviso-legal
+        - link "Política de Privacidad" [ref=e63] [cursor=pointer]:
+          - /url: /legal/privacidad
+      - generic [ref=e64]:
+        - heading "Social" [level=3] [ref=e65]
+        - link "LinkedIn" [ref=e66] [cursor=pointer]:
+          - /url: www.linkedin.com/in/francisco-javier-gonzález-aparicio-259507222
+        - link "Email" [ref=e67] [cursor=pointer]:
+          - /url: mailto:fjgonzalez25691@gmail.com
+      - paragraph [ref=e69]: © 2025 Francisco Javier González Aparicio
+  - button "Open Next.js Dev Tools" [ref=e75] [cursor=pointer]:
+    - img [ref=e76]
+  - alert [ref=e79]
+```

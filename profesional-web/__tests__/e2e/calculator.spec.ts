@@ -121,8 +121,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('0');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Con valor 0, la validación muestra "Introduce al menos 1 hora/semana"
-      await expect(page.getByText(/Introduce al menos 1 hora\/semana/i)).toBeVisible();
+      // FJG-94: Con valor 0, la validación muestra "Introduce al menos 5 horas/semana"
+      await expect(page.getByText(/Introduce al menos 5 horas\/semana/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
@@ -132,10 +132,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Reducir procesos manuales/i).click();
-      await page.getByLabel(/Horas manuales a la semana/i).fill('200');
+      await page.getByLabel(/Horas manuales a la semana/i).fill('250');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/Una semana tiene 168 horas máximo/i)).toBeVisible();
+      // FJG-94: Nuevo máximo es 200h/semana
+      await expect(page.getByText(/No puede superar 200 horas\/semana/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
   });
@@ -461,12 +462,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Reducir costes cloud/i).click();
-      await page.getByLabel(/Gasto mensual en cloud/i).fill('100');
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 100 * 12 * 0.275 = 330€
+      // FJG-94: Mínimo ahora es 500€/mes
+      // 500 * 12 * 0.275 = 1,650€
       // Investment: 3,100€
-      await expect(page.getByText(/Ahorro estimado: ~330€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~1\.650€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~3\.100€/i)).toBeVisible();
     });
 
@@ -507,7 +509,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('0');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/El error mínimo es 1%/i)).toBeVisible();
+      // FJG-94: Mínimo ahora es 5%
+      await expect(page.getByText(/El error mínimo es 5%/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
@@ -517,10 +520,11 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificaci/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('80');
+      await page.getByLabel(/Error de forecast/i).fill('55');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/error de forecast muy alto/i)).toBeVisible();
+      // FJG-94: Warning a partir de 50%, usando 55% para asegurar que dispare
+      await expect(page.getByText(/Error de forecast muy alto/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
 
@@ -530,39 +534,40 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificaci/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('120');
+      await page.getByLabel(/Error de forecast/i).fill('70');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/El error máximo razonable es 100%/i)).toBeVisible();
+      // FJG-94: Máximo ahora es 60%
+      await expect(page.getByText(/El error máximo razonable es 60%/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
-    test('valida 100% como máximo permitido', async ({ page }) => {
+    test('valida 60% como máximo permitido', async ({ page }) => {
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-25-50M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificaci/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('100');
+      await page.getByLabel(/Error de forecast/i).fill('60');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35M * 0.05 * 1.00 * 0.35 = 612,500€
-      await expect(page.getByText(/Ahorro estimado: ~612\.500€\/año/i)).toBeVisible();
+      // FJG-94: 35M * 0.05 * 0.60 * 0.35 = 367,500€
+      await expect(page.getByText(/Ahorro estimado: ~367\.500€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
 
-    test('valida 1% como mínimo permitido (CA2 FJG-89)', async ({ page }) => {
+    test('valida 5% como mínimo permitido (CA2 FJG-89)', async ({ page }) => {
       await page.locator('label:has-text("Farmacéutica")').click();
       await page.locator('label[for="size-5-10M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificaci/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('1');
+      await page.getByLabel(/Error de forecast/i).fill('5');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 8M * 0.05 * 0.01 * 0.35 = 1,400€
-      await expect(page.getByText(/Ahorro estimado: ~1\.400€\/año/i)).toBeVisible();
+      // FJG-94: 8M * 0.05 * 0.05 * 0.35 = 7,000€
+      await expect(page.getByText(/Ahorro estimado: ~7\.000€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~5\.600€/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
@@ -639,20 +644,20 @@ test.describe('Calculadora ROI', () => {
       await expect(page.getByText(/ℹ️ Supuestos conservadores/i)).not.toBeVisible();
     });
 
-    test('muestra warning con emoji cuando gasto cloud es alto (>20% facturación)', async ({ page }) => {
+    test('muestra warning con emoji cuando gasto cloud es alto (>15% facturación)', async ({ page }) => {
+      // FJG-94: Resuelto con cloudRevenueWarningRatio=0.15
+      // Para empresa 5-10M (revenue 7.5M): 15% = 1,125,000€/año = 93,750€/mes
+      // Usando 95K€/mes que está dentro del max (100K) y dispara el warning
       await page.locator('label:has-text("Logística")').click();
       await page.locator('label[for="size-5-10M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Gasto cloud muy alto: 150K€/mes sobre empresa 5-10M (facturación ~8M)
-      // 150K * 12 = 1.8M anual > 20% de 8M
       await page.getByLabel(/Reducir costes cloud/i).click();
-      await page.getByLabel(/Gasto mensual en cloud/i).fill('150000');
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('95000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Verificar que aparece el warning con emoji
       await expect(page.getByText(/⚠️ Avisos de coherencia/i)).toBeVisible();
-      await expect(page.getByText(/⚠️ Gasto cloud alto \(>20% facturación\)/i)).toBeVisible();
+      await expect(page.getByText(/⚠️ Gasto cloud alto \(>15% facturación\)/i)).toBeVisible();
       await expect(page.getByText(/Si el dato es correcto, perfecto/i)).toBeVisible();
     });
 
@@ -673,18 +678,19 @@ test.describe('Calculadora ROI', () => {
       expect(significativaCount).toBeGreaterThan(0);
     });
 
-    test('muestra mensaje mejorado para gasto cloud >500K', async ({ page }) => {
+    test('muestra mensaje mejorado para gasto cloud >100K (FJG-94)', async ({ page }) => {
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-50M+"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Reducir costes cloud/i).click();
-      await page.getByLabel(/Gasto mensual en cloud/i).fill('600000');
+      // FJG-94: cloudSpendMonthly.max = 100,000 según calculatorConfig.ts
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('150000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Verificar nuevo mensaje de validación
+      // Verificar mensaje de validación con el max correcto (100,000)
       await expect(
-        page.getByText(/Parece muy alto \(>500K€\/mes\)\. Si es correcto, contáctanos para caso específico/i)
+        page.getByText(/Parece muy alto \(>100\.000€\/mes\)\. Si es correcto, contáctanos para caso específico/i)
       ).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
@@ -695,7 +701,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificación/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('80');
+      // FJG-94: Usar 55% (>50% threshold pero <60% max) para disparar warning
+      await page.getByLabel(/Error de forecast/i).fill('55');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // Verificar warning forecast con nuevo copy
@@ -757,7 +764,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Forecasting \/ planificación/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('80');
+      // FJG-94: Usar 55% (>50% threshold pero <60% max) para disparar warning
+      await page.getByLabel(/Error de forecast/i).fill('55');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       // Verificar que warnings se ven bien en mobile

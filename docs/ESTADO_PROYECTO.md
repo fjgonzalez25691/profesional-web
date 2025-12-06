@@ -1,15 +1,15 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 19 de enero de 2025, 19:00 (Europe/Madrid)*
+*Última actualización: 6 de diciembre de 2025, 20:30 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 3 EN CURSO
-**FJG-92**: US-DT-04-ST05-UX – Mensajes de UI y experiencia de usuario (🔄 In Progress - 19 ene 2025)
-- **Estado:** Implementación completada por Agent Developer + Agent Reviewer
-- **Branch:** `fjgonzalez25691-fjg-92-us-dt-04-st05-ux-mensajes-de-ui-y-experiencia-de-usuario`
-- **Progreso:** Emojis añadidos, disclaimer con CTA Calendly, fallback implementado, tests actualizados
-- **Siguiente paso:** Ejecutar tests completos, crear PR y mergear
+**FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones (🔄 In Progress - 6 dic 2025)
+- **Estado:** Planificación inicial archivada (branch: `archive/fjg-85-validacion-masiva-descartado`)
+- **Contexto:** Issue con scope expandido (CA4/DoD4: validación script para ≥1000 combinaciones ROI)
+- **Situación:** Pendiente definición de nuevo enfoque tras rechazo de propuesta inicial
+- **Siguiente paso:** Requiere clarificación del usuario sobre estrategia preferida
 
 ## ✅ Issues Completadas Recientemente
-**FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes de UI y documentación de la calculadora (✅ Done - 19 ene 2025 - PR #29 merged)
+**FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes de UI y documentación de la calculadora (✅ Done - 5 dic 2025 - PR #29 merged)
 **FJG-90**: US-DT-04-ST05-INVENTORY – Ajuste ROI y validaciones para inventario (✅ Done - 5 dic 2025 - PR #27 merged)
 **FJG-89**: US-DT-04-ST04-FORECAST – Ajuste ROI y validaciones para forecasting (✅ Done - 5 dic 2025 - PR #26 merged)
 **FJG-88**: US-DT-04-ST03-MANUAL – Ajuste ROI y validaciones para procesos manuales (✅ Done - 5 dic 2025 - PR #25 merged)
@@ -48,14 +48,14 @@
 
 **Sprint 3**: 🔄 EN CURSO - Lead Magnet ROI (Días 15-21)
 - **Issues Completadas**: FJG-86 ✅, FJG-87 ✅, FJG-88 ✅, FJG-89 ✅, FJG-90 ✅, FJG-91 ✅
-- **Issues En Progreso**: FJG-92 🔄 (UX mensajes y experiencia usuario)
+- **Issues En Progreso**: FJG-85 🔄 (Mejora modelo ROI + validaciones - pendiente redefinición enfoque)
 - **Issues Pendientes**: FJG-48 (Frontend calculadora), FJG-49 (Email resultados), FJG-51 (Lead capture), FJG-52 (Dashboard admin)
-- **Progreso**: 6/10 issues completadas (60% - Core lógica ROI + UX/Docs completada, pendiente frontend calculadora y lead magnet)
+- **Progreso**: 6/11 issues completadas (55% - Core lógica ROI + UX/Docs completada, pendiente validaciones extendidas + frontend calculadora y lead magnet)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
 ### Sprint 3 (Días 15-21) - In2-04 Lead Magnet ROI - EN CURSO
-- **FJG-92**: US-DT-04-ST05-UX – Mensajes UI y experiencia usuario - 2 SP [Medium] 🔄 IN PROGRESS
+- **FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones - 5 SP [High] 🔄 IN PROGRESS (pendiente redefinición)
 - **FJG-48**: US-04-001: Calculadora ROI Frontend Interactiva - 5 SP [High] ⏳ TODO
 - **FJG-49**: US-04-002: Email HTML Resultados SIN PDF Puppeteer - 3 SP [High] ⏳ TODO
 - **FJG-51**: US-04-004: Lead Capture Postgres + Validación - 2 SP [High] ⏳ TODO
@@ -210,8 +210,22 @@ npm run dev      # ✅ Server desarrollo + ROI Calculator operativo
 - **Performance**: Variables de entorno configuradas
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
----
-*Última actualización: Agent Manager - 5 diciembre 2025, 14:00*
+## 🗂️ Gestión de Ramas
+- **Ramas remotas activas**: 2 (main, dev)
+- **Ramas feature mergeadas y eliminadas**: 17 (FJG-43 a FJG-91)
+- **Tags de backup creados**: 25 totales (backup/fjgonzalez25691-fjg-XX-...)
+- **Patrón de limpieza**: Backup tag → Merge PR → Delete remote branch
+- **Última limpieza**: 6 dic 2025 - 17 ramas remotas eliminadas tras crear tags de respaldo
+
+## 🛠️ Tareas de Infraestructura Recientes
+- ✅ **CI/CD Fix (6 dic 2025)**: Solucionado error persistente de RESEND_API_KEY en GitHub Actions
+  - Implementado patrón de lazy initialization en `app/api/send-roi-email/route.ts` y `lib/email/nurturing.ts`
+  - Añadida clave dummy en workflow CI: `RESEND_API_KEY=re_dummy_key_for_ci_build_only`
+  - Build local verificado exitosamente en 8.7s
+- ✅ **Repository Cleanup (6 dic 2025)**: Limpieza de 17 ramas remotas mergeadas
+  - Creados 17 nuevos backup tags (FJG-43 a FJG-91)
+  - Sincronizadas referencias locales con `git fetch --prune`
+  - Repositorio remoto limpio: solo `origin/main` y `origin/dev` activas
 
 ---
-*Última actualización: Agent Manager - 5 diciembre 2025, 12:30*
+*Última actualización: Agent Manager - 6 diciembre 2025, 20:30*

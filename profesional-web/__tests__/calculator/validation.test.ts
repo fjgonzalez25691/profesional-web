@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { calculateROI } from '@/lib/calculator/calculateROI';
+import { roiConfig } from '@/components/calculator/calculatorConfig';
 import { getCalculatorWarnings, validateCalculatorInputs } from '@/lib/calculator/validation';
 import type { CalculatorInputs } from '@/lib/calculator/types';
 
@@ -14,23 +15,25 @@ describe('validateCalculatorInputs', () => {
     const errorsLow = validateCalculatorInputs({
       ...baseInputs,
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 50,
+      cloudSpendMonthly: roiConfig.inputs.cloudSpendMonthly.min - 100,
     });
-    expect(errorsLow.cloudSpendMonthly).toBe('El gasto mínimo es 100€/mes');
+    expect(errorsLow.cloudSpendMonthly).toContain(
+      roiConfig.inputs.cloudSpendMonthly.min.toString()
+    );
 
     const errorsHigh = validateCalculatorInputs({
       ...baseInputs,
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 800000,
+      cloudSpendMonthly: roiConfig.inputs.cloudSpendMonthly.max * 2,
     });
-    expect(errorsHigh.cloudSpendMonthly).toBe(
-      'Parece muy alto (>500K€/mes). Si es correcto, contáctanos para caso específico'
+    expect(errorsHigh.cloudSpendMonthly).toContain(
+      roiConfig.inputs.cloudSpendMonthly.max.toLocaleString('es-ES')
     );
 
     const noErrors = validateCalculatorInputs({
       ...baseInputs,
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 5000,
+      cloudSpendMonthly: roiConfig.inputs.cloudSpendMonthly.min + 500,
     });
     expect(noErrors.cloudSpendMonthly).toBeUndefined();
   });
@@ -39,21 +42,25 @@ describe('validateCalculatorInputs', () => {
     const errorsLow = validateCalculatorInputs({
       ...baseInputs,
       pains: ['manual-processes'],
-      manualHoursWeekly: 0,
+      manualHoursWeekly: roiConfig.inputs.manualHoursWeekly.min - 1,
     });
-    expect(errorsLow.manualHoursWeekly).toBe('Introduce al menos 1 hora/semana');
+    expect(errorsLow.manualHoursWeekly).toContain(
+      roiConfig.inputs.manualHoursWeekly.min.toString()
+    );
 
     const errorsHigh = validateCalculatorInputs({
       ...baseInputs,
       pains: ['manual-processes'],
-      manualHoursWeekly: 200,
+      manualHoursWeekly: roiConfig.inputs.manualHoursWeekly.max + 10,
     });
-    expect(errorsHigh.manualHoursWeekly).toBe('Una semana tiene 168 horas máximo');
+    expect(errorsHigh.manualHoursWeekly).toContain(
+      roiConfig.inputs.manualHoursWeekly.max.toString()
+    );
 
     const noErrors = validateCalculatorInputs({
       ...baseInputs,
       pains: ['manual-processes'],
-      manualHoursWeekly: 40,
+      manualHoursWeekly: roiConfig.inputs.manualHoursWeekly.min + 10,
     });
     expect(noErrors.manualHoursWeekly).toBeUndefined();
   });
@@ -62,21 +69,25 @@ describe('validateCalculatorInputs', () => {
     const errorsLow = validateCalculatorInputs({
       ...baseInputs,
       pains: ['forecasting'],
-      forecastErrorPercent: 0.5,
+      forecastErrorPercent: roiConfig.inputs.forecastErrorPercent.min - 1,
     });
-    expect(errorsLow.forecastErrorPercent).toBe('El error mínimo es 1%');
+    expect(errorsLow.forecastErrorPercent).toContain(
+      roiConfig.inputs.forecastErrorPercent.min.toString()
+    );
 
     const errorsHigh = validateCalculatorInputs({
       ...baseInputs,
       pains: ['forecasting'],
-      forecastErrorPercent: 150,
+      forecastErrorPercent: roiConfig.inputs.forecastErrorPercent.max + 20,
     });
-    expect(errorsHigh.forecastErrorPercent).toBe('El error máximo razonable es 100%');
+    expect(errorsHigh.forecastErrorPercent).toContain(
+      roiConfig.inputs.forecastErrorPercent.max.toString()
+    );
 
     const noErrors = validateCalculatorInputs({
       ...baseInputs,
       pains: ['forecasting'],
-      forecastErrorPercent: 20,
+      forecastErrorPercent: roiConfig.inputs.forecastErrorPercent.min + 10,
     });
     expect(noErrors.forecastErrorPercent).toBeUndefined();
   });
@@ -110,18 +121,23 @@ describe('getCalculatorWarnings', () => {
       companySize: '10-25M',
       sector: 'agencia',
       pains: ['forecasting'],
-      forecastErrorPercent: 80,
+      forecastErrorPercent: roiConfig.thresholds.forecastWarningThreshold + 5,
     };
     const warnings = getCalculatorWarnings(inputs, calculateROI(inputs));
     expect(warnings.some((warning) => warning.type === 'forecast-coherence')).toBe(true);
   });
 
   it('marca avisos cuando el ROI está cappeado en > 1.000%', () => {
+    // FJG-94: Necesitamos un escenario con ROI > 1000%
+    // Con cloud 50K€/mes en empresa 50M+:
+    // Ahorro: 50,000 * 12 * 0.275 = 165,000€
+    // Inversión: 15,000 * 2.0 = 30,000€
+    // ROI 3y: ((165,000 * 3 - 30,000) / 30,000) * 100 = 1,550% > 1,000%
     const inputs: CalculatorInputs = {
-      companySize: '10-25M',
+      companySize: '50M+',
       sector: 'agencia',
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 8500,
+      cloudSpendMonthly: 50000,
     };
     const warnings = getCalculatorWarnings(inputs, calculateROI(inputs));
     expect(warnings.some((warning) => warning.type === 'roi-extreme')).toBe(true);

@@ -31,11 +31,16 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
+    // FJG-94: Ahorro anual sin cambios
     expect(screen.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeInTheDocument();
-    expect(screen.getByText(/Inversión: ~3\.220€/i)).toBeInTheDocument();
-    expect(screen.getByText(/Payback: 1 mes/i)).toBeInTheDocument();
-    expect(screen.getByText(/ROI 3 años: > 1\.000%/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/ROI extremo \(> 1\.000%\)/i).length).toBeGreaterThan(0);
+    // FJG-94: Inversión nueva: 15,000 * 1.3 = 19,500€
+    expect(screen.getByText(/Inversión: ~19\.500€/i)).toBeInTheDocument();
+    // FJG-94: Payback nuevo: 8 meses
+    expect(screen.getByText(/Payback: 8 meses/i)).toBeInTheDocument();
+    // FJG-94: ROI 3y nuevo: 332% (ya no está cappeado)
+    expect(screen.getByText(/ROI 3 años: 332%/i)).toBeInTheDocument();
+    // FJG-94: Ya no hay warning de ROI extremo porque 332% < 1000%
+    expect(screen.queryByText(/ROI extremo \(> 1\.000%\)/i)).not.toBeInTheDocument();
     expect(screen.getAllByText(/Supuestos conservadores/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
@@ -47,15 +52,18 @@ describe('ROICalculator wizard', () => {
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '50' },
+      target: { value: '100' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/El gasto mínimo es 100€/i)).toBeInTheDocument();
+    expect(screen.getByText(/El gasto mínimo es 500€\/mes/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
-  it('muestra aviso de coherencia cuando el gasto cloud supera el 20% de la facturación estimada', () => {
+  it('muestra aviso de coherencia cuando el gasto cloud supera el 15% de la facturación estimada', () => {
+    // FJG-94: Resuelto con cloudRevenueWarningRatio=0.15
+    // Para empresa 5-10M (revenue 7.5M): 15% = 1,125,000€/año = 93,750€/mes
+    // Usando 95,000€/mes que dispara el warning
     render(<ROICalculator />);
 
     fireEvent.click(screen.getByLabelText(/Industrial/i));
@@ -64,11 +72,11 @@ describe('ROICalculator wizard', () => {
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '200000' },
+      target: { value: '95000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/gasto cloud alto/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gasto cloud alto/i)).toBeInTheDocument();
     expect(screen.getByText(/Resultados estimados/i)).toBeInTheDocument();
   });
 
@@ -91,11 +99,11 @@ describe('ROICalculator wizard', () => {
 
     fireEvent.click(screen.getByLabelText(/Reducir procesos manuales/i));
     fireEvent.change(screen.getByLabelText(/Horas manuales a la semana/i), {
-      target: { value: '200' },
+      target: { value: '250' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/Una semana tiene 168 horas máximo/i)).toBeInTheDocument();
+    expect(screen.getByText(/No puede superar 200 horas\/semana/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
@@ -105,14 +113,14 @@ describe('ROICalculator wizard', () => {
     completeStep1();
 
     fireEvent.click(screen.getByLabelText(/Forecasting \/ planificaci/i));
-    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '0' } });
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '3' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
-    expect(screen.getByText(/El error mínimo es 1%/i)).toBeInTheDocument();
+    expect(screen.getByText(/El error mínimo es 5%/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
 
-    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '120' } });
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '70' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
-    expect(screen.getByText(/El error máximo razonable es 100%/i)).toBeInTheDocument();
+    expect(screen.getByText(/El error máximo razonable es 60%/i)).toBeInTheDocument();
   });
 
   it('muestra aviso cuando el error de forecast es inusualmente alto', () => {
@@ -123,10 +131,10 @@ describe('ROICalculator wizard', () => {
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
     fireEvent.click(screen.getByLabelText(/Forecasting \/ planificaci/i));
-    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '75' } });
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '55' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/error de forecast muy alto/i)).toBeInTheDocument();
+    expect(screen.getByText(/Error de forecast muy alto/i)).toBeInTheDocument();
   });
 
   it('muestra fallback cuando no hay datos para calcular ROI', () => {
