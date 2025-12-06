@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
 
 test.describe('Calculadora ROI', () => {
   test.beforeEach(async ({ page }) => {
@@ -121,10 +121,8 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('0');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Con valor 0, la validación debería tratarlo como valor inválido (campo requerido o fuera de rango)
-      const hasRequiredError = await page.getByText(/Campo requerido/i).isVisible().catch(() => false);
-      const hasRangeError = await page.getByText(/horas manuales semanales deben estar entre/i).isVisible().catch(() => false);
-      expect(hasRequiredError || hasRangeError).toBeTruthy();
+      // Con valor 0, la validación muestra "Introduce al menos 1 hora/semana"
+      await expect(page.getByText(/Introduce al menos 1 hora\/semana/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
@@ -137,7 +135,7 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('200');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/horas manuales semanales deben estar entre/i)).toBeVisible();
+      await expect(page.getByText(/Una semana tiene 168 horas máximo/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
   });
@@ -491,10 +489,10 @@ test.describe('Calculadora ROI', () => {
 
     test('requiere error de forecast cuando se selecciona el dolor (FJG-89)', async ({ page }) => {
       await page.locator('label:has-text("Agencia Marketing")').click();
-      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
       // NO ingresamos valor de error de forecast
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
@@ -504,54 +502,54 @@ test.describe('Calculadora ROI', () => {
 
     test('bloquea error de forecast en 0% (CA3 FJG-89)', async ({ page }) => {
       await page.locator('label:has-text("Agencia Marketing")').click();
-      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
       await page.getByLabel(/Error de forecast/i).fill('0');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
+      await expect(page.getByText(/El error mínimo es 1%/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
-    test('bloquea error de forecast en 80% (CA3 FJG-89)', async ({ page }) => {
+    test('muestra warning en error de forecast muy alto (80%)', async ({ page }) => {
       await page.locator('label:has-text("Agencia Marketing")').click();
-      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
       await page.getByLabel(/Error de forecast/i).fill('80');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
-      await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
+      await expect(page.getByText(/error de forecast es muy alto/i)).toBeVisible();
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
 
-    test('bloquea error de forecast en 85% (CA2 FJG-89)', async ({ page }) => {
+    test('bloquea error de forecast por encima de 100%', async ({ page }) => {
       await page.locator('label:has-text("Agencia Marketing")').click();
-      await page.locator('label[for=\"size-10-25M\"]').click();
+      await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('85');
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('120');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByText(/El error de forecast debe estar entre 1% y 79%/i)).toBeVisible();
+      await expect(page.getByText(/El error máximo razonable es 100%/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).not.toBeVisible();
     });
 
-    test('valida 79% como máximo permitido (CA2 FJG-89)', async ({ page }) => {
+    test('valida 100% como máximo permitido', async ({ page }) => {
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-25-50M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
-      await page.getByLabel(/Error de forecast/i).fill('79');
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
+      await page.getByLabel(/Error de forecast/i).fill('100');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // 35M * 0.05 * 0.79 * 0.35 = 483,875€
-      await expect(page.getByText(/Ahorro estimado: ~483\.875€\/año/i)).toBeVisible();
+      // 35M * 0.05 * 1.00 * 0.35 = 612,500€
+      await expect(page.getByText(/Ahorro estimado: ~612\.500€\/año/i)).toBeVisible();
       await expect(page.getByText(/Inversión: ~6\.440€/i)).toBeVisible();
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
     });
@@ -561,7 +559,7 @@ test.describe('Calculadora ROI', () => {
       await page.locator('label[for="size-5-10M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await page.getByLabel(/Forecasting \/ planificación/i).click();
+      await page.getByLabel(/Forecasting \/ planificaci/i).click();
       await page.getByLabel(/Error de forecast/i).fill('1');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 

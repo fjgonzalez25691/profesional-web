@@ -35,6 +35,7 @@ describe('ROICalculator wizard', () => {
     expect(screen.getByText(/Inversión: ~3\.220€/i)).toBeInTheDocument();
     expect(screen.getByText(/Payback: 1 mes/i)).toBeInTheDocument();
     expect(screen.getByText(/ROI 3 años: > 1\.000%/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Resultado extremo \(> 1\.000%\)/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
 
@@ -49,11 +50,11 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/gasto cloud mensual debe estar entre/i)).toBeInTheDocument();
+    expect(screen.getByText(/El gasto mínimo es 100€/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
-  it('valida que el gasto cloud anual no supere el 40% de la facturación estimada', () => {
+  it('muestra aviso de coherencia cuando el gasto cloud supera el 20% de la facturación estimada', () => {
     render(<ROICalculator />);
 
     fireEvent.click(screen.getByLabelText(/Industrial/i));
@@ -62,12 +63,12 @@ describe('ROICalculator wizard', () => {
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '280000' },
+      target: { value: '200000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/supera el 40% de la facturación estimada/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/gasto cloud parece alto/i)).toBeInTheDocument();
+    expect(screen.getByText(/Resultados estimados/i)).toBeInTheDocument();
   });
 
   it('requiere importe cloud cuando se selecciona el dolor', () => {
@@ -93,7 +94,7 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/manuales semanales deben estar entre/i)).toBeInTheDocument();
+    expect(screen.getByText(/Una semana tiene 168 horas máximo/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
@@ -102,15 +103,29 @@ describe('ROICalculator wizard', () => {
 
     completeStep1();
 
-    fireEvent.click(screen.getByLabelText(/Forecasting \/ planificación/i));
+    fireEvent.click(screen.getByLabelText(/Forecasting \/ planificaci/i));
     fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '0' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
-    expect(screen.getByText(/debe estar entre 1% y 79%/i)).toBeInTheDocument();
+    expect(screen.getByText(/El error mínimo es 1%/i)).toBeInTheDocument();
     expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
 
-    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '85' } });
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '120' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
-    expect(screen.getByText(/debe estar entre 1% y 79%/i)).toBeInTheDocument();
+    expect(screen.getByText(/El error máximo razonable es 100%/i)).toBeInTheDocument();
+  });
+
+  it('muestra aviso cuando el error de forecast es inusualmente alto', () => {
+    render(<ROICalculator />);
+
+    fireEvent.click(screen.getByLabelText(/Industrial/i));
+    fireEvent.click(screen.getByLabelText(/25-50M/i));
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    fireEvent.click(screen.getByLabelText(/Forecasting \/ planificaci/i));
+    fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '75' } });
+    fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
+
+    expect(screen.getByText(/error de forecast es muy alto/i)).toBeInTheDocument();
   });
 
   it('envía el lead y el email y muestra confirmación', async () => {

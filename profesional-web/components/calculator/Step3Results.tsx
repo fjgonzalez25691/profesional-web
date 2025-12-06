@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import type { CalculatorInputs, CompanySize, ROIResult, Sector } from '@/lib/calculator/types';
+import type {
+  CalculatorInputs,
+  CalculatorWarning,
+  CompanySize,
+  ROIResult,
+  Sector,
+} from '@/lib/calculator/types';
 import { formatRoiWithCap } from '@/lib/calculator/calculateROI';
 import { cn } from '@/lib/utils';
 
 type Step3ResultsProps = {
   result: ROIResult;
+  warnings: CalculatorWarning[];
   email: string;
   userData: { sector: Sector; companySize: CompanySize };
   pains: CalculatorInputs['pains'];
@@ -16,7 +23,7 @@ const formatCurrency = (value: number) => {
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
-export function Step3Results({ result, email, userData, pains, onEmailChange }: Step3ResultsProps) {
+export function Step3Results({ result, warnings, email, userData, pains, onEmailChange }: Step3ResultsProps) {
   const hasData = result.savingsAnnual > 0 || result.investment > 0;
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -100,7 +107,9 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
               {hasData ? roiDisplay.label : 'N/A'}
             </p>
             {hasData && roiDisplay.isCapped && (
-              <p className="mt-1 text-xs font-semibold text-amber-700">Caso extremo (ROI cap aplicado)</p>
+              <p className="mt-1 text-xs font-semibold text-amber-700">
+                Resultado extremo (&gt; 1.000%). Valida el dato con números reales antes de presentarlo.
+              </p>
             )}
           </div>
         </div>
@@ -112,10 +121,21 @@ export function Step3Results({ result, email, userData, pains, onEmailChange }: 
           <p>ROI 3 años: {hasData ? roiDisplay.label : 'N/A'}</p>
         </div>
 
+        {warnings.length > 0 && (
+          <div className="mt-4 space-y-2 rounded-md border border-amber-200 bg-amber-50 p-3">
+            <p className="text-sm font-semibold text-amber-800">Avisos de coherencia</p>
+            <ul className="space-y-1 text-sm text-amber-900">
+              {warnings.map((warning) => (
+                <li key={warning.type}>{warning.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {result.inventorySavingsCapped && (
           <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-3">
             <p className="text-sm text-amber-800">
-              ⚠️ El ahorro estimado en inventario ha sido ajustado para no superar un umbral razonable respecto al
+              Aviso: el ahorro estimado en inventario ha sido ajustado para no superar un umbral razonable respecto al
               valor de inventario de tu empresa.
             </p>
           </div>

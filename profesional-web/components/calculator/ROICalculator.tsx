@@ -5,19 +5,13 @@ import { Step1Company } from '@/components/calculator/Step1Company';
 import { Step2Pains } from '@/components/calculator/Step2Pains';
 import { Step3Results } from '@/components/calculator/Step3Results';
 import { Button } from '@/components/ui/button';
-import { calculateROI, getRevenueFromSize } from '@/lib/calculator/calculateROI';
+import { calculateROI } from '@/lib/calculator/calculateROI';
 import type { CalculatorInputs, PainPoint } from '@/lib/calculator/types';
+import type { CalculatorInputErrors } from '@/lib/calculator/validation';
+import { getCalculatorWarnings, validateCalculatorInputs } from '@/lib/calculator/validation';
 import { cn } from '@/lib/utils';
 
 type WizardStep = 1 | 2 | 3;
-
-const CLOUD_MIN = 100;
-const CLOUD_MAX = 300_000;
-const CLOUD_REVENUE_RATIO = 0.4; // 40% máximo de facturación estimada
-const MANUAL_MIN = 1;
-const MANUAL_MAX = 168; // 7 días * 24h
-const FORECAST_MIN = 1;
-const FORECAST_MAX = 79;
 
 const initialInputs: CalculatorInputs = {
   companySize: '10-25M',
@@ -31,9 +25,7 @@ const initialInputs: CalculatorInputs = {
 export default function ROICalculator() {
   const [step, setStep] = useState<WizardStep>(1);
   const [inputs, setInputs] = useState<CalculatorInputs>(initialInputs);
-  const [errors, setErrors] = useState<
-    Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>>
-  >({});
+  const [errors, setErrors] = useState<CalculatorInputErrors>({});
   const [email, setEmail] = useState('');
 
   const updateInputs = (values: Partial<CalculatorInputs>) => {
@@ -68,49 +60,8 @@ export default function ROICalculator() {
     }));
   };
 
-  const isMissingValue = (value: number | undefined) => value === undefined || Number.isNaN(value);
-
   const validateStep2 = () => {
-    const nextErrors: Partial<
-      Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>
-    > = {};
-
-    if (inputs.pains.includes('cloud-costs')) {
-      if (isMissingValue(inputs.cloudSpendMonthly)) {
-        nextErrors.cloudSpendMonthly = 'Campo requerido';
-      } else if (inputs.cloudSpendMonthly !== undefined) {
-        const value = inputs.cloudSpendMonthly;
-        if (value < CLOUD_MIN || value > CLOUD_MAX) {
-          nextErrors.cloudSpendMonthly = `El gasto cloud mensual debe estar entre ${CLOUD_MIN.toLocaleString('es-ES')}€ y ${CLOUD_MAX.toLocaleString('es-ES')}€`;
-        } else {
-          const annualCloud = value * 12;
-          const estimatedRevenue = getRevenueFromSize(inputs.companySize);
-          const maxCloudAnnual = estimatedRevenue * CLOUD_REVENUE_RATIO;
-          if (annualCloud > maxCloudAnnual) {
-            nextErrors.cloudSpendMonthly = `El gasto cloud anual supera el ${(CLOUD_REVENUE_RATIO * 100).toFixed(0)}% de la facturación estimada`;
-          }
-        }
-      }
-    }
-
-    if (inputs.pains.includes('manual-processes') && isMissingValue(inputs.manualHoursWeekly)) {
-      nextErrors.manualHoursWeekly = 'Campo requerido';
-    } else if (inputs.pains.includes('manual-processes') && inputs.manualHoursWeekly !== undefined) {
-      const value = inputs.manualHoursWeekly;
-      if (value < MANUAL_MIN || value > MANUAL_MAX) {
-        nextErrors.manualHoursWeekly = `Las horas manuales semanales deben estar entre ${MANUAL_MIN} y ${MANUAL_MAX}`;
-      }
-    }
-
-    if (inputs.pains.includes('forecasting')) {
-      const value = inputs.forecastErrorPercent;
-      if (isMissingValue(value)) {
-        nextErrors.forecastErrorPercent = 'Campo requerido';
-      } else if (typeof value === 'number' && (value < FORECAST_MIN || value > FORECAST_MAX)) {
-        nextErrors.forecastErrorPercent = `El error de forecast debe estar entre ${FORECAST_MIN}% y ${FORECAST_MAX}%`;
-      }
-    }
-
+    const nextErrors = validateCalculatorInputs(inputs);
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -138,6 +89,7 @@ export default function ROICalculator() {
   };
 
   const result = useMemo(() => calculateROI(inputs), [inputs]);
+  const warnings = useMemo(() => getCalculatorWarnings(inputs, result), [inputs, result]);
 
   const reset = () => {
     setStep(1);
@@ -203,6 +155,7 @@ export default function ROICalculator() {
         {step === 3 && (
           <Step3Results
             result={result}
+            warnings={warnings}
             email={email}
             userData={{ sector: inputs.sector, companySize: inputs.companySize }}
             pains={inputs.pains}
