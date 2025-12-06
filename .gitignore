@@ -21,3 +21,4 @@ scripts/*chatbot*.*
 .env*.local
 
 .project 
+.claude

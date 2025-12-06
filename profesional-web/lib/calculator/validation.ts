@@ -27,7 +27,8 @@ export function validateCalculatorInputs(inputs: CalculatorInputs): CalculatorIn
       if (value < CLOUD_MIN) {
         errors.cloudSpendMonthly = 'El gasto mínimo es 100€/mes';
       } else if (value > CLOUD_MAX) {
-        errors.cloudSpendMonthly = '¿Más de 500K€/mes? Verifica el dato';
+        errors.cloudSpendMonthly =
+          'Parece muy alto (>500K€/mes). Si es correcto, contáctanos para caso específico';
       }
     }
   }
@@ -72,7 +73,7 @@ export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROIResul
       warnings.push({
         type: 'cloud-coherence',
         message:
-          'El gasto cloud parece alto respecto a tu facturación estimada (>20%). Verifica el dato antes de usar este ROI.',
+          '⚠️ Gasto cloud alto (>20% facturación). Si el dato es correcto, perfecto. Si no, corrígelo para un cálculo más preciso.',
       });
     }
   }
@@ -84,7 +85,8 @@ export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROIResul
   ) {
     warnings.push({
       type: 'forecast-coherence',
-      message: 'El error de forecast es muy alto (>50%). Revisa el dato para que el ROI sea realista.',
+      message:
+        '⚠️ Error de forecast muy alto (>50%). Corrige el valor si es un error o valida el ROI con datos reales antes de presentarlo.',
     });
   }
 
@@ -92,7 +94,8 @@ export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROIResul
   if (roiDisplay.isCapped) {
     warnings.push({
       type: 'roi-extreme',
-      message: 'Resultado extremo (> 1.000%). Valídalo con datos reales antes de presentarlo.',
+      message:
+        '⚠️ ROI extremo (> 1.000%). Este resultado indica una oportunidad muy significativa, pero debe validarse en una consulta personalizada.',
     });
   }
 
