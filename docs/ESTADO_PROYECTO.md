@@ -1,8 +1,12 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 5 de diciembre de 2025, 18:00 (Europe/Madrid)*
+*Última actualización: 6 de diciembre de 2025, 10:00 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 3 EN CURSO
-**Sprint 3 - Lead Magnet ROI** - Serie US-DT-04 COMPLETADA: Calculadora ROI con modelo conservador y validaciones completas
+**FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes de UI y documentación de la calculadora (🔄 In Progress - 6 dic 2025)
+- **Estado:** Planificación completada por Agent Manager
+- **Branch:** `fjgonzalez25691-fjg-91-us-dt-04-st06-ux-docs-mensajes-de-ui-y-documentacion-de-la`
+- **Progreso:** Prompts de implementación y revisión generados
+- **Siguiente paso:** Implementación TDD de validaciones, warnings y actualización de documentación
 
 ## ✅ Issues Completadas Recientemente
 **FJG-90**: US-DT-04-ST05-INVENTORY – Ajuste ROI y validaciones para inventario (✅ Done - 5 dic 2025 - PR #27 merged)
@@ -10,6 +14,9 @@
 **FJG-88**: US-DT-04-ST03-MANUAL – Ajuste ROI y validaciones para procesos manuales (✅ Done - 5 dic 2025 - PR #25 merged)
 **FJG-87**: US-DT-04-ST02-CLOUD – Ajuste ROI y validaciones para cloud (✅ Done - 5 dic 2025 - PR #24 merged)
 **FJG-86**: US-DT-04-ST01-CORE – Lógica común de ROI por tamaño de empresa (✅ Done - 5 dic 2025 - PR #23 merged)
+
+**Serie US-DT-04 (FJG-86 a FJG-90) COMPLETADA:** Calculadora ROI con modelo conservador y validaciones completas implementado
+
 **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) (✅ Done - 3 dic 2025 - PR #16 merged)
 **FJG-47**: US-03-005: Logging Conversaciones Postgres Básico (✅ Done - 3 dic 2025 - PR #15 merged)
 **FJG-84**: US-DT-03: Actualizar Hero con nuevo posicionamiento empresarial (✅ Done - 3 dic 2025 - PR #14 merged)
@@ -38,16 +45,20 @@
 - **Resultado**: Chatbot IA completamente funcional con logging y casos extensos
 - **Progreso**: 7/7 issues completadas (100% - 0 SP pendientes)
 
+**Sprint 3**: 🔄 EN CURSO - Lead Magnet ROI (Días 15-21)
+- **Issues Completadas**: FJG-86 ✅, FJG-87 ✅, FJG-88 ✅, FJG-89 ✅, FJG-90 ✅
+- **Issues En Progreso**: FJG-91 🔄 (UX/Docs calculadora)
+- **Issues Pendientes**: FJG-48 (Frontend calculadora), FJG-49 (Email resultados), FJG-51 (Lead capture), FJG-52 (Dashboard admin)
+- **Progreso**: 5/10 issues completadas (50% - Core lógica ROI completada, pendiente UX y funcionalidad lead magnet)
+
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
-### Sprint 2 (Días 8-14) - In2-02/03 Landing & Chatbot - FINALIZACIÓN
-- **FJG-46**: US-03-004: Grid 5 Casos Completo (Ampliación) - 2 SP [Low] ✅ TODO  
-- **FJG-47**: US-03-005: Logging Conversaciones Postgres Básico - 2 SP [Medium] ✅ TODO
-
-### Sprint 3 (Días 15-21) - In2-04 Lead Magnet ROI  
-- **FJG-48**: US-04-001: Calculadora ROI Frontend Interactiva - 5 SP [High]
-- **FJG-49**: US-04-002: Email HTML Resultados SIN PDF Puppeteer - 3 SP [High] 
-- **FJG-51**: US-04-004: Lead Capture Postgres + Validación - 2 SP [High]
+### Sprint 3 (Días 15-21) - In2-04 Lead Magnet ROI - EN CURSO
+- **FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes UI y docs calculadora - 1 SP [Medium] 🔄 IN PROGRESS
+- **FJG-48**: US-04-001: Calculadora ROI Frontend Interactiva - 5 SP [High] ⏳ TODO
+- **FJG-49**: US-04-002: Email HTML Resultados SIN PDF Puppeteer - 3 SP [High] ⏳ TODO
+- **FJG-51**: US-04-004: Lead Capture Postgres + Validación - 2 SP [High] ⏳ TODO
+- **FJG-52**: US-04-005: Dashboard Admin Leads Ultra-Light - 2 SP [High] ⏳ TODO
 - **FJG-52**: US-04-005: Dashboard Admin Leads Ultra-Light - 2 SP [High]
 
 ### Sprint 4 (Días 22-28) - In2-05/06 SEO & Transparencia

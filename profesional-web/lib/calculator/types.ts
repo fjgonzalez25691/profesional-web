@@ -25,3 +25,10 @@ export interface ROIResult {
   roi3Years: number;
   inventorySavingsCapped?: boolean;
 }
+
+export type CalculatorWarningType = 'cloud-coherence' | 'forecast-coherence' | 'roi-extreme';
+
+export interface CalculatorWarning {
+  type: CalculatorWarningType;
+  message: string;
+}

@@ -1,11 +1,12 @@
 import type { ChangeEvent } from 'react';
 import type { CalculatorInputs, PainPoint } from '@/lib/calculator/types';
+import type { CalculatorInputErrors } from '@/lib/calculator/validation';
 import { cn } from '@/lib/utils';
 
 type Step2PainsProps = {
   pains: PainPoint[];
   values: Pick<CalculatorInputs, 'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent'>;
-  errors: Partial<Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>>;
+  errors: CalculatorInputErrors;
   onTogglePain: (pain: PainPoint) => void;
   onChange: (values: Partial<CalculatorInputs>) => void;
 };
