@@ -27,8 +27,10 @@ export interface InputRanges {
 export interface GlobalThresholds {
   minPaybackMonths: number;
   roi3yCapPercent: number;
-  maxCloudToRevenueRatio: number;   // p.ej. 0.5 => 50% de la facturación
-  maxInventorySavingsRatio: number; // p.ej. 1.0 => 100% del inventario
+  maxCloudToRevenueRatio: number;    // p.ej. 0.5 => 50% de la facturación
+  maxInventorySavingsRatio: number;  // p.ej. 1.0 => 100% del inventario
+  cloudRevenueWarningRatio: number;  // aviso cuando el gasto cloud es alto vs revenue
+  forecastWarningThreshold: number;  // % a partir del cual el error de forecast dispara warning
 }
 
 export interface CloudConfig {
@@ -110,7 +112,9 @@ export const roiConfig: ROIConfig = {
     minPaybackMonths: 3,
     roi3yCapPercent: 80,          // si sale más, se capa visualmente o se trata como extremo
     maxCloudToRevenueRatio: 0.5,  // gasto cloud anual máx 50% revenue estimado
-    maxInventorySavingsRatio: 1.0 // ahorro inventario anual <= 100% inventario
+    maxInventorySavingsRatio: 1.0, // ahorro inventario anual <= 100% inventario
+    cloudRevenueWarningRatio: 0.15, // FJG-94: warning suave si cloud >15% revenue (antes 0.2)
+    forecastWarningThreshold: 50,  // warning si error forecast >= 50%
   },
 
   pains: {
@@ -187,4 +191,3 @@ export const roiConfig: ROIConfig = {
     },
   },
 };
-
