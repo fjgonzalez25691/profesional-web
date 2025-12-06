@@ -32,8 +32,11 @@ jobs:
       - name: Create .env file from example
         run: |
           cp .env.example .env
-          # Rellenar variables críticas con valores dummy para build/test si es necesario
+          # Rellenar variables críticas con valores dummy para build/test
           echo "NEXTAUTH_SECRET=supersecretvalueformocking" >> .env
+          echo "RESEND_API_KEY=re_dummy_key_for_ci_build_only" >> .env
+        env:
+          RESEND_API_KEY: re_dummy_key_for_ci_build_only
 
       - name: Lint
         run: npm run lint

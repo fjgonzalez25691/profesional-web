@@ -36,12 +36,16 @@ const formatNumber = (value: number | null | undefined) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
 
-export async function sendNurturingEmail(lead: LeadRecord, stage: NurturingStage) {
+// Lazy initialization: solo crear instancia cuando se use
+const getResendClient = () => {
   if (!process.env.RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY missing');
+    throw new Error('RESEND_API_KEY no configurada');
   }
+  return new Resend(process.env.RESEND_API_KEY);
+};
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
+export async function sendNurturingEmail(lead: LeadRecord, stage: NurturingStage) {
+  const resend = getResendClient();
   const templateSource = await fs.readFile(getTemplatePath(stage), 'utf-8');
   const template = Handlebars.compile(templateSource);
 

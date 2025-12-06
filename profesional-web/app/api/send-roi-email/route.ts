@@ -17,7 +17,14 @@ interface UserData {
 }
 
 const templatePath = path.join(process.cwd(), 'templates', 'roi-email.html');
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Lazy initialization: solo crear instancia cuando se use la ruta
+const getResendClient = () => {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY no configurada');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+};
 
 const formatEuros = (value: number) =>
   Math.round(value)
@@ -77,6 +84,7 @@ export async function POST(req: Request) {
   });
 
   try {
+    const resend = getResendClient();
     await resend.emails.send({
       from: 'Francisco García <hola@fjgaparicio.es>',
       to: email,
