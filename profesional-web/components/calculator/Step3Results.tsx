@@ -3,14 +3,15 @@ import type {
   CalculatorInputs,
   CalculatorWarning,
   CompanySize,
-  ROIResult,
+  ROICalculationResult,
   Sector,
 } from '@/lib/calculator/types';
+import { isROISuccess } from '@/lib/calculator/types';
 import { formatRoiWithCap } from '@/lib/calculator/calculateROI';
 import { cn } from '@/lib/utils';
 
 type Step3ResultsProps = {
-  result: ROIResult;
+  result: ROICalculationResult;
   warnings: CalculatorWarning[];
   email: string;
   userData: { sector: Sector; companySize: CompanySize };
@@ -24,11 +25,34 @@ const formatCurrency = (value: number) => {
 };
 
 export function Step3Results({ result, warnings, email, userData, pains, onEmailChange }: Step3ResultsProps) {
-  const hasData = result.savingsAnnual > 0 || result.investment > 0;
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const roiDisplay = formatRoiWithCap(result.roi3Years);
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || '#';
+
+  // Si es fallback, mostrar mensaje específico
+  if (!isROISuccess(result)) {
+    return (
+      <div className="space-y-6">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-amber-900">⚠️ Escenario fuera de rango</h3>
+          <p className="mt-2 text-sm text-amber-800">{result.message}</p>
+          <p className="mt-4 text-sm font-medium text-amber-900">{result.recommendedAction}</p>
+          <a
+            href={calendlyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            Agenda una consulta gratuita
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Si llegamos aquí, result es ROISuccess
+  const hasData = result.savingsAnnual > 0 || result.investment > 0;
+  const roiDisplay = formatRoiWithCap(result.roi3Years);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

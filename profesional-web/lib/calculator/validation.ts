@@ -1,6 +1,6 @@
 import { roiConfig } from '@/components/calculator/calculatorConfig';
-import { formatRoiWithCap } from './calculateROI';
-import type { CalculatorInputs, CalculatorWarning, ROIResult } from './types';
+import { formatRoiWithCap, getRevenueFromSize } from './calculateROI';
+import type { CalculatorInputs, CalculatorWarning, ROIResult, ROIFallback, ROISuccess } from './types';
 
 export type CalculatorInputErrors = Partial<
   Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>
@@ -56,7 +56,7 @@ export function validateCalculatorInputs(inputs: CalculatorInputs): CalculatorIn
   return errors;
 }
 
-export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROIResult): CalculatorWarning[] {
+export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROISuccess): CalculatorWarning[] {
   const warnings: CalculatorWarning[] = [];
   const thresholds = roiConfig.thresholds;
 
@@ -95,4 +95,52 @@ export function getCalculatorWarnings(inputs: CalculatorInputs, result: ROIResul
   }
 
   return warnings;
+}
+
+export function shouldCalculateROI(inputs: CalculatorInputs): {
+  canCalculate: boolean;
+  reason?: ROIFallback['reason'];
+  message?: string;
+} {
+  // 1. Validar inputs básicos (rangos min/max)
+  const errors = validateCalculatorInputs(inputs);
+  if (Object.keys(errors).length > 0) {
+    const firstError = Object.values(errors)[0];
+    return {
+      canCalculate: false,
+      reason: 'invalid_inputs',
+      message: `Los datos introducidos no están en rangos válidos: ${firstError}`,
+    };
+  }
+
+  // 2. Validar coherencia cloud vs revenue
+  if (inputs.pains.includes('cloud-costs') && inputs.cloudSpendMonthly) {
+    const annualCloud = inputs.cloudSpendMonthly * 12;
+    const estimatedRevenue = getRevenueFromSize(inputs.companySize);
+    const ratio = annualCloud / estimatedRevenue;
+
+    if (ratio > roiConfig.thresholds.maxCloudToRevenueRatio) {
+      const cloudInK = Math.round(annualCloud / 1000);
+      const maxPercent = roiConfig.thresholds.maxCloudToRevenueRatio * 100;
+      return {
+        canCalculate: false,
+        reason: 'incoherent_scenario',
+        message: `Gasto cloud anual (${cloudInK}K€) superior al ${maxPercent}% de la facturación estimada. Este escenario requiere análisis específico.`,
+      };
+    }
+  }
+
+  // 3. Validar forecast extremo (>extremeHigh)
+  if (inputs.pains.includes('forecasting') && inputs.forecastErrorPercent) {
+    const extremeHigh = roiConfig.inputs.forecastErrorPercent.extremeHigh;
+    if (inputs.forecastErrorPercent > extremeHigh) {
+      return {
+        canCalculate: false,
+        reason: 'out_of_range',
+        message: `Error de forecast demasiado alto (>${extremeHigh}%). Este dato es inusual y requiere validación directa.`,
+      };
+    }
+  }
+
+  return { canCalculate: true };
 }

@@ -7,6 +7,7 @@ import { Step3Results } from '@/components/calculator/Step3Results';
 import { Button } from '@/components/ui/button';
 import { calculateROI } from '@/lib/calculator/calculateROI';
 import type { CalculatorInputs, PainPoint } from '@/lib/calculator/types';
+import { isROISuccess } from '@/lib/calculator/types';
 import type { CalculatorInputErrors } from '@/lib/calculator/validation';
 import { getCalculatorWarnings, validateCalculatorInputs } from '@/lib/calculator/validation';
 import { cn } from '@/lib/utils';
@@ -89,7 +90,12 @@ export default function ROICalculator() {
   };
 
   const result = useMemo(() => calculateROI(inputs), [inputs]);
-  const warnings = useMemo(() => getCalculatorWarnings(inputs, result), [inputs, result]);
+  const warnings = useMemo(() => {
+    if (isROISuccess(result)) {
+      return getCalculatorWarnings(inputs, result);
+    }
+    return [];
+  }, [inputs, result]);
 
   const reset = () => {
     setStep(1);

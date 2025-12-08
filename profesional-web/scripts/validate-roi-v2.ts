@@ -9,9 +9,11 @@ import type {
   CompanySize,
   PainPoint,
   Sector,
+  ROICalculationResult,
 } from '@/lib/calculator/types';
+import { isROISuccess } from '@/lib/calculator/types';
 
-type ValidationStatus = 'pass' | 'fail';
+type ValidationStatus = 'pass' | 'fail' | 'fallback';
 
 export type ValidationFlags =
   | 'roi_cap'
@@ -28,7 +30,7 @@ export interface ValidationCase {
     manualHoursWeekly?: number;
     forecastErrorPercent?: number;
   };
-  result: ReturnType<typeof calculateROI>;
+  result: ROICalculationResult;
   warnings: CalculatorWarning[];
   errors: string[];
   flags: ValidationFlags[];
@@ -38,12 +40,15 @@ export interface ValidationCase {
     savingsToInventory: number;
   };
   status: ValidationStatus;
+  isFallback?: boolean;
+  fallbackReason?: string;
 }
 
 export interface ValidationSummary {
   totalTests: number;
   passedTests: number;
   failedTests: number;
+  fallbackTests: number;
   extremesCount: number;
   flags: Record<ValidationFlags, number>;
   warnings: Record<string, number>;
@@ -165,16 +170,33 @@ function collectWarningsAndErrors(calculatorInputs: CalculatorInputs) {
   const errorsObject = validateCalculatorInputs(calculatorInputs);
   const errors = Object.values(errorsObject).filter(Boolean) as string[];
   const result = calculateROI(calculatorInputs);
-  const warnings = getCalculatorWarnings(calculatorInputs, result);
+
+  // Solo obtener warnings si el resultado es success
+  const warnings = isROISuccess(result)
+    ? getCalculatorWarnings(calculatorInputs, result)
+    : [];
+
   return { result, warnings, errors };
 }
 
-function detectFlags(calculatorInputs: CalculatorInputs, result: ReturnType<typeof calculateROI>): {
+function detectFlags(calculatorInputs: CalculatorInputs, result: ROICalculationResult): {
   flags: ValidationFlags[];
   ratios: ValidationCase['ratios'];
 } {
   const flags: ValidationFlags[] = [];
   const companyConfig = roiConfig.companySizes[calculatorInputs.companySize];
+
+  // Si es fallback, no calcular flags
+  if (!isROISuccess(result)) {
+    return {
+      flags: [],
+      ratios: {
+        cloudToRevenue: undefined,
+        savingsToRevenue: 0,
+        savingsToInventory: 0,
+      },
+    };
+  }
 
   const savingsToRevenue = companyConfig.estimatedRevenue
     ? result.savingsAnnual / companyConfig.estimatedRevenue
@@ -231,6 +253,19 @@ export function buildValidationReport(): ValidationReport {
     const { result, warnings, errors } = collectWarningsAndErrors(input);
     const { flags, ratios } = detectFlags(input, result);
 
+    const isFallback = !isROISuccess(result);
+    const fallbackReason = isFallback ? result.reason : undefined;
+
+    // FJG-85: Determinar status - fallback es un estado separado de fail
+    let status: 'pass' | 'fail' | 'fallback';
+    if (errors.length > 0) {
+      status = 'fail';
+    } else if (isFallback) {
+      status = 'fallback';
+    } else {
+      status = 'pass';
+    }
+
     return {
       id: `case-${index + 1}`,
       inputs: input,
@@ -239,7 +274,9 @@ export function buildValidationReport(): ValidationReport {
       errors,
       flags,
       ratios,
-      status: errors.length === 0 ? 'pass' : 'fail',
+      status,
+      isFallback,
+      fallbackReason,
     };
   });
 
@@ -270,9 +307,12 @@ export function buildValidationReport(): ValidationReport {
 
   const totals = validations.reduce(
     (acc, validation) => {
-      acc.roi3Years += validation.result.roi3Years;
-      acc.paybackMonths += validation.result.paybackMonths;
-      acc.savingsAnnual += validation.result.savingsAnnual;
+      // Solo sumar si es success (tiene valores numéricos)
+      if (isROISuccess(validation.result)) {
+        acc.roi3Years += validation.result.roi3Years;
+        acc.paybackMonths += validation.result.paybackMonths;
+        acc.savingsAnnual += validation.result.savingsAnnual;
+      }
       return acc;
     },
     { roi3Years: 0, paybackMonths: 0, savingsAnnual: 0 }
@@ -282,6 +322,7 @@ export function buildValidationReport(): ValidationReport {
     totalTests: validations.length,
     passedTests: validations.filter((v) => v.status === 'pass').length,
     failedTests: validations.filter((v) => v.status === 'fail').length,
+    fallbackTests: validations.filter((v) => v.status === 'fallback').length,
     extremesCount: extremes.length,
     flags: flagsCounts,
     warnings: warningsCounts,
@@ -335,24 +376,27 @@ function toCsv(cases: ValidationCase[]): string {
     'savingsToInventory',
   ];
 
-  const rows = cases.map((c) => [
-    c.id,
-    c.inputs.companySize,
-    c.inputs.sector,
-    c.inputs.pains.join('+'),
-    c.inputs.cloudSpendMonthly ?? '',
-    c.inputs.manualHoursWeekly ?? '',
-    c.inputs.forecastErrorPercent ?? '',
-    c.result.roi3Years,
-    c.result.paybackMonths,
-    c.result.savingsAnnual,
-    c.result.investment,
-    c.flags.join('|'),
-    c.warnings.map((w) => w.type).join('|'),
-    c.ratios.cloudToRevenue?.toFixed(2) ?? '',
-    c.ratios.savingsToRevenue.toFixed(2),
-    c.ratios.savingsToInventory.toFixed(2),
-  ]);
+  const rows = cases.map((c) => {
+    const result = isROISuccess(c.result) ? c.result : null;
+    return [
+      c.id,
+      c.inputs.companySize,
+      c.inputs.sector,
+      c.inputs.pains.join('+'),
+      c.inputs.cloudSpendMonthly ?? '',
+      c.inputs.manualHoursWeekly ?? '',
+      c.inputs.forecastErrorPercent ?? '',
+      result?.roi3Years ?? 'FALLBACK',
+      result?.paybackMonths ?? 'FALLBACK',
+      result?.savingsAnnual ?? 'FALLBACK',
+      result?.investment ?? 'FALLBACK',
+      c.flags.join('|'),
+      c.warnings.map((w) => w.type).join('|'),
+      c.ratios.cloudToRevenue?.toFixed(2) ?? '',
+      c.ratios.savingsToRevenue.toFixed(2),
+      c.ratios.savingsToInventory.toFixed(2),
+    ];
+  });
 
   return [header.join(','), ...rows.map((row) => row.join(','))].join('\n');
 }
