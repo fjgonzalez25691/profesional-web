@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate-roi-random": "node -r ./scripts/register-ts scripts/generate-random-roi-scenarios.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.5",

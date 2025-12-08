@@ -46,3 +46,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# validation results - ignore only CSV and JSON output files in scripts/
+scripts/roi-random-validation-*.csv
+scripts/validation-extremes-*.csv
+scripts/validation-results-*.json
+# Keep all TS/JS scripts and MD docs tracked (including validate-roi-v2.ts, register-ts.js, etc.)
+

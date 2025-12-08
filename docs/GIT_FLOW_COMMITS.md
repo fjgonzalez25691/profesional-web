@@ -73,3 +73,5 @@ gh pr merge --squash --delete-branch --auto
 - `--auto`: Merge automático cuando pasen las verificaciones
 
 **Uso alternativo:** Solo si se especifica usar merge directo o rebase.
+
+**IMPORTANTE:** Todas las acciones de Git se realizan en el directorio raíz del proyecto, salvo instrucciones expresas en contrario.
