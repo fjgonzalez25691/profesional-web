@@ -1,5 +1,11 @@
-// Minimal TypeScript require hook using the local TypeScript compiler.
-// Supports the "@/..." alias by resolving it to the project root.
+/* eslint-disable @typescript-eslint/no-require-imports */
+/**
+ * Minimal TypeScript require hook using the local TypeScript compiler.
+ * Supports the "@/..." alias by resolving it to the project root.
+ * 
+ * Note: Uses deprecated require.extensions API as it's the simplest solution
+ * for on-the-fly TS compilation in Node.js scripts without bundler overhead.
+ */
 const fs = require('node:fs');
 const path = require('node:path');
 const Module = require('module');

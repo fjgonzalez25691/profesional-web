@@ -1,0 +1,41 @@
+Test Name,Sector,Company Size,Pain Type,Input Value,Expected Savings (€/año),Expected Investment (€),Expected Payback (meses),Calculated ROI 3y (%),Triggers Fallback,Reason
+"cloud-costs con 8500€/mes",Agencia Marketing,10-25M,cloud-costs,8500,28050,19500,8,31,NO,ROI <= 90%
+"cloud-costs con 15000€/mes",Agencia Marketing,25-50M,cloud-costs,15000,36000,27000,9,33,NO,ROI <= 90%
+"manual-processes con 20h/semana",Logística,5-10M,manual-processes,20,13000,20000,18,95,YES,ROI > 90%
+"manual-processes con 35h/semana",Logística,10-25M,manual-processes,35,22750,26000,14,163,YES,ROI > 90%
+"manual-processes con 40h/semana (CA2)",Agencia Marketing,10-25M,manual-processes,40,26000,26000,12,200,YES,ROI > 90%
+"forecasting con 30% error",Farmacéutica,10-25M,forecasting,30,91875,32500,4,747,YES,ROI > 90%
+"forecasting con 18% error",Industrial,25-50M,forecasting,18,110250,40000,4,726,YES,ROI > 90%
+"forecasting con 10% error",Farmacéutica,5-10M,forecasting,10,13125,25000,23,57,NO,ROI <= 90%
+"inventory (sin datos adicionales)",Retail,10-25M,inventory,N/A,36000,26000,9,315,YES,ROI > 90%
+"inventory sector retail grande",Retail,50M+,inventory,N/A,180000,50000,3,980,YES,ROI > 90% + Payback < 3m
+"Industrial + forecasting",Industrial,25-50M,forecasting,30,183750,40000,3,1279,YES,ROI > 90% + Payback < 3m
+"Logística + manual-processes",Logística,5-10M,manual-processes,35,22750,20000,11,241,YES,ROI > 90%
+"Retail + inventory",Retail,10-25M,inventory,N/A,36000,26000,9,315,YES,ROI > 90%
+"Otro + cloud-costs",Otro,10-25M,cloud-costs,5000,16500,16250,12,204,YES,ROI > 90%
+"5-10M empresa pequeña",Logística,5-10M,cloud-costs,3000,9900,15000,18,98,YES,ROI > 90%
+"10-25M empresa mediana",Agencia Marketing,10-25M,cloud-costs,8500,28050,19500,8,331,YES,ROI > 90%
+"25-50M empresa mediana-grande",Industrial,25-50M,cloud-costs,15000,36000,27000,9,333,YES,ROI > 90%
+"50M+ empresa grande",Retail,50M+,cloud-costs,25000,30000,30000,12,200,YES,ROI > 90%
+"cloud-costs + manual-processes",Agencia Marketing,10-25M,"cloud-costs, manual-processes","8500, 20h",41050,45500,13,171,YES,ROI > 90%
+"forecasting + inventory",Retail,10-25M,"forecasting, inventory","15%, N/A",81938,52000,8,372,YES,ROI > 90%
+"cloud-costs + manual-processes + forecasting",Industrial,25-50M,"cloud-costs, manual-processes, forecasting","10000, 25h, 20%",171750,67200,5,666,YES,ROI > 90%
+"todos los dolores combinados",Industrial,50M+,todas,"20000, 40h, 25%, N/A",534500,80000,2,1904,YES,ROI > 90% + Payback < 3m
+"valores mínimos en cloud-costs",Agencia Marketing,5-10M,cloud-costs,500,1650,15000,109,67,NO,ROI <= 90%
+"valores altos en manual-processes",Logística,50M+,manual-processes,80,52000,40000,9,290,YES,ROI > 90%
+"muestra disclaimer cuando hay resultados",Agencia Marketing,10-25M,cloud-costs,5000,16500,16250,12,204,YES,ROI > 90%
+"warning gasto cloud alto (>15% facturación)",Logística,5-10M,cloud-costs,95000,114000,142500,15,140,YES,ROI > 90%
+"warning ROI extremo",Agencia Marketing,10-25M,cloud-costs,8500,28050,19500,8,331,YES,ROI > 90%
+"warning forecast error muy alto",Industrial,25-50M,forecasting,55,337625,40000,1,2433,YES,ROI > 90% + Payback < 3m
+"disclaimer visible mobile",Agencia Marketing,10-25M,cloud-costs,5000,16500,16250,12,204,YES,ROI > 90%
+"warnings visibles mobile",Industrial,25-50M,forecasting,55,337625,40000,1,2433,YES,ROI > 90% + Payback < 3m
+
+NOTAS:
+- Cálculos basados en la lógica de FJG-85/FJG-96 implementada
+- cloud-costs usa savings rate progresivo según gasto (27.5% para <5K, 20% para 5-20K, 15% para 20-50K, 10% para >50K)
+- manual-processes usa MANUAL_IMPROVEMENT_RATE = 0.5 (50%)
+- forecasting usa avgRevenue * 0.05 * errorPercent * 0.35
+- inventory usa inventoryValue * 0.10 * 0.30
+- ROI 3y = ((savingsAnnual * 3 - investment) / investment) * 100
+- Payback = (investment / savingsAnnual) * 12 meses
+- Threshold extreme_roi: ROI > 90% O Payback < 3 meses
