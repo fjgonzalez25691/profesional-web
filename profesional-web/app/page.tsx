@@ -7,6 +7,7 @@ import CaseGrid from "@/components/CaseGrid";
 import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
 import { ChatbotWidget } from "@/components/Chatbot";
+import MethodologySection from "@/components/MethodologySection";
 
 type ModalSource = 'hero' | 'fab' | 'case_grid';
 
@@ -88,6 +89,8 @@ export default function Home() {
           openModal('case_grid', utmParams);
         }}
       />
+
+      <MethodologySection />
 
       <CalendlyModal
         isOpen={modalState.isOpen}
