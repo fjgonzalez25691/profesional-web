@@ -9,6 +9,8 @@ docs/archive/
 scripts/chatbot-test-results.json
 scripts/test-*.json
 scripts/*chatbot*.*
+profesional-web/scripts/ 
+
 
 # Archivos de entorno del root
 .env

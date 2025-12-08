@@ -32,3 +32,16 @@ Además se registran los warnings de `getCalculatorWarnings` (cloud/forecast/roi
 ## Consejos de revisión
 - Inspeccionar `extremes` para decidir ajustes en thresholds o mensajes.
 - Revisar `cloud_ratio_high` y `savings_over_inventory` para coherencia sector/tamaño.
+
+## Generación aleatoria sin fallback (FJG-97)
+
+Genera ≥10.000 escenarios aleatorios sin aplicar fallback para análisis exploratorio.
+
+```bash
+node -r ./scripts/register-ts scripts/generate-random-roi-scenarios.ts
+# Usa ROI_RANDOM_COUNT para ajustar el número de escenarios (por defecto 10000)
+```
+
+Salida:
+- CSV en `scripts/roi-random-validation-YYYYMMDD.csv` con inputs completos y métricas (savings, inversión, payback, ROI 3y).
+- Metadatos: `scenario_id`, timestamp ISO y versión de `roiConfig`.
