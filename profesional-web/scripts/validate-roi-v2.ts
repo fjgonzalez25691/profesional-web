@@ -21,7 +21,8 @@ export type ValidationFlags =
   | 'savings_over_revenue'
   | 'savings_over_inventory'
   | 'cloud_ratio_high'
-  | 'forecast_warning';
+  | 'forecast_warning'
+  | 'extreme_roi';
 
 export interface ValidationCase {
   id: string;
@@ -188,8 +189,11 @@ function detectFlags(calculatorInputs: CalculatorInputs, result: ROICalculationR
 
   // Si es fallback, no calcular flags
   if (!isROISuccess(result)) {
+    if (result.reason === 'extreme_roi') {
+      flags.push('extreme_roi');
+    }
     return {
-      flags: [],
+      flags,
       ratios: {
         cloudToRevenue: undefined,
         savingsToRevenue: 0,
@@ -290,7 +294,7 @@ export function buildValidationReport(): ValidationReport {
   }, {} as Record<ValidationFlags, number>);
 
   // Initialize missing flags to 0 for consistency
-  (['roi_cap', 'payback_below_min', 'savings_over_revenue', 'savings_over_inventory', 'cloud_ratio_high', 'forecast_warning'] as ValidationFlags[]).forEach(
+  (['roi_cap', 'payback_below_min', 'savings_over_revenue', 'savings_over_inventory', 'cloud_ratio_high', 'forecast_warning', 'extreme_roi'] as ValidationFlags[]).forEach(
     (flag) => {
       if (flagsCounts[flag] === undefined) {
         flagsCounts[flag] = 0;

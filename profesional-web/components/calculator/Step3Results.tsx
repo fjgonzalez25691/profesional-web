@@ -31,10 +31,13 @@ export function Step3Results({ result, warnings, email, userData, pains, onEmail
 
   // Si es fallback, mostrar mensaje específico
   if (!isROISuccess(result)) {
+    const isExtremeROI = result.reason === 'extreme_roi';
     return (
       <div className="space-y-6">
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-amber-900">⚠️ Escenario fuera de rango</h3>
+          <h3 className="text-lg font-semibold text-amber-900">
+            {isExtremeROI ? 'Escenario extremadamente optimista' : '⚠️ Escenario fuera de rango'}
+          </h3>
           <p className="mt-2 text-sm text-amber-800">{result.message}</p>
           <p className="mt-4 text-sm font-medium text-amber-900">{result.recommendedAction}</p>
           <a

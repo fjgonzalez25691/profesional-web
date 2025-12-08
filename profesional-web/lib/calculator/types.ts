@@ -37,7 +37,7 @@ export interface ROISuccess {
 
 export interface ROIFallback {
   type: 'fallback';
-  reason: 'invalid_inputs' | 'incoherent_scenario' | 'out_of_range';
+  reason: 'invalid_inputs' | 'incoherent_scenario' | 'out_of_range' | 'extreme_roi';
   message: string;
   recommendedAction: string;
 }

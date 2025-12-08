@@ -11,6 +11,9 @@ export const INVENTORY_COST_RATE = 0.1;
 export const INVENTORY_IMPROVEMENT_RATE = 0.3;
 export const INVENTORY_MAX_SAVINGS_RATE = 0.8;
 
+const EXTREME_ROI_THRESHOLD = 90;
+const MIN_PAYBACK_MONTHS = roiConfig.thresholds.minPaybackMonths;
+
 /**
  * FJG-85: Calcula el % de ahorro cloud de forma conservadora según el gasto mensual.
  * A mayor gasto, menor % de ahorro (economías de escala ya aplicadas).
@@ -174,6 +177,21 @@ export function calculateROI(inputs: CalculatorInputs, options?: CalculateROIOpt
   const roi3Years = hasSavings
     ? Math.round(((totalSavingsAnnual * 3 - totalInvestment) / totalInvestment) * 100)
     : 0;
+
+  // FJG-96: Escenarios extremadamente optimistas deben activar fallback
+  if (
+    hasSavings &&
+    (roi3Years > EXTREME_ROI_THRESHOLD || paybackMonths < MIN_PAYBACK_MONTHS)
+  ) {
+    return {
+      type: 'fallback',
+      reason: 'extreme_roi',
+      message:
+        'Los datos introducidos generan un escenario extremadamente optimista (ROI muy alto o retorno muy rápido). Para garantizar resultados realistas, necesitamos validar el caso contigo.',
+      recommendedAction:
+        'Agenda una consulta gratuita de 30 minutos para revisar tus datos y obtener una estimación ajustada a tu contexto.',
+    };
+  }
 
   return {
     type: 'success',

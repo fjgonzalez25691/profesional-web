@@ -1,10 +1,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import ROICalculator from '@/components/calculator/ROICalculator';
+import { Step3Results } from '@/components/calculator/Step3Results';
 
-const completeStep1 = () => {
-  fireEvent.click(screen.getByLabelText(/Agencia Marketing/i));
-  fireEvent.click(screen.getByLabelText(/10-25M/i));
+const completeStep1 = (sectorLabel: RegExp | string = /Agencia Marketing/i, sizeLabel: RegExp | string = /10-25M/i) => {
+  fireEvent.click(screen.getByLabelText(sectorLabel));
+  fireEvent.click(screen.getByLabelText(sizeLabel));
   fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 };
 
@@ -23,24 +24,18 @@ describe('ROICalculator wizard', () => {
   it('calcula escenario cloud y muestra resultados + form email', () => {
     render(<ROICalculator />);
 
-    completeStep1();
+    completeStep1(/Agencia Marketing/i, /50M\+/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '8500' },
+      target: { value: '60000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    // FJG-94: Ahorro anual sin cambios
-    expect(screen.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeInTheDocument();
-    // FJG-94: Inversión nueva: 15,000 * 1.3 = 19,500€
-    expect(screen.getByText(/Inversión: ~19\.500€/i)).toBeInTheDocument();
-    // FJG-94: Payback nuevo: 8 meses
-    expect(screen.getByText(/Payback: 8 meses/i)).toBeInTheDocument();
-    // FJG-94: ROI 3y nuevo: 332% (ya no está cappeado)
-    expect(screen.getByText(/ROI 3 años: 332%/i)).toBeInTheDocument();
-    // FJG-94: Ya no hay warning de ROI extremo porque 332% < 1000%
-    expect(screen.queryByText(/ROI extremo \(> 1\.000%\)/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Ahorro estimado: ~72\.000€\/año/i)).toBeInTheDocument();
+    expect(screen.getByText(/Inversión: ~150\.000€/i)).toBeInTheDocument();
+    expect(screen.getByText(/Payback: 25 meses/i)).toBeInTheDocument();
+    expect(screen.getByText(/ROI 3 años: 44%/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Supuestos conservadores/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
@@ -76,8 +71,9 @@ describe('ROICalculator wizard', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/Gasto cloud alto/i)).toBeInTheDocument();
-    expect(screen.getByText(/Resultados estimados/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeInTheDocument();
+    expect(screen.queryByText(/Resultados estimados/i)).not.toBeInTheDocument();
   });
 
   it('requiere importe cloud cuando se selecciona el dolor', () => {
@@ -134,7 +130,7 @@ describe('ROICalculator wizard', () => {
     fireEvent.change(screen.getByLabelText(/Error de forecast/i), { target: { value: '55' } });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/Error de forecast muy alto/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeInTheDocument();
   });
 
   it('muestra fallback cuando no hay datos para calcular ROI', () => {
@@ -162,11 +158,11 @@ describe('ROICalculator wizard', () => {
     } as Response);
 
     render(<ROICalculator />);
-    completeStep1();
+    completeStep1(/Agencia Marketing/i, /50M\+/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '8500' },
+      target: { value: '60000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
@@ -190,11 +186,11 @@ describe('ROICalculator wizard', () => {
     } as Response);
 
     render(<ROICalculator />);
-    completeStep1();
+    completeStep1(/Agencia Marketing/i, /50M\+/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '8500' },
+      target: { value: '60000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
@@ -204,5 +200,28 @@ describe('ROICalculator wizard', () => {
     await waitFor(() => {
       expect(screen.getByText(/No pudimos guardar tu lead/i)).toBeInTheDocument();
     });
+  });
+
+  it('muestra mensaje y CTA cuando el resultado es fallback extreme_roi', () => {
+    render(
+      <Step3Results
+        result={{
+          type: 'fallback',
+          reason: 'extreme_roi',
+          message: 'Escenario extremadamente optimista detectado. Necesitamos revisarlo contigo.',
+          recommendedAction: 'Agenda una consulta gratuita para validar los datos y recibir una estimación realista.',
+        }}
+        warnings={[]}
+        email=""
+        userData={{ sector: 'industrial', companySize: '5-10M' }}
+        pains={['cloud-costs']}
+        onEmailChange={() => {}}
+      />
+    );
+
+    expect(screen.getByRole('heading', { name: /escenario extremadamente optimista/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /consulta gratuita/i })).toBeInTheDocument();
+    expect(screen.queryByText(/ROI 3 años/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Ahorro estimado/i)).not.toBeInTheDocument();
   });
 });
