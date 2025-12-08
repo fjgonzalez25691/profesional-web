@@ -57,4 +57,15 @@ describe('Home Page', () => {
     // Modal should be visible
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
+
+  it('renderiza la sección de stack tecnológico', () => {
+    render(<Home />);
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Stack Tecnológico Transparente/i,
+      }),
+    ).toBeInTheDocument();
+  });
 });
