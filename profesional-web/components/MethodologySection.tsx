@@ -111,9 +111,9 @@ export default function MethodologySection() {
           <div
             data-testid="methodology-timeline-desktop"
             className="pointer-events-none absolute left-4 right-4 top-10 hidden items-center justify-between md:flex"
-            aria-hidden
+            aria-hidden="true"
           >
-            <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-amber-400 to-emerald-400" />
+            <div className="h-0.5 w-full bg-linear-to-r from-blue-400 via-amber-400 to-emerald-400" />
             <div
               className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white bg-blue-500 shadow"
               style={{ left: '16.6%' }}
@@ -130,12 +130,12 @@ export default function MethodologySection() {
 
           <div
             data-testid="methodology-timeline-mobile"
-            className="pointer-events-none absolute left-4 top-6 bottom-6 w-0.5 bg-gradient-to-b from-blue-400 via-amber-400 to-emerald-400 md:hidden"
+            className="pointer-events-none absolute left-4 top-6 bottom-6 w-0.5 bg-linear-to-b from-blue-400 via-amber-400 to-emerald-400 md:hidden"
             aria-hidden
           />
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {phases.map((phase, index) => (
+            {phases.map((phase) => (
               <div key={phase.title} className="relative">
                 <div
                   className="absolute left-4 top-6 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-white bg-blue-500 shadow md:hidden"

@@ -8,6 +8,7 @@ import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
 import { ChatbotWidget } from "@/components/Chatbot";
 import MethodologySection from "@/components/MethodologySection";
+import TechStackDiagram from "@/components/TechStackDiagram";
 
 type ModalSource = 'hero' | 'fab' | 'case_grid';
 
@@ -91,6 +92,8 @@ export default function Home() {
       />
 
       <MethodologySection />
+
+      <TechStackDiagram />
 
       <CalendlyModal
         isOpen={modalState.isOpen}

@@ -1,0 +1,47 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <!-- Frontend Layer -->
+  <g id="frontend">
+    <rect x="50" y="50" width="200" height="150" fill="#3b82f6" rx="8"/>
+    <text x="150" y="80" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Frontend</text>
+    <text x="150" y="110" text-anchor="middle" fill="white" font-size="14">Next.js 15 + React 19</text>
+    <text x="150" y="135" text-anchor="middle" fill="white" font-size="14">TypeScript + Tailwind</text>
+    <text x="150" y="160" text-anchor="middle" fill="white" font-size="14">Shadcn/ui</text>
+  </g>
+
+  <!-- Backend Layer -->
+  <g id="backend">
+    <rect x="300" y="50" width="200" height="150" fill="#8b5cf6" rx="8"/>
+    <text x="400" y="80" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Backend</text>
+    <text x="400" y="110" text-anchor="middle" fill="white" font-size="14">Next.js API Routes</text>
+    <text x="400" y="135" text-anchor="middle" fill="white" font-size="14">Vercel Postgres</text>
+    <text x="400" y="160" text-anchor="middle" fill="white" font-size="14">Groq (Llama 3.3)</text>
+  </g>
+
+  <!-- Infra Layer -->
+  <g id="infra">
+    <rect x="550" y="50" width="200" height="150" fill="#f59e0b" rx="8"/>
+    <text x="650" y="80" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Infraestructura</text>
+    <text x="650" y="110" text-anchor="middle" fill="white" font-size="14">Vercel Deploy</text>
+    <text x="650" y="135" text-anchor="middle" fill="white" font-size="14">GitHub Actions CI</text>
+    <text x="650" y="160" text-anchor="middle" fill="white" font-size="14">Vercel Cron</text>
+  </g>
+
+  <!-- Analytics Layer -->
+  <g id="analytics">
+    <rect x="300" y="250" width="200" height="100" fill="#10b981" rx="8"/>
+    <text x="400" y="280" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Analytics</text>
+    <text x="400" y="310" text-anchor="middle" fill="white" font-size="14">Vercel Analytics</text>
+    <text x="400" y="335" text-anchor="middle" fill="white" font-size="14">Postgres Logs</text>
+  </g>
+
+  <!-- Arrows connecting layers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <line x1="250" y1="125" x2="300" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="500" y1="125" x2="550" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="400" y1="200" x2="400" y2="250" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>
