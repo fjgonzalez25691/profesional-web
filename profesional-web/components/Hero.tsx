@@ -50,8 +50,8 @@ export default function Hero({
 
         {/* CTA Buttons */}
         <div className="mt-4 flex flex-col gap-4 sm:flex-row">
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             onClick={handleCtaClick}
             className="bg-blue-600 text-lg font-semibold hover:bg-blue-700"
           >
@@ -77,11 +77,13 @@ export default function Hero({
         <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] overflow-hidden rounded-2xl bg-slate-200 shadow-2xl">
           <Image
             src="/hero-profile.webp"
-            alt="Hero profile - Francisco Javier González"
+            alt="Hero profile - Francisco Javier Gonzalez"
             width={380}
             height={380}
             className="object-cover w-full h-full"
             priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEhIWFRUVFRcYFRUVFRUVFRUVFhUXFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAKAAoAMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAFAAMEBgcBAv/EADgQAAIBAwMCBAMGBgIDAAAAAAECAwAEEQUSITFBEyJRYXGBBhQykaGx8EJSscHh8RVDYnKC4TMk/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAIBAwQF/8QAKREAAgICAgIBBAIDAQAAAAAAAAICEQMhEjMEQRMiUWEUMkJxgZGx8P/aAAwDAQACEQMRAD8A9eqiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD//2Q=="
           />
         </div>
       </div>

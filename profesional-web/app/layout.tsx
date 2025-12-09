@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  variable: "--font-inter",
+  weight: ["400", "600", "700"],
+});
+
+// FJG-57: Edge caching para páginas estáticas
+// Nota: app/page.tsx es client component, por lo que este revalidate
+// aplica principalmente a páginas legales y otras rutas estáticas
+export const revalidate = 3600; // 1 hora
 const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || "Francisco Javier González Aparicio";
 
 export const metadata: Metadata = {
@@ -80,14 +93,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={inter.variable}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
+      <body className={`${inter.className} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
