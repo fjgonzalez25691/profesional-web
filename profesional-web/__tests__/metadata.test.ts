@@ -21,7 +21,7 @@ describe("SEO metadata", () => {
     const title =
       typeof metadata.title === "string"
         ? metadata.title
-        : metadata.title?.default;
+        : (metadata.title && typeof metadata.title === "object" && "default" in metadata.title ? metadata.title.default : undefined);
     expect(title).toBeDefined();
     expect(title!.length).toBeLessThanOrEqual(70);
   });

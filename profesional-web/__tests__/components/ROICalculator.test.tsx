@@ -24,18 +24,50 @@ describe('ROICalculator wizard', () => {
   it('calcula escenario cloud y muestra resultados + form email', () => {
     render(<ROICalculator />);
 
-    completeStep1(/Agencia Marketing/i, /50M\+/i);
+    // Empresa 5-10M: revenue 7.5M, inversión cloud 0.30% = 22.500€
+    // Gasto 3.000€/mes (<=5k): savings rate 12%, ahorro = 3.000*12*0.12 = 4.320€/año
+    // Payback = (22.500 / 4.320) * 12 = 62.5 meses
+    // ROI 3y = ((4.320*3 - 22.500) / 22.500) * 100 = -42% (negativo, no sirve)
+
+    // Probemos con empresa 10-25M y gasto mayor:
+    // Empresa 10-25M: revenue 17.5M, inversión cloud 0.40% = 70.000€
+    // Gasto 8.000€/mes (5-10k): savings rate 10%, ahorro = 8.000*12*0.10 = 9.600€/año
+    // Payback = (70.000 / 9.600) * 12 = 87.5 meses
+    // ROI 3y = ((9.600*3 - 70.000) / 70.000) * 100 = -58% (negativo)
+
+    // Intentemos con gasto más alto para empresa mediana:
+    // Empresa 10-25M, gasto 30.000€/mes (>25k): savings 6%, ahorro = 30.000*12*0.06 = 21.600€/año
+    // Inversión: 70.000€
+    // Payback = (70.000 / 21.600) * 12 = 38.9 ≈ 39 meses
+    // ROI 3y = ((21.600*3 - 70.000) / 70.000) * 100 = -7% (aún negativo)
+
+    // Usemos empresa pequeña 5-10M con gasto moderado-alto:
+    // Empresa 5-10M, gasto 5.000€/mes: savings 10% (<=5k usa 12%, pero 5k justo usa 10%), ahorro = 5.000*12*0.10 = 6.000€/año
+    // Inversión: 22.500€
+    // Payback = (22.500 / 6.000) * 12 = 45 meses
+    // ROI 3y = ((6.000*3 - 22.500) / 22.500) * 100 = -20% (negativo)
+
+    // El problema es que con los nuevos savings rates (6-12%) la inversión es demasiado alta
+    // Vamos a usar empresa pequeña con gasto alto para maximizar ahorro:
+    // Empresa 5-10M, gasto 4.000€/mes: savings 12%, ahorro = 4.000*12*0.12 = 5.760€/año
+    // Inversión: 22.500€
+    // Payback = (22.500 / 5.760) * 12 = 46.9 ≈ 47 meses
+    // ROI 3y = ((5.760*3 - 22.500) / 22.500) * 100 = -23% (negativo)
+
+    completeStep1(/Industrial/i, /5-10M/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '60000' },
+      target: { value: '4000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
-    expect(screen.getByText(/Ahorro estimado: ~72\.000€\/año/i)).toBeInTheDocument();
-    expect(screen.getByText(/Inversión: ~150\.000€/i)).toBeInTheDocument();
-    expect(screen.getByText(/Payback: 25 meses/i)).toBeInTheDocument();
-    expect(screen.getByText(/ROI 3 años: 44%/i)).toBeInTheDocument();
+    // Con los valores actuales, esperamos:
+    // Ahorro: 5.760€/año, Inversión: 22.500€, Payback: 47 meses, ROI 3y: -23%
+    expect(screen.getByText(/Ahorro estimado: ~5\.760€\/año/i)).toBeInTheDocument();
+    expect(screen.getByText(/Inversión: ~22\.500€/i)).toBeInTheDocument();
+    expect(screen.getByText(/Payback: 47 meses/i)).toBeInTheDocument();
+    expect(screen.getByText(/ROI 3 años: -23%/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Supuestos conservadores/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/Recibe análisis completo/i)).toBeInTheDocument();
   });
@@ -158,11 +190,11 @@ describe('ROICalculator wizard', () => {
     } as Response);
 
     render(<ROICalculator />);
-    completeStep1(/Agencia Marketing/i, /50M\+/i);
+    completeStep1(/Industrial/i, /5-10M/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '60000' },
+      target: { value: '4000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 
@@ -186,11 +218,11 @@ describe('ROICalculator wizard', () => {
     } as Response);
 
     render(<ROICalculator />);
-    completeStep1(/Agencia Marketing/i, /50M\+/i);
+    completeStep1(/Industrial/i, /5-10M/i);
 
     fireEvent.click(screen.getByLabelText(/Reducir costes cloud/i));
     fireEvent.change(screen.getByLabelText(/Gasto mensual en cloud/i), {
-      target: { value: '60000' },
+      target: { value: '4000' },
     });
     fireEvent.click(screen.getByRole('button', { name: /Siguiente/i }));
 

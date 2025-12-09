@@ -6,7 +6,7 @@ test.describe("SEO básico", () => {
 
     const title = await page.title();
     expect(title).toContain("Francisco García");
-    expect(title).toContain("Reducción Costes Cloud");
+    expect(title).toContain("Reducción Cloud");
 
     const metaDescription = await page
       .locator('meta[name="description"]')
@@ -17,7 +17,7 @@ test.describe("SEO básico", () => {
     const ogTitle = await page
       .locator('meta[property="og:title"]')
       .getAttribute("content");
-    expect(ogTitle).toContain("Reducción Costes Cloud");
+    expect(ogTitle).toContain("Reducción Cloud");
 
     const ogImage = await page
       .locator('meta[property="og:image"]')

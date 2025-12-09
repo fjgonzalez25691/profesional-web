@@ -63,10 +63,10 @@ test.describe('Lead Capture Flow', () => {
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
     // Paso 3: Verificar resultados ROI mostrados
-    // FJG-87: 8500 * 12 * 0.275 = 28,050€
-    // Investment: 2500 + (600 * 1.2) = 3,220€
-    await expect(page.getByText(/Ahorro estimado: ~28\.050€\/año/i)).toBeVisible();
-    await expect(page.getByText(/Inversión: ~3\.220€/i)).toBeVisible();
+    // FJG-96: Savings = 8500 * 12 * 0.10 = 10,200€/año (10% para ≤10K/mes)
+    // Investment = 17.5M * 0.0040 = 70,000€
+    await expect(page.getByText(/Ahorro estimado: ~10\.200€\/año/i)).toBeVisible();
+    await expect(page.getByText(/Inversión: ~70\.000€/i)).toBeVisible();
 
     // Completar email y enviar
     const testEmail = `test-${Date.now()}@empresa.com`;
@@ -104,13 +104,14 @@ test.describe('Lead Capture Flow', () => {
   });
 
   test('should show validation error for missing email', async ({ page }) => {
-    // Completar pasos 1 y 2
+    // Completar pasos 1 y 2 con escenario que NO active fallback extreme_roi
+    // Usar cloud-costs con empresa pequeña y gasto bajo
     await page.locator('label:has-text("Industrial")').click();
-    await page.locator('label[for="size-25-50M"]').click();
+    await page.locator('label[for="size-5-10M"]').click();
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
-    await page.getByLabel(/Reducir procesos manuales/i).click();
-    await page.getByLabel(/Horas manuales a la semana/i).fill('20');
+    await page.getByLabel(/Reducir costes cloud/i).click();
+    await page.getByLabel(/Gasto mensual en cloud/i).fill('3000');
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
     // Intentar enviar sin email
@@ -163,13 +164,14 @@ test.describe('Lead Capture Flow', () => {
     // Resetear
     await page.getByRole('button', { name: /Nuevo cálculo/i }).click();
 
-    // Segunda submission - Manual processes con MISMO email
+    // Segunda submission - Cloud costs con diferente empresa y MISMO email
+    // Evitar fallback usando escenario que genere ROI normal
     await page.locator('label:has-text("Industrial")').click();
-    await page.locator('label[for="size-25-50M"]').click();
+    await page.locator('label[for="size-5-10M"]').click();
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
-    await page.getByLabel(/Reducir procesos manuales/i).click();
-    await page.getByLabel(/Horas manuales a la semana/i).fill('30');
+    await page.getByLabel(/Reducir costes cloud/i).click();
+    await page.getByLabel(/Gasto mensual en cloud/i).fill('4000');
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
     await page.getByPlaceholder(/tuemail@empresa.com/i).fill(duplicateEmail);
@@ -192,7 +194,7 @@ test.describe('Lead Capture Flow', () => {
         roi3Years?: number;
       };
     }
-    
+
     let capturedPayload: CapturedPayload | undefined;
 
     // Mock con captura de payload para verificación
@@ -212,16 +214,14 @@ test.describe('Lead Capture Flow', () => {
       }
     });
 
-    // Completar calculadora con todos los datos
+    // Completar calculadora con UN solo dolor (multi-dolor activa fallback sin form)
     await page.locator('label:has-text("Farmacéutica")').click();
     await page.locator('label[for="size-50M+"]').click();
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
-    // Seleccionar múltiples dolores
+    // Seleccionar SOLO cloud-costs para evitar fallback multi_pain
     await page.getByLabel(/Reducir costes cloud/i).click();
     await page.getByLabel(/Gasto mensual en cloud/i).fill('12000');
-    await page.getByLabel(/Reducir procesos manuales/i).click();
-    await page.getByLabel(/Horas manuales a la semana/i).fill('25');
     await page.getByRole('button', { name: /Siguiente/i }).click();
 
     const testEmail = `complete-${Date.now()}@farmaceutica.com`;
@@ -238,7 +238,6 @@ test.describe('Lead Capture Flow', () => {
       expect(capturedPayload.sector).toBe('farmaceutica');
       expect(capturedPayload.companySize).toBe('50M+');
       expect(capturedPayload.pains).toContain('cloud-costs');
-      expect(capturedPayload.pains).toContain('manual-processes');
       expect(capturedPayload.roiData).toBeDefined();
       expect(capturedPayload.roiData.investment).toBeGreaterThan(0);
       expect(capturedPayload.roiData.savingsAnnual).toBeGreaterThan(0);

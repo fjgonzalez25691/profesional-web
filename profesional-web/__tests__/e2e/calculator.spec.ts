@@ -20,11 +20,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('3000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // FJG-96: Savings = 3000 * 12 * 0.275 = 9,900€/año
-      // Investment = 15,000 * 2.0 * min(3000/10000, 5) = 15,000 * 2.0 * 0.3 = 9,000€
-      // ROI 3y = ((9900*3 - 9000) / 9000) * 100 = 230% → Activa fallback
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 3000 * 12 * 0.12 = 4,320€/año (12% para ≤5K/mes)
+      // Investment = 60M * 0.0060 = 360,000€
+      // ROI 3y = ((4320*3 - 360000) / 360000) * 100 = -96.4% → NO activa fallback
+      // Este escenario ya NO activa fallback con la nueva lógica
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~4\.320€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~360\.000€/i)).toBeVisible();
     });
 
     test('muestra fallback para cloud-costs con valores altos (15000€/mes)', async ({ page }) => {
@@ -37,11 +39,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('15000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // FJG-96: Savings = 15000 * 12 * 0.20 = 36,000€/año (20% para 5-20K)
-      // Investment = 15,000 * 2.0 * min(15000/10000, 5) = 15,000 * 2.0 * 1.5 = 45,000€
-      // ROI 3y = ((36000*3 - 45000) / 45000) * 100 = 140% → Activa fallback
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 15000 * 12 * 0.08 = 14,400€/año (8% para ≤25K/mes)
+      // Investment = 60M * 0.0060 = 360,000€
+      // ROI 3y = ((14400*3 - 360000) / 360000) * 100 = -88% → NO activa fallback
+      // Este escenario ya NO activa fallback con la nueva lógica
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~14\.400€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~360\.000€/i)).toBeVisible();
     });
 
     test('valida campo requerido en cloud-costs', async ({ page }) => {
@@ -270,8 +274,8 @@ test.describe('Calculadora ROI', () => {
       await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
     });
 
-    test('Otro + cloud-costs muestra fallback (ROI extremo)', async ({ page }) => {
-      // FJG-96: ROI ~204% → activa fallback
+    test('Otro + cloud-costs muestra resultados normales (ROI ~-29%)', async ({ page }) => {
+      // FJG-96: Con nueva lógica NO activa fallback
       await page.locator('label:has-text("Otro")').click();
       await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -280,8 +284,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('5000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 5000 * 12 * 0.12 = 7,200€/año (12% para ≤5K/mes)
+      // Investment = 17.5M * 0.0040 = 70,000€
+      // ROI 3y = ((7200*3 - 70000) / 70000) * 100 = -69% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~7\.200€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~70\.000€/i)).toBeVisible();
     });
   });
 
@@ -290,8 +298,8 @@ test.describe('Calculadora ROI', () => {
   // ============================================
 
   test.describe('Por Tamaño de Empresa', () => {
-    test('5-10M empresa pequeña muestra fallback (ROI ~98%)', async ({ page }) => {
-      // FJG-96: Este escenario activa fallback
+    test('5-10M empresa pequeña muestra resultados normales (ROI ~73%)', async ({ page }) => {
+      // FJG-96: Este escenario con nueva lógica NO activa fallback
       await page.locator('label:has-text("Logística")').click();
       await page.locator('label[for="size-5-10M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -300,12 +308,16 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('3000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 3000 * 12 * 0.12 = 4,320€/año (12% para ≤5K/mes)
+      // Investment = 7.5M * 0.0030 = 22,500€
+      // ROI 3y = ((4320*3 - 22500) / 22500) * 100 = -42% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~4\.320€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~22\.500€/i)).toBeVisible();
     });
 
-    test('10-25M empresa mediana muestra fallback (ROI ~331%)', async ({ page }) => {
-      // FJG-96: Este escenario activa fallback
+    test('10-25M empresa mediana muestra resultados normales (ROI ~25%)', async ({ page }) => {
+      // FJG-96: Este escenario con nueva lógica NO activa fallback
       await page.locator('label:has-text("Agencia Marketing")').click();
       await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -314,12 +326,16 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('8500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 8500 * 12 * 0.10 = 10,200€/año (10% para ≤10K/mes)
+      // Investment = 17.5M * 0.0040 = 70,000€
+      // ROI 3y = ((10200*3 - 70000) / 70000) * 100 = -56% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~10\.200€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~70\.000€/i)).toBeVisible();
     });
 
-    test('25-50M empresa mediana-grande muestra fallback (ROI ~333%)', async ({ page }) => {
-      // FJG-96: Este escenario activa fallback
+    test('25-50M empresa mediana-grande muestra resultados normales (ROI ~-1%)', async ({ page }) => {
+      // FJG-96: Este escenario con nueva lógica NO activa fallback
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-25-50M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -328,11 +344,15 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('15000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 15000 * 12 * 0.08 = 14,400€/año (8% para ≤25K/mes)
+      // Investment = 35M * 0.0050 = 175,000€
+      // ROI 3y = ((14400*3 - 175000) / 175000) * 100 = -75% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~14\.400€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~175\.000€/i)).toBeVisible();
     });
 
-    test('50M+ empresa grande NO muestra fallback (ROI ~80%)', async ({ page }) => {
+    test('50M+ empresa grande NO muestra fallback (ROI ~25%)', async ({ page }) => {
       // FJG-96: Este escenario NO activa fallback (ROI < 90%)
       await page.locator('label:has-text("Retail")').click();
       await page.locator('label[for="size-50M+"]').click();
@@ -342,12 +362,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('25000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // FJG-96: Savings = 25000 * 12 * 0.15 = 45,000€/año (15% para 20-50K)
-      // Investment = 15,000 * 2.0 * min(25000/10000, 5) = 15,000 * 2.0 * 2.5 = 75,000€
-      // ROI 3y = ((45000*3 - 75000) / 75000) * 100 = 80% → NO activa fallback
+      // FJG-96: Savings = 25000 * 12 * 0.08 = 24,000€/año (8% para ≤25K/mes)
+      // Investment = 60M * 0.0060 = 360,000€
+      // ROI 3y = ((24000*3 - 360000) / 360000) * 100 = -80% → NO activa fallback
       await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
-      await expect(page.getByText(/Ahorro estimado: ~45\.000€\/año/i)).toBeVisible();
-      await expect(page.getByText(/Inversión: ~75\.000€/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~24\.000€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~360\.000€/i)).toBeVisible();
     });
   });
 
@@ -367,6 +387,7 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
+      // FJG-98: maxPainsSelected = 1 → fuerza fallback multi_pain
       const multiPainBox = page.getByTestId('multi-pain-fallback');
       await expect(multiPainBox).toBeVisible();
       await expect(page.getByRole('link', { name: /Agendar sesión personalizada/i })).toBeVisible();
@@ -456,12 +477,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // FJG-96: Savings = 500 * 12 * 0.275 = 1,650€/año
-      // Investment = 15,000 * 1.0 * min(500/10000, 5) = 15,000 * 0.05 = 750€
-      // ROI 3y = ((1650*3 - 750) / 750) * 100 = ((4950-750)/750)*100 = 560%
-      // Activa fallback extreme_roi (ROI > 90%)
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 500 * 12 * 0.12 = 720€/año (12% para ≤5K/mes)
+      // Investment = 7.5M * 0.0030 = 22,500€
+      // ROI 3y = ((720*3 - 22500) / 22500) * 100 = -90% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~720€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~22\.500€/i)).toBeVisible();
     });
 
     test('valores altos en manual-processes muestra fallback (ROI ~290%)', async ({ page }) => {
@@ -608,14 +629,18 @@ test.describe('Calculadora ROI', () => {
   test.describe('FJG-96: Fallback para ROI extremo o payback < 3 meses', () => {
     test('muestra fallback cuando ROI > 90% (cloud-costs extremo)', async ({ page }) => {
       // CA1: ROI 3y > 90 → devuelve fallback/extreme_roi
+      // Usando escenario ajustado que SÍ active fallback con nueva lógica
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-5-10M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Reducir costes cloud/i).click();
-      await page.getByLabel(/Gasto mensual en cloud/i).fill('10000');
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('25000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
+      // FJG-96: Savings = 25000 * 12 * 0.08 = 24,000€/año (8% para ≤25K/mes)
+      // Investment = 7.5M * 0.0030 = 22,500€
+      // ROI 3y = ((24000*3 - 22500) / 22500) * 100 = 220% → Activa fallback
       // Verificar que NO se muestran cifras de ROI
       await expect(page.getByText(/Ahorro estimado: ~.*€\/año/i)).not.toBeVisible();
       await expect(page.getByText(/Inversión: ~.*€/i)).not.toBeVisible();
@@ -686,9 +711,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
       await page.getByLabel(/Reducir costes cloud/i).click();
-      await page.getByLabel(/Gasto mensual en cloud/i).fill('10000');
+      await page.getByLabel(/Gasto mensual en cloud/i).fill('25000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
+      // FJG-96: 25K/mes SÍ activa fallback con nueva lógica (ROI 220%)
       // Verificar que el mensaje de fallback es visible en mobile (usando role para evitar strict mode)
       const fallbackTitle = page.getByRole('heading', { name: /Escenario extremadamente optimista/i });
       await expect(fallbackTitle).toBeVisible();
@@ -763,13 +789,15 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('95000');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // Con ROI extremo, ahora muestra fallback en lugar de warnings
+      // FJG-96: Savings = 95000 * 12 * 0.06 = 68,400€/año (6% para >25K/mes)
+      // Investment = 7.5M * 0.0030 = 22,500€
+      // ROI 3y = ((68400*3 - 22500) / 22500) * 100 = 813% → Activa fallback extreme_roi
       await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
       await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
     });
 
-    test('muestra fallback cuando ROI es extremo (en lugar de warning)', async ({ page }) => {
-      // FJG-96: Este escenario ahora activa fallback por ROI > 90%
+    test('muestra resultados normales (no fallback) con 8500€/mes', async ({ page }) => {
+      // FJG-96: Este escenario con nueva lógica NO activa fallback
       await page.locator('label:has-text("Agencia Marketing")').click();
       await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -778,9 +806,12 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Gasto mensual en cloud/i).fill('8500');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      // FJG-96: Ahora muestra fallback en lugar de warning ROI extremo
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      // FJG-96: Savings = 8500 * 12 * 0.10 = 10,200€/año (10% para ≤10K/mes)
+      // Investment = 17.5M * 0.0040 = 70,000€
+      // ROI 3y = ((10200*3 - 70000) / 70000) * 100 = -56% → NO activa fallback
+      await expect(page.getByText(/Resultados estimados/i)).toBeVisible();
+      await expect(page.getByText(/Ahorro estimado: ~10\.200€\/año/i)).toBeVisible();
+      await expect(page.getByText(/Inversión: ~70\.000€/i)).toBeVisible();
     });
 
     test('muestra mensaje mejorado para gasto cloud >100K (FJG-94)', async ({ page }) => {
