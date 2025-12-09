@@ -1,14 +1,20 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 9 de diciembre de 2025, 08:15 (Europe/Madrid)*
+*Última actualización: 9 de diciembre de 2025, 17:00 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 4 EN CURSO
-**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (🔄 Planning Complete - 9 dic 2025)
+**FJG-57**: US-05-005 – Performance Optimization LCP <2.5s Mobile (🔄 Planning Complete - 9 dic 2025)
 - **Estado:** Planificación Manager completada
-- **Contexto:** Metadata Next.js, sitemap dinámico, robots.txt, JSON-LD Schema.org, OG Image
+- **Contexto:** Image optimization WebP, lazy loading chatbot, font optimization, edge caching, Lighthouse CI
 - **Story Points:** 2 SP
 - **Prioridad:** 🟡 Medium
-- **Branch:** `fjgonzalez25691-fjg-55-us-05-003-seo-basico-metadata-sitemap`
+- **Objetivo:** Core Web Vitals (LCP <2.5s, FID <100ms, CLS <0.1, Performance >85 mobile)
+- **Branch:** `fjgonzalez25691-fjg-57-us-05-005-performance-optimization-lcp-25s-mobile`
 - **Siguiente paso:** Developer implementación tras aprobación prompts
+
+**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Planning Merged - 9 dic 2025 - PR #36)
+- **Estado:** Planificación Manager completada y mergeada
+- **Contexto:** Metadata Next.js, sitemap dinámico, robots.txt, JSON-LD Schema.org, OG Image
+- **Siguiente paso:** Developer implementación pendiente
 
 **FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones (⏸️ On Hold - 6 dic 2025)
 - **Estado:** Planificación inicial archivada (branch: `archive/fjg-85-validacion-masiva-descartado`)

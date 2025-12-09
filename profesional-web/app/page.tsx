@@ -1,12 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
 import PainPoints from "@/components/PainPoints";
 import CaseGrid from "@/components/CaseGrid";
 import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
-import { ChatbotWidget } from "@/components/Chatbot";
 import MethodologySection from "@/components/MethodologySection";
 import TechStackDiagram from "@/components/TechStackDiagram";
 
@@ -18,6 +18,13 @@ type UtmParams = {
   utm_content?: string;
 };
 
+const ChatbotWidget = dynamic(
+  () => import("@/components/Chatbot").then((mod) => mod.ChatbotWidget),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
   const [modalState, setModalState] = useState<{ isOpen: boolean; source: ModalSource; utmParams?: UtmParams }>({
     isOpen: false,
@@ -27,7 +34,6 @@ export default function Home() {
   const [showFloatingChat, setShowFloatingChat] = useState(false);
   const desktopFabRef = useRef<HTMLButtonElement>(null);
   const mobileFabRef = useRef<HTMLButtonElement>(null);
-  const chatbotRef = useRef<HTMLDivElement>(null);
 
   const openModal = (source: ModalSource, utmParams?: UtmParams) => {
     setModalState({ isOpen: true, source, utmParams });
@@ -110,9 +116,7 @@ export default function Home() {
         visible={showFloatingCTA}
       />
 
-      <div ref={chatbotRef}>
-        <ChatbotWidget visible={showFloatingChat} />
-      </div>
+      <ChatbotWidget visible={showFloatingChat} />
     </main>
   );
 }

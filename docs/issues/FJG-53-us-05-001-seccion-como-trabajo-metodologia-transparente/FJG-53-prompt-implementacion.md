@@ -171,10 +171,10 @@ function PhaseCard({ icon, title, duration, actions, deliverable, badge }: Phase
         )}
       </div>
       
-      <ul className="mb-4 space-y-2 flex-grow">
+      <ul className="mb-4 space-y-2 grow">
         {actions.map((action, idx) => (
           <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-            <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-600" />
+            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600" />
             <span>{action}</span>
           </li>
         ))}
@@ -245,9 +245,9 @@ export default function MethodologySection() {
             {/* Timeline horizontal */}
             <div 
               data-testid="methodology-timeline"
-              className="absolute top-14 left-0 right-0 flex items-center justify-between px-24 pointer-events-none hidden md:flex"
+              className="absolute top-14 left-0 right-0 flex items-center justify-between px-24 pointer-events-none  md:flex"
             >
-              <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-amber-400 to-green-400" />
+              <div className="h-0.5 w-full bg-linear-r from-blue-400 via-amber-400 to-green-400" />
             </div>
           </div>
         </div>
@@ -255,7 +255,7 @@ export default function MethodologySection() {
         {/* Mobile: 1 columna con timeline vertical */}
         <div className="md:hidden space-y-6 relative">
           {/* Timeline vertical */}
-          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-gradient-to-b from-blue-400 via-amber-400 to-green-400" />
+          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-linear-b from-blue-400 via-amber-400 to-green-400" />
           
           {phases.map((phase, idx) => (
             <div key={idx} className="relative pl-4">

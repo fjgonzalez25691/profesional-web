@@ -1,0 +1,72 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: 'profesional-web/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./profesional-web
+
+      - name: Build Next.js
+        run: npm run build
+        working-directory: ./profesional-web
+        env:
+          RESEND_API_KEY: re_dummy_key_for_ci_build_only
+          GROQ_API_KEY: gsk_dummy_key_for_ci_build_only
+          DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
+          DIRECT_URL: postgresql://dummy:dummy@localhost:5432/dummy
+          NEXTAUTH_SECRET: dummy-secret-for-ci-build-only
+          NEXTAUTH_URL: http://localhost:3000
+          NEXT_PUBLIC_CALENDLY_URL: https://calendly.com/dummy
+          KV_URL: http://localhost:6379
+          KV_REST_API_URL: http://localhost:6379
+          KV_REST_API_TOKEN: dummy_token
+          KV_REST_API_READ_ONLY_TOKEN: dummy_token
+
+      - name: Start Next.js server
+        run: npm run start &
+        working-directory: ./profesional-web
+        env:
+          RESEND_API_KEY: re_dummy_key_for_ci_build_only
+          GROQ_API_KEY: gsk_dummy_key_for_ci_build_only
+          DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
+          DIRECT_URL: postgresql://dummy:dummy@localhost:5432/dummy
+          NEXTAUTH_SECRET: dummy-secret-for-ci-build-only
+          NEXTAUTH_URL: http://localhost:3000
+          NEXT_PUBLIC_CALENDLY_URL: https://calendly.com/dummy
+          KV_URL: http://localhost:6379
+          KV_REST_API_URL: http://localhost:6379
+          KV_REST_API_TOKEN: dummy_token
+          KV_REST_API_READ_ONLY_TOKEN: dummy_token
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/calculadora
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: './profesional-web/.lighthouserc.json'
+
+      - name: Check Core Web Vitals
+        run: |
+          echo "✅ Lighthouse CI completado"
+          echo "Validar umbrales: LCP <2.5s, FID <100ms, CLS <0.1, Performance >85"

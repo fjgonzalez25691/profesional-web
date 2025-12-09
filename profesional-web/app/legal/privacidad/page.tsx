@@ -1,3 +1,6 @@
+// FJG-57: Edge caching para páginas legales (contenido estático)
+export const revalidate = 86400; // 24 horas
+
 export default function PrivacidadPage() {
   const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || 'Francisco Javier González Aparicio';
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contacto@ejemplo.com';

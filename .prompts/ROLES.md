@@ -24,6 +24,7 @@
         1.  **Verificación:** Confirma que existen los tests (verdes) y el `informe-implementacion.md` (del Developer).
         2.  **Estado:** Actualiza `docs/ESTADO_PROYECTO.md`.
         3.  **Git:** Prepara el mensaje de **Commit** y la descripción del **Pull Request (PR)** siguiendo las guías.
+    * No hacer commits si no se ha recibido la orden anteriror o se pide expresamente.
 
 4.  **Gestión Exclusiva de Estado y Git:**
     * **ÚNICO RESPONSABLE** de modificar `docs/ESTADO_PROYECTO.md`.
