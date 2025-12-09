@@ -25,18 +25,18 @@ describe('calculateROI', () => {
   });
 
   it('ajusta inversión base + multiplicador por tamaño', () => {
-    // FJG-94: Ahora usa baseInvestment * investmentMultiplier de roiConfig
-    // cloud: 15,000 * 1.3 = 19,500
-    expect(getInvestmentForPain('cloud-costs', '10-25M')).toBe(19_500);
-    // manual: 12,000 * 1.6 = 19,200
+    // FJG-XXX: cloud ahora usa % facturación (no baseInvestment * multiplier)
+    // cloud 10-25M: 17.5M * 0.004 = 70,000
+    expect(getInvestmentForPain('cloud-costs', '10-25M')).toBe(70_000);
+    // manual: 12,000 * 1.6 = 19,200 (sin cambios)
     expect(getInvestmentForPain('manual-processes', '25-50M')).toBe(19_200);
-    // forecast: 25,000 * 2.0 = 50,000
+    // forecast: 25,000 * 2.0 = 50,000 (sin cambios)
     expect(getInvestmentForPain('forecasting', '50M+')).toBe(50_000);
-    // inventory: 20,000 * 1.0 = 20,000
+    // inventory: 20,000 * 1.0 = 20,000 (sin cambios)
     expect(getInvestmentForPain('inventory', '5-10M')).toBe(20_000);
   });
 
-  it('calcula escenario cloud según Linear', () => {
+  it('calcula escenario cloud según Linear con modelo ajustado', () => {
     const inputs: CalculatorInputs = {
       companySize: '50M+',
       sector: 'agencia',
@@ -46,16 +46,46 @@ describe('calculateROI', () => {
 
     const result = calculateROI(inputs);
 
+    // FJG-XXX: Con nuevo modelo (6% ahorro, 0.6% facturación inversión)
+    // Savings: 60K * 12 * 0.06 = 43,200
+    // Investment: 60M * 0.006 = 360,000
+    // Payback: (360K / 43.2K) * 12 = 100 meses
+    // ROI 3y: ((43.2K * 3 - 360K) / 360K) * 100 = -64%
+    
     expect(result.type).toBe('success');
     if (result.type === 'success') {
-      // Escenario conservador con gasto alto (rate 10%) → ROI moderado
-      expect(result.savingsAnnual).toBe(72_000); // 60K * 12 * 0.10
-      expect(result.investment).toBe(150_000); // 15K * 2.0 * cap spendFactor 5x
-      expect(result.paybackMonths).toBe(25);
-      expect(result.roi3Years).toBe(44);
+      expect(result.savingsAnnual).toBe(43_200);
+      expect(result.investment).toBe(360_000);
+      expect(result.paybackMonths).toBe(100);
+      expect(result.roi3Years).toBe(-64);
       const roiFormatted = formatRoiWithCap(result.roi3Years);
-      expect(roiFormatted.label).toBe('44%');
+      expect(roiFormatted.label).toBe('-64%');
       expect(roiFormatted.isCapped).toBe(false);
+    }
+  });
+
+  it('calcula escenario cloud conservador para empresa mediana (caso ejemplo)', () => {
+    // Caso solicitado: 10-25M, industrial, cloud 8K/mes
+    const inputs: CalculatorInputs = {
+      companySize: '10-25M',
+      sector: 'industrial',
+      pains: ['cloud-costs'],
+      cloudSpendMonthly: 8_000,
+    };
+
+    const result = calculateROI(inputs);
+
+    // Savings: 8K * 12 * 0.10 = 9,600 (10% porque ≤10K)
+    // Investment: 17.5M * 0.004 = 70,000
+    // Payback: (70K / 9.6K) * 12 = 87.5 meses
+    // ROI 3y: ((9.6K * 3 - 70K) / 70K) * 100 = -59%
+    
+    expect(result.type).toBe('success');
+    if (result.type === 'success') {
+      expect(result.savingsAnnual).toBe(9_600);
+      expect(result.investment).toBe(70_000);
+      expect(result.paybackMonths).toBe(88); // redondeado
+      expect(result.roi3Years).toBe(-59);
     }
   });
 
@@ -205,15 +235,20 @@ describe('calculateROI', () => {
 
 describe('calculateROI - fallback extremos (FJG-96)', () => {
   it('devuelve fallback cuando ROI 3y supera 90%', () => {
+    // FJG-XXX: Ajustado para nuevo modelo cloud
+    // Con gasto muy bajo en empresa pequeña puede dar ROI alto
     const inputs: CalculatorInputs = {
       companySize: '5-10M',
       sector: 'industrial',
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 10_000,
+      cloudSpendMonthly: 15_000, // Gasto alto para empresa pequeña
     };
 
     const result = calculateROI(inputs);
 
+    // Savings: 15K * 12 * 0.10 = 18,000
+    // Investment: 7.5M * 0.003 = 22,500
+    // ROI 3y: ((18K * 3 - 22.5K) / 22.5K) * 100 = 140%
     expect(result.type).toBe('fallback');
     if (result.type === 'fallback') {
       expect(result.reason).toBe('extreme_roi');
@@ -298,13 +333,19 @@ describe('calculateROI - fallback scenarios (FJG-85 DoD4)', () => {
   });
 
   it('devuelve fallback por ROI extremo incluso con valores dentro de rango cloud', () => {
+    // FJG-XXX: Gasto cloud muy alto (100K/mes) en empresa pequeña (5-10M)
+    // genera ROI extremo porque savings son altos vs inversión fija
     const result = calculateROI({
       companySize: '5-10M',
       sector: 'industrial',
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 100_000,
+      cloudSpendMonthly: 100_000, // Máximo permitido
     });
 
+    // Savings: 100K * 12 * 0.06 = 72,000 (6% porque >25K)
+    // Investment: 7.5M * 0.003 = 22,500
+    // Payback: (22.5K / 72K) * 12 = 3.75 meses
+    // ROI 3y: ((72K * 3 - 22.5K) / 22.5K) * 100 = 860%
     expect(result.type).toBe('fallback');
     if (result.type === 'fallback') {
       expect(result.reason).toBe('extreme_roi');
@@ -331,6 +372,8 @@ describe('calculateROI - fallback scenarios (FJG-85 DoD4)', () => {
   });
 
   it('devuelve success con warnings para cloud gasto alto pero dentro de coherencia', () => {
+    // FJG-XXX: Este escenario ahora es el mismo que el test principal de cloud
+    // 60K/mes en 50M+ da ROI negativo pero no dispara extreme_roi
     const inputs: CalculatorInputs = {
       companySize: '50M+',
       sector: 'industrial',
@@ -340,8 +383,9 @@ describe('calculateROI - fallback scenarios (FJG-85 DoD4)', () => {
     const result = calculateROI(inputs);
     expect(result.type).toBe('success');
     if (result.type === 'success') {
-      expect(result.investment).toBeGreaterThan(0);
-      expect(result.savingsAnnual).toBeGreaterThan(0);
+      expect(result.investment).toBe(360_000);
+      expect(result.savingsAnnual).toBe(43_200);
+      expect(result.roi3Years).toBe(-64); // ROI negativo es realista
     }
   });
 
