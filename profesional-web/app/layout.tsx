@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/Footer";
 
+const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || "Francisco Javier González Aparicio";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://fjgaparicio.es"),
   title: {
-    default: "Francisco García - Reducción Cloud & Automatización | Payback <6 meses",
-    template: "%s | Francisco García",
+    default: `${businessName} - Reducción Cloud & Automatización | Payback <6 meses`,
+    template: `%s | ${businessName}`,
   },
   description:
     "Reduzco factura cloud (AWS/Azure) 30-70% y automatizo procesos manuales. Empresas 5-50M€. Payback <6 meses. Metodología anti-camello enfocada P&L.",
@@ -19,12 +21,12 @@ export const metadata: Metadata = {
     "consultor DevOps España",
     "reducción costes cloud payback",
   ],
-  authors: [{ name: "Francisco García Aparicio" }],
+  authors: [{ name: businessName }],
   openGraph: {
     type: "website",
     locale: "es_ES",
     url: "https://fjgaparicio.es",
-    siteName: "Francisco García - Consultor Cloud & Automatización",
+    siteName: `${businessName} - Consultor Cloud & Automatización`,
     title: "Reducción Cloud & Automatización | Payback <6 meses",
     description:
       "Reduzco factura cloud 30-70% y automatizo procesos. Empresas 5-50M€. Metodología anti-camello.",
@@ -33,13 +35,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Francisco García - Reducción Costes Cloud",
+        alt: `${businessName} - Reducción Costes Cloud`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Francisco García - Reducción Costes Cloud",
+    title: `${businessName} - Reducción Costes Cloud`,
     description: "Reduzco factura cloud 30-70%. Payback <6 meses.",
     images: ["/og-image.png"],
   },
@@ -59,7 +61,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Francisco García Aparicio",
+  name: businessName,
   description: "Consultor Cloud & Automatización",
   url: "https://fjgaparicio.es",
   image: "https://fjgaparicio.es/og-image.png",
