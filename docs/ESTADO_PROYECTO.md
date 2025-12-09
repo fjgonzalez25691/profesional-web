@@ -88,8 +88,9 @@
 **Sprint 4**: 🔄 EN CURSO - Transparencia Técnica & SEO (Días 22-28)
 - **Issues Completadas**: FJG-53 ✅ (Metodología transparente), FJG-54 ✅ (Diagrama tech stack), FJG-55 ✅ (SEO básico), FJG-98 ✅ (Multi-pain fallback + modelo cloud)
 - **Issues En Planning**: Ninguna actualmente
-- **Issues Pendientes**: FJG-56 (Blog post), FJG-57 (Performance), FJG-58 (Pricing transparency)
-- **Progreso**: 4/7 issues completadas (57% - SEO + Transparencia core completado)
+- **Issues Pendientes**: FJG-56 (Blog post), FJG-57 (Performance)
+- **Issues Movidas a Backlog**: FJG-58 (Pricing transparency - pendiente política de precios)
+- **Progreso**: 4/6 issues completadas (67% - SEO + Transparencia core completado)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
@@ -106,8 +107,10 @@
 - **FJG-55**: US-05-003: SEO Básico Metadata + Sitemap - 2 SP [Medium] ✅ DONE
 - **FJG-56**: US-05-004: Blog Post "Esta Web es Mi Caso de Estudio" - 3 SP [Medium] ⏳ TODO
 - **FJG-57**: US-05-005: Performance Optimization LCP <2.5s Mobile - 2 SP [Medium] ⏳ TODO
-- **FJG-58**: US-06-002: Página "Por Qué Cobro Lo Que Cobro" - 1 SP [Medium] ⏳ TODO
 - **FJG-98**: US-DT-04-FE: Multi-dolor fuerza fallback + Ajuste modelo cloud - 3 SP [High] ✅ DONE
+
+### Backlog Futuro (Bloqueadas/Pendiente Definición)
+- **FJG-58**: US-06-002: Página "Por Qué Cobro Lo Que Cobro" - 1 SP [Medium] ⏸️ ON HOLD (pendiente política de precios)
 
 ## 🏗️ Entorno Técnico
 
