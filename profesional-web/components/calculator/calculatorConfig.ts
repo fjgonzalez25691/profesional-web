@@ -31,12 +31,14 @@ export interface GlobalThresholds {
   maxInventorySavingsRatio: number;  // p.ej. 1.0 => 100% del inventario
   cloudRevenueWarningRatio: number;  // aviso cuando el gasto cloud es alto vs revenue
   forecastWarningThreshold: number;  // % a partir del cual el error de forecast dispara warning
+  maxPainsSelected?: number;         // número máximo de dolores antes de forzar sesión
 }
 
 export interface CloudConfig {
-  baseSavingsPercent: number; // sobre gasto cloud anual
+  baseSavingsPercent: number; // sobre gasto cloud anual (DEPRECATED - usar progresivo)
   maxSavingsPercent: number;
-  baseInvestment: number;
+  baseInvestment: number; // DEPRECATED - usar porcentaje sobre facturación
+  investmentPercentBySize: Record<CompanySize, number>; // % de facturación para inversión cloud
 }
 
 export interface ManualConfig {
@@ -115,13 +117,20 @@ export const roiConfig: ROIConfig = {
     maxInventorySavingsRatio: 1.0, // ahorro inventario anual <= 100% inventario
     cloudRevenueWarningRatio: 0.15, // FJG-94: warning suave si cloud >15% revenue (antes 0.2)
     forecastWarningThreshold: 50,  // warning si error forecast >= 50%
+    maxPainsSelected: 1, // FJG-98: multi-dolor fuerza sesión personalizada
   },
 
   pains: {
     cloud: {
-      baseSavingsPercent: 0.20,   // 20% ahorro sobre gasto cloud anual
+      baseSavingsPercent: 0.20,   // DEPRECATED - usar getCloudSavingsRate()
       maxSavingsPercent: 0.30,    // techo interno si algún cálculo escala
-      baseInvestment: 15_000,
+      baseInvestment: 15_000,     // DEPRECATED - usar investmentPercentBySize
+      investmentPercentBySize: {
+        '5-10M': 0.0030,   // 0.30% de facturación
+        '10-25M': 0.0040,  // 0.40% de facturación
+        '25-50M': 0.0050,  // 0.50% de facturación
+        '50M+': 0.0060,    // 0.60% de facturación
+      },
     },
     manual: {
       hourlyCost: 25,

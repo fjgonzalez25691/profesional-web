@@ -32,21 +32,33 @@ export function Step3Results({ result, warnings, email, userData, pains, onEmail
   // Si es fallback, mostrar mensaje específico
   if (!isROISuccess(result)) {
     const isExtremeROI = result.reason === 'extreme_roi';
+    const isMultiPain = result.reason === 'multi_pain';
+    const fallbackTitle = isMultiPain
+      ? 'Caso complejo: varios dolores seleccionados'
+      : isExtremeROI
+        ? 'Escenario extremadamente optimista'
+        : '⚠️ Escenario fuera de rango';
+    const containerClasses = isMultiPain
+      ? 'rounded-2xl border border-blue-200 bg-blue-50 p-6 shadow-sm'
+      : 'rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm';
+    const titleClasses = isMultiPain ? 'text-lg font-semibold text-blue-900' : 'text-lg font-semibold text-amber-900';
+    const messageClasses = isMultiPain ? 'mt-2 text-sm text-blue-800' : 'mt-2 text-sm text-amber-800';
+    const actionClasses = isMultiPain ? 'mt-4 text-sm font-medium text-blue-900' : 'mt-4 text-sm font-medium text-amber-900';
+    const ctaLabel = isMultiPain ? 'Agendar sesión personalizada' : 'Agenda una consulta gratuita';
+
     return (
       <div className="space-y-6">
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-amber-900">
-            {isExtremeROI ? 'Escenario extremadamente optimista' : '⚠️ Escenario fuera de rango'}
-          </h3>
-          <p className="mt-2 text-sm text-amber-800">{result.message}</p>
-          <p className="mt-4 text-sm font-medium text-amber-900">{result.recommendedAction}</p>
+        <div className={containerClasses} data-testid={isMultiPain ? 'multi-pain-fallback' : undefined}>
+          <h3 className={titleClasses}>{fallbackTitle}</h3>
+          <p className={messageClasses}>{result.message}</p>
+          <p className={actionClasses}>{result.recommendedAction}</p>
           <a
             href={calendlyUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
-            Agenda una consulta gratuita
+            {ctaLabel}
           </a>
         </div>
       </div>

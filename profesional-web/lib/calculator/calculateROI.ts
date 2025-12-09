@@ -1,5 +1,5 @@
 import { roiConfig } from '@/components/calculator/calculatorConfig';
-import type { CalculatorInputs, CompanySize, PainPoint, ROIResult, ROICalculationResult } from './types';
+import type { CalculatorInputs, CompanySize, PainPoint, ROICalculationResult } from './types';
 import { shouldCalculateROI } from './validation';
 
 export const ROI_CAP_PERCENT = 1000;
@@ -15,28 +15,24 @@ const EXTREME_ROI_THRESHOLD = 90;
 const MIN_PAYBACK_MONTHS = roiConfig.thresholds.minPaybackMonths;
 
 /**
- * FJG-85: Calcula el % de ahorro cloud de forma conservadora según el gasto mensual.
- * A mayor gasto, menor % de ahorro (economías de escala ya aplicadas).
+ * FJG-XXX: Calcula el % de ahorro cloud de forma progresiva según gasto mensual.
+ * A mayor gasto, menor % de ahorro (más optimización previa esperada).
  */
 function getCloudSavingsRate(monthlySpend: number): number {
-  if (monthlySpend <= 5000) return 0.275; // 27.5% para gastos bajos
-  if (monthlySpend <= 20000) return 0.20; // 20% para gastos medios
-  if (monthlySpend <= 50000) return 0.15; // 15% para gastos altos
-  return 0.10; // 10% para gastos muy altos (>50K/mes)
+  if (monthlySpend <= 5000) return 0.12;    // 12%
+  if (monthlySpend <= 10000) return 0.10;   // 10%
+  if (monthlySpend <= 25000) return 0.08;   // 8%
+  return 0.06;                              // 6% para >25k/mes
 }
 
 /**
- * FJG-85: Calcula la inversión para cloud escalada por gasto mensual.
- * Mayor gasto → mayor complejidad → mayor inversión necesaria.
+ * FJG-XXX: Calcula la inversión para cloud como % de facturación estimada.
+ * Reemplaza el cálculo anterior basado en baseInvestment escalado.
  */
-function getCloudInvestment(monthlySpend: number, companySize: CompanySize): number {
-  const baseInvestment = roiConfig.pains.cloud.baseInvestment;
-  const sizeMultiplier = roiConfig.companySizes[companySize].investmentMultiplier;
-
-  // Factor de escala basado en gasto: min(gasto/10K, 5) para cappear en 5x
-  const spendFactor = Math.min(monthlySpend / 10000, 5);
-
-  return Math.round(baseInvestment * sizeMultiplier * spendFactor);
+function getCloudInvestment(companySize: CompanySize): number {
+  const revenue = roiConfig.companySizes[companySize].estimatedRevenue;
+  const percent = roiConfig.pains.cloud.investmentPercentBySize[companySize];
+  return Math.round(revenue * percent);
 }
 
 type InventoryOverrideConfig = {
@@ -87,11 +83,16 @@ export function getInventoryFromSize(companySize: CompanySize) {
 }
 
 export function getInvestmentForPain(pain: PainPoint, companySize: CompanySize) {
+  // FJG-XXX: cloud-costs ahora usa % de facturación en lugar de baseInvestment
+  if (pain === 'cloud-costs') {
+    return getCloudInvestment(companySize);
+  }
+
+  // Para el resto de dolores, usar baseInvestment * multiplier
   const investmentMultiplier = roiConfig.companySizes[companySize].investmentMultiplier;
 
-  // Mapeo de PainPoint a las keys del config
   const painConfigMap: Record<PainPoint, keyof typeof roiConfig.pains> = {
-    'cloud-costs': 'cloud',
+    'cloud-costs': 'cloud', // No se usa pero se mantiene para completitud
     'manual-processes': 'manual',
     forecasting: 'forecast',
     inventory: 'inventory',
@@ -114,12 +115,18 @@ export function calculateROI(inputs: CalculatorInputs, options?: CalculateROIOpt
   const validation = shouldCalculateROI(inputs);
 
   if (!validation.canCalculate) {
+    const isMultiPain = validation.reason === 'multi_pain';
+    const recommendedAction = isMultiPain
+      ? 'Agendar una sesión personalizada de 30 minutos para revisar tus dolores combinados y darte cifras realistas.'
+      : 'Recomendamos una consulta personalizada para analizar tu caso específico. Agenda una llamada para discutir las mejores soluciones para tu empresa.';
+
     return {
       type: 'fallback',
       reason: validation.reason!,
-      message: validation.message!,
-      recommendedAction:
-        'Recomendamos una consulta personalizada para analizar tu caso específico. Agenda una llamada para discutir las mejores soluciones para tu empresa.',
+      message:
+        validation.message ??
+        'Necesitamos validar tus datos contigo para darte una estimación fiable. Agenda una consulta personalizada.',
+      recommendedAction,
     };
   }
 
@@ -131,11 +138,11 @@ export function calculateROI(inputs: CalculatorInputs, options?: CalculateROIOpt
   const inventoryOverrides = resolveInventoryOverrides(options);
 
   if (inputs.pains.includes('cloud-costs') && inputs.cloudSpendMonthly) {
-    // FJG-85: Usar savings rate progresivo e investment escalado
+    // FJG-XXX: Usar savings rate progresivo (6-12%) e inversión como % facturación
     const savingsPercent = getCloudSavingsRate(inputs.cloudSpendMonthly);
     const annualSavings = inputs.cloudSpendMonthly * 12 * savingsPercent;
     totalSavingsAnnual += annualSavings;
-    totalInvestment += getCloudInvestment(inputs.cloudSpendMonthly, size);
+    totalInvestment += getCloudInvestment(size);
   }
 
   if (inputs.pains.includes('manual-processes') && inputs.manualHoursWeekly) {

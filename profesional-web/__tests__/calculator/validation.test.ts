@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { calculateROI } from '@/lib/calculator/calculateROI';
 import { roiConfig } from '@/components/calculator/calculatorConfig';
-import { getCalculatorWarnings, validateCalculatorInputs } from '@/lib/calculator/validation';
-import type { CalculatorInputs } from '@/lib/calculator/types';
-import { isROISuccess } from '@/lib/calculator/types';
+import { getCalculatorWarnings, shouldCalculateROI, validateCalculatorInputs } from '@/lib/calculator/validation';
+import type { CalculatorInputs, ROISuccess } from '@/lib/calculator/types';
 
 describe('validateCalculatorInputs', () => {
   const baseInputs: CalculatorInputs = {
@@ -94,39 +92,81 @@ describe('validateCalculatorInputs', () => {
   });
 });
 
+describe('shouldCalculateROI - multi pain', () => {
+  const baseInputs: CalculatorInputs = {
+    companySize: '10-25M',
+    sector: 'retail',
+    pains: [],
+  };
+
+  it('permite el cálculo con un solo dolor', () => {
+    const result = shouldCalculateROI({
+      ...baseInputs,
+      pains: ['cloud-costs'],
+      cloudSpendMonthly: 5000,
+    });
+
+    expect(result.canCalculate).toBe(true);
+    expect(result.reason).toBeUndefined();
+  });
+
+  it('bloquea el cálculo con dos dolores y devuelve fallback multi_pain', () => {
+    const result = shouldCalculateROI({
+      ...baseInputs,
+      pains: ['cloud-costs', 'manual-processes'],
+      cloudSpendMonthly: 5000,
+      manualHoursWeekly: 40,
+    });
+
+    expect(result.canCalculate).toBe(false);
+    expect(result.reason).toBe('multi_pain');
+    expect(result.message).toMatch(/varios dolores|varios problemas/i);
+  });
+
+  it('bloquea el cálculo con tres dolores aunque los datos sean válidos', () => {
+    const result = shouldCalculateROI({
+      ...baseInputs,
+      pains: ['cloud-costs', 'manual-processes', 'forecasting'],
+      cloudSpendMonthly: 5000,
+      manualHoursWeekly: 20,
+      forecastErrorPercent: 15,
+    });
+
+    expect(result.canCalculate).toBe(false);
+    expect(result.reason).toBe('multi_pain');
+  });
+});
+
 describe('getCalculatorWarnings', () => {
-  it('muestra warning cuando el gasto cloud supera 15% de la facturación estimada en compañías pequeñas', () => {
+  const successResult: ROISuccess = {
+    type: 'success',
+    investment: 100_000,
+    savingsAnnual: 80_000,
+    paybackMonths: 15,
+    roi3Years: 140,
+  };
+
+  it('muestra warning cuando el gasto cloud supera 15% de la facturación estimada', () => {
     const inputs: CalculatorInputs = {
       companySize: '5-10M',
       sector: 'retail',
-      pains: ['cloud-costs', 'manual-processes'], // Multi-pain reduce ROI, evita extreme_roi
-      cloudSpendMonthly: 11_000, // 11K * 12 = 132K anual = 1.76% de 7.5M
-      manualHoursWeekly: 20, // Añadir horas manuales para reducir ROI
+      pains: ['cloud-costs'],
+      cloudSpendMonthly: 100_000, // >15% del revenue estimado (7.5M)
     };
-    const result = calculateROI(inputs);
-    if (!isROISuccess(result)) {
-      console.log('Fallback:', result);
-      throw new Error('Expected success result');
-    }
 
-    const warnings = getCalculatorWarnings(inputs, result);
-    // Warning cloud-coherence requiere >15% de revenue
-    // Con 11K/mes y multi-pain, el ROI debería ser < 90% y pasar
-    expect(warnings).toBeDefined();
+    const warnings = getCalculatorWarnings(inputs, successResult);
+    expect(warnings.some((warning) => warning.type === 'cloud-coherence')).toBe(true);
   });
 
   it('no muestra warning cloud alto en compañías grandes con gasto similar', () => {
     const inputs: CalculatorInputs = {
       companySize: '50M+',
       sector: 'retail',
-      pains: ['cloud-costs', 'manual-processes'], // Multi-pain para evitar extreme_roi
+      pains: ['cloud-costs'],
       cloudSpendMonthly: 15_000, // 180K anual vs 60M = 0.3% (muy bajo, no warning)
-      manualHoursWeekly: 25,
     };
-    const result = calculateROI(inputs);
-    if (!isROISuccess(result)) throw new Error('Expected success result');
 
-    const warnings = getCalculatorWarnings(inputs, result);
+    const warnings = getCalculatorWarnings(inputs, successResult);
     expect(warnings.some((warning) => warning.type === 'cloud-coherence')).toBe(false);
   });
 
@@ -134,14 +174,11 @@ describe('getCalculatorWarnings', () => {
     const inputs: CalculatorInputs = {
       companySize: '10-25M',
       sector: 'retail',
-      pains: ['forecasting', 'manual-processes'], // Multi-pain para reducir ROI
+      pains: ['forecasting'],
       forecastErrorPercent: roiConfig.thresholds.forecastWarningThreshold + 5, // 55%
-      manualHoursWeekly: 30,
     };
-    const result = calculateROI(inputs);
-    if (!isROISuccess(result)) throw new Error('Expected success result');
 
-    const warnings = getCalculatorWarnings(inputs, result);
+    const warnings = getCalculatorWarnings(inputs, successResult);
     expect(warnings.some((warning) => warning.type === 'forecast-coherence')).toBe(true);
   });
 
@@ -156,15 +193,15 @@ describe('getCalculatorWarnings', () => {
       companySize: '50M+',
       sector: 'agencia',
       pains: ['cloud-costs'],
-      cloudSpendMonthly: 50000,
+      cloudSpendMonthly: 50_000,
     };
-    const result = calculateROI(inputs);
-    if (!isROISuccess(result)) throw new Error('Expected success result');
 
-    const warnings = getCalculatorWarnings(inputs, result);
-    // Con el modelo conservador, este escenario ya NO genera warning de ROI extremo
+    const cappedResult: ROISuccess = {
+      ...successResult,
+      roi3Years: 60,
+    };
+
+    const warnings = getCalculatorWarnings(inputs, cappedResult);
     expect(warnings.some((warning) => warning.type === 'roi-extreme')).toBe(false);
-    // Verificar que el ROI es razonable (<100%)
-    expect(result.roi3Years).toBeLessThan(100);
   });
 });
