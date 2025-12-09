@@ -1,5 +1,5 @@
 import { roiConfig } from '@/components/calculator/calculatorConfig';
-import type { CalculatorInputs, CompanySize, PainPoint, ROIResult, ROICalculationResult } from './types';
+import type { CalculatorInputs, CompanySize, PainPoint, ROICalculationResult } from './types';
 import { shouldCalculateROI } from './validation';
 
 export const ROI_CAP_PERCENT = 1000;
@@ -114,12 +114,18 @@ export function calculateROI(inputs: CalculatorInputs, options?: CalculateROIOpt
   const validation = shouldCalculateROI(inputs);
 
   if (!validation.canCalculate) {
+    const isMultiPain = validation.reason === 'multi_pain';
+    const recommendedAction = isMultiPain
+      ? 'Agendar una sesión personalizada de 30 minutos para revisar tus dolores combinados y darte cifras realistas.'
+      : 'Recomendamos una consulta personalizada para analizar tu caso específico. Agenda una llamada para discutir las mejores soluciones para tu empresa.';
+
     return {
       type: 'fallback',
       reason: validation.reason!,
-      message: validation.message!,
-      recommendedAction:
-        'Recomendamos una consulta personalizada para analizar tu caso específico. Agenda una llamada para discutir las mejores soluciones para tu empresa.',
+      message:
+        validation.message ??
+        'Necesitamos validar tus datos contigo para darte una estimación fiable. Agenda una consulta personalizada.',
+      recommendedAction,
     };
   }
 

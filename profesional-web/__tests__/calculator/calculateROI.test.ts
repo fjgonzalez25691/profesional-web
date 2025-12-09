@@ -7,7 +7,6 @@ import {
   getInvestmentForPain,
   INVENTORY_COST_RATE,
   INVENTORY_IMPROVEMENT_RATE,
-  INVENTORY_MAX_SAVINGS_RATE,
 } from '@/lib/calculator/calculateROI';
 import type { CalculatorInputs } from '@/lib/calculator/types';
 
@@ -104,7 +103,7 @@ describe('calculateROI', () => {
     }
   });
 
-  it('combina múltiples dolores', () => {
+  it('devuelve fallback multi_pain cuando se seleccionan varios dolores', () => {
     const inputs: CalculatorInputs = {
       companySize: '10-25M',
       sector: 'retail',
@@ -115,15 +114,27 @@ describe('calculateROI', () => {
 
     const result = calculateROI(inputs);
 
-    expect(result.type).toBe('success');
-    if (result.type === 'success') {
-      expect(result.savingsAnnual).toBe(8_150);
-      expect(result.investment).toBe(16_575);
-      expect(result.paybackMonths).toBe(24);
-      expect(result.roi3Years).toBe(48);
-      const roiFormatted = formatRoiWithCap(result.roi3Years);
-      expect(roiFormatted.label).toBe('48%');
-      expect(roiFormatted.isCapped).toBe(false);
+    expect(result.type).toBe('fallback');
+    if (result.type === 'fallback') {
+      expect(result.reason).toBe('multi_pain');
+      expect(result.message).toMatch(/varios dolores|varios problemas/i);
+    }
+  });
+
+  it('prioriza el fallback multi_pain incluso en escenarios con ROI extremo potencial', () => {
+    const inputs: CalculatorInputs = {
+      companySize: '5-10M',
+      sector: 'industrial',
+      pains: ['cloud-costs', 'manual-processes'],
+      cloudSpendMonthly: 90_000,
+      manualHoursWeekly: 120,
+    };
+
+    const result = calculateROI(inputs);
+
+    expect(result.type).toBe('fallback');
+    if (result.type === 'fallback') {
+      expect(result.reason).toBe('multi_pain');
     }
   });
 
@@ -336,11 +347,10 @@ describe('calculateROI - fallback scenarios (FJG-85 DoD4)', () => {
 
   it('devuelve success para inputs válidos sin errores', () => {
     const inputs: CalculatorInputs = {
-      companySize: '10-25M',
+      companySize: '25-50M',
       sector: 'industrial',
-      pains: ['cloud-costs', 'manual-processes'],
-      cloudSpendMonthly: 500,
-      manualHoursWeekly: 10,
+      pains: ['manual-processes'],
+      manualHoursWeekly: 12,
     };
     const result = calculateROI(inputs);
     expect(result.type).toBe('success');

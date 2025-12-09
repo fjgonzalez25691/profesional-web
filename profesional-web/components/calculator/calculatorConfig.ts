@@ -31,6 +31,7 @@ export interface GlobalThresholds {
   maxInventorySavingsRatio: number;  // p.ej. 1.0 => 100% del inventario
   cloudRevenueWarningRatio: number;  // aviso cuando el gasto cloud es alto vs revenue
   forecastWarningThreshold: number;  // % a partir del cual el error de forecast dispara warning
+  maxPainsSelected?: number;         // número máximo de dolores antes de forzar sesión
 }
 
 export interface CloudConfig {
@@ -115,6 +116,7 @@ export const roiConfig: ROIConfig = {
     maxInventorySavingsRatio: 1.0, // ahorro inventario anual <= 100% inventario
     cloudRevenueWarningRatio: 0.15, // FJG-94: warning suave si cloud >15% revenue (antes 0.2)
     forecastWarningThreshold: 50,  // warning si error forecast >= 50%
+    maxPainsSelected: 1, // FJG-98: multi-dolor fuerza sesión personalizada
   },
 
   pains: {

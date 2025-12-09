@@ -356,8 +356,7 @@ test.describe('Calculadora ROI', () => {
   // ============================================
 
   test.describe('Combinaciones Múltiples de Dolores', () => {
-    test('cloud-costs + manual-processes muestra fallback (ROI ~171%)', async ({ page }) => {
-      // FJG-96: Combinación genera ROI extremo
+    test('cloud-costs + manual-processes fuerza fallback multi_pain', async ({ page }) => {
       await page.locator('label:has-text("Agencia Marketing")').click();
       await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -368,12 +367,14 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Horas manuales a la semana/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      const multiPainBox = page.getByTestId('multi-pain-fallback');
+      await expect(multiPainBox).toBeVisible();
+      await expect(page.getByRole('link', { name: /Agendar sesión personalizada/i })).toBeVisible();
+      await expect(page.getByText(/ROI 3 años/i)).not.toBeVisible();
+      await expect(page.getByText(/Ahorro estimado/i)).not.toBeVisible();
     });
 
-    test('forecasting + inventory muestra fallback (ROI ~372%)', async ({ page }) => {
-      // FJG-96: Combinación genera ROI extremo
+    test('forecasting + inventory fuerza fallback multi_pain', async ({ page }) => {
       await page.locator('label:has-text("Retail")').click();
       await page.locator('label[for="size-10-25M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -383,12 +384,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      const multiPainBox = page.getByTestId('multi-pain-fallback');
+      await expect(multiPainBox).toBeVisible();
+      await expect(page.getByRole('link', { name: /Agendar sesión personalizada/i })).toBeVisible();
+      await expect(page.getByText(/Payback/i)).not.toBeVisible();
     });
 
-    test('cloud-costs + manual-processes + forecasting muestra fallback (ROI ~666%)', async ({ page }) => {
-      // FJG-96: Combinación triple genera ROI extremo
+    test('cloud-costs + manual-processes + forecasting fuerza fallback multi_pain', async ({ page }) => {
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-25-50M"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -401,12 +403,13 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Error de forecast/i).fill('20');
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      const multiPainBox = page.getByTestId('multi-pain-fallback');
+      await expect(multiPainBox).toBeVisible();
+      await expect(page.getByRole('link', { name: /Agendar sesión personalizada/i })).toBeVisible();
+      await expect(page.getByText(/ROI 3 años/i)).not.toBeVisible();
     });
 
-    test('todos los dolores combinados muestra fallback (ROI ~1904%, payback < 3m)', async ({ page }) => {
-      // FJG-96: Combinación de todos genera ROI extremo + payback < 3m
+    test('todos los dolores combinados fuerzan fallback multi_pain', async ({ page }) => {
       await page.locator('label:has-text("Industrial")').click();
       await page.locator('label[for="size-50M+"]').click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
@@ -420,8 +423,10 @@ test.describe('Calculadora ROI', () => {
       await page.getByLabel(/Inventario y roturas/i).click();
       await page.getByRole('button', { name: /Siguiente/i }).click();
 
-      await expect(page.getByRole('heading', { name: /Escenario extremadamente optimista/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Agenda una consulta gratuita/i })).toBeVisible();
+      const multiPainBox = page.getByTestId('multi-pain-fallback');
+      await expect(multiPainBox).toBeVisible();
+      await expect(page.getByRole('link', { name: /Agendar sesión personalizada/i })).toBeVisible();
+      await expect(page.getByText(/ROI 3 años/i)).not.toBeVisible();
     });
   });
 

@@ -1,6 +1,6 @@
 import { roiConfig } from '@/components/calculator/calculatorConfig';
 import { formatRoiWithCap, getRevenueFromSize } from './calculateROI';
-import type { CalculatorInputs, CalculatorWarning, ROIResult, ROIFallback, ROISuccess } from './types';
+import type { CalculatorInputs, CalculatorWarning, ROIFallback, ROISuccess } from './types';
 
 export type CalculatorInputErrors = Partial<
   Record<'cloudSpendMonthly' | 'manualHoursWeekly' | 'forecastErrorPercent', string>
@@ -102,6 +102,17 @@ export function shouldCalculateROI(inputs: CalculatorInputs): {
   reason?: ROIFallback['reason'];
   message?: string;
 } {
+  const maxPainsSelected = roiConfig.thresholds.maxPainsSelected ?? 1;
+
+  if (inputs.pains.length > maxPainsSelected) {
+    return {
+      canCalculate: false,
+      reason: 'multi_pain',
+      message:
+        'Cuando combinas varios dolores, las cifras automáticas pueden ser irreales. Agenda una sesión de 30 minutos y modelamos contigo un cálculo realista.',
+    };
+  }
+
   // 1. Validar inputs básicos (rangos min/max)
   const errors = validateCalculatorInputs(inputs);
   if (Object.keys(errors).length > 0) {

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { TECH_STACK_MVP } from '@/data/tech-stack';
 
 type TechBadgeProps = {
@@ -39,10 +40,13 @@ export default function TechStackDiagram() {
         </div>
 
         <div className="mx-auto mb-12 max-w-4xl">
-          <img
+          <Image
             src="/diagrams/tech-stack.svg"
             alt="Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Postgres Logs)"
+            width={1290}
+            height={720}
             className="h-auto w-full"
+            priority
           />
         </div>
 
