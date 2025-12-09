@@ -1,14 +1,24 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 6 de diciembre de 2025, 20:30 (Europe/Madrid)*
+*Última actualización: 9 de diciembre de 2025, 08:15 (Europe/Madrid)*
 
-## 🎯 Issues Activas - SPRINT 3 EN CURSO
-**FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones (🔄 In Progress - 6 dic 2025)
+## 🎯 Issues Activas - SPRINT 4 EN CURSO
+**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (🔄 Planning Complete - 9 dic 2025)
+- **Estado:** Planificación Manager completada
+- **Contexto:** Metadata Next.js, sitemap dinámico, robots.txt, JSON-LD Schema.org, OG Image
+- **Story Points:** 2 SP
+- **Prioridad:** 🟡 Medium
+- **Branch:** `fjgonzalez25691-fjg-55-us-05-003-seo-basico-metadata-sitemap`
+- **Siguiente paso:** Developer implementación tras aprobación prompts
+
+**FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones (⏸️ On Hold - 6 dic 2025)
 - **Estado:** Planificación inicial archivada (branch: `archive/fjg-85-validacion-masiva-descartado`)
 - **Contexto:** Issue con scope expandido (CA4/DoD4: validación script para ≥1000 combinaciones ROI)
 - **Situación:** Pendiente definición de nuevo enfoque tras rechazo de propuesta inicial
 - **Siguiente paso:** Requiere clarificación del usuario sobre estrategia preferida
 
 ## ✅ Issues Completadas Recientemente
+**FJG-54**: US-05-002 – Diagrama Arquitectura Tech Stack SVG Estático (✅ Planning Complete - 8 dic 2025 - Planning PR merged)
+**FJG-53**: US-05-001 – Sección Metodología Transparente (✅ Done - 8 dic 2025 - PR merged)
 **FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes de UI y documentación de la calculadora (✅ Done - 5 dic 2025 - PR #29 merged)
 **FJG-90**: US-DT-04-ST05-INVENTORY – Ajuste ROI y validaciones para inventario (✅ Done - 5 dic 2025 - PR #27 merged)
 **FJG-89**: US-DT-04-ST04-FORECAST – Ajuste ROI y validaciones para forecasting (✅ Done - 5 dic 2025 - PR #26 merged)
@@ -46,10 +56,13 @@
 - **Resultado**: Chatbot IA completamente funcional con logging y casos extensos
 - **Progreso**: 7/7 issues completadas (100% - 0 SP pendientes)
 
-**Sprint 3**: 🔄 EN CURSO - Lead Magnet ROI (Días 15-21)
+**Sprint 3**: ✅ COMPLETADO 100% - Lead Magnet ROI (Días 15-21)
 - **Issues Completadas**: FJG-86 ✅, FJG-87 ✅, FJG-88 ✅, FJG-89 ✅, FJG-90 ✅, FJG-91 ✅
-- **Issues En Progreso**: FJG-85 🔄 (Mejora modelo ROI + validaciones - pendiente redefinición enfoque)
-- **Issues Pendientes**: FJG-48 (Frontend calculadora), FJG-49 (Email resultados), FJG-51 (Lead capture), FJG-52 (Dashboard admin)
+
+**Sprint 4**: 🔄 EN CURSO - Transparencia Técnica & SEO (Días 22-28)
+- **Issues En Planning**: FJG-55 🔄 (SEO básico metadata + sitemap - planning completo)
+- **Issues Completadas**: FJG-53 ✅ (Metodología transparente), FJG-54 ✅ (Planning diagrama tech stack)
+- **Issues Pendientes**: FJG-54 (Implementación diagrama), otras por definir
 - **Progreso**: 6/11 issues completadas (55% - Core lógica ROI + UX/Docs completada, pendiente validaciones extendidas + frontend calculadora y lead magnet)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)

@@ -1,0 +1,47 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]: Lead magnet ROI
+        - heading "Calcula tu ROI en 2 minutos" [level=1] [ref=e7]
+        - paragraph [ref=e8]: "Wizard de 3 pasos con datos mínimos: sector, dolores y inputs clave. Sin envío de email (DoD S3), solo cálculo y captura."
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - paragraph [ref=e12]: Calculadora ROI interactiva
+            - 'heading "3 pasos: datos, dolores, resultados" [level=2] [ref=e13]'
+            - paragraph [ref=e14]: Calcula tu retorno potencial en menos de 2 minutos. Sin emails todavía (DoD S3).
+          - button "Reiniciar" [ref=e15]
+        - generic "progress" [ref=e16]
+        - generic [ref=e18]:
+          - generic [ref=e20]:
+            - heading "Escenario extremadamente optimista" [level=3] [ref=e21]
+            - paragraph [ref=e22]: Los datos introducidos generan un escenario extremadamente optimista (ROI muy alto o retorno muy rápido). Para garantizar resultados realistas, necesitamos validar el caso contigo.
+            - paragraph [ref=e23]: Agenda una consulta gratuita de 30 minutos para revisar tus datos y obtener una estimación ajustada a tu contexto.
+            - link "Agenda una consulta gratuita" [ref=e24] [cursor=pointer]:
+              - /url: https://calendly.com/fjgonzalez25691
+          - generic [ref=e25]:
+            - button "Anterior" [ref=e26]
+            - button "Nuevo cálculo" [ref=e28]
+  - contentinfo [ref=e29]:
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - heading "Legal" [level=3] [ref=e33]
+        - link "Aviso Legal" [ref=e34] [cursor=pointer]:
+          - /url: /legal/aviso-legal
+        - link "Política de Privacidad" [ref=e35] [cursor=pointer]:
+          - /url: /legal/privacidad
+      - generic [ref=e36]:
+        - heading "Social" [level=3] [ref=e37]
+        - link "LinkedIn" [ref=e38] [cursor=pointer]:
+          - /url: www.linkedin.com/in/francisco-javier-gonzález-aparicio-259507222
+        - link "Email" [ref=e39] [cursor=pointer]:
+          - /url: mailto:fjgonzalez25691@gmail.com
+      - paragraph [ref=e41]: © 2025 Francisco Javier González Aparicio
+  - button "Open Next.js Dev Tools" [ref=e47] [cursor=pointer]:
+    - img [ref=e48]
+  - alert [ref=e51]
+```
