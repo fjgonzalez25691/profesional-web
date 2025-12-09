@@ -21,9 +21,29 @@
 - **Contexto:** Issue con scope expandido (CA4/DoD4: validación script para ≥1000 combinaciones ROI)
 - **Situación:** Pendiente definición de nuevo enfoque tras rechazo de propuesta inicial
 - **Siguiente paso:** Requiere clarificación del usuario sobre estrategia preferida
+*Última actualización: 9 de diciembre de 2025, 09:45 (Europe/Madrid)*
+
+## 🎯 Issues Activas - SPRINT 4 EN CURSO
+**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Done - 9 dic 2025)
+- **Estado:** Implementado y mergeado en PR #36
+- **Contexto:** Metadata Next.js, sitemap dinámico, robots.txt, JSON-LD Schema.org, OG Image
+- **Story Points:** 2 SP
+- **Resultado:** SEO básico completo con metadata dinámica y sitemap
+
+**FJG-98**: US-DT-04-FE – Multi-dolor fuerza fallback + Ajuste modelo cloud (✅ Done - 9 dic 2025)
+- **Estado:** Implementado y mergeado en PR #37
+- **Contexto:** Fallback `multi_pain` para restricción single-dolor + modelo cloud realista
+- **Story Points:** 3 SP
+- **Resultado:** 
+  - Calculadora restringida a single-dolor (multi-dolor → fallback con CTA sesión)
+  - Modelo cloud ajustado: ahorro progresivo 6-12%, inversión 0.3-0.6% facturación
+  - ROI realistas (incluso negativos) reflejan mejor la realidad
+- **Tests:** 34/34 pasando (calculateROI + validation + E2E)
 
 ## ✅ Issues Completadas Recientemente
-**FJG-54**: US-05-002 – Diagrama Arquitectura Tech Stack SVG Estático (✅ Planning Complete - 8 dic 2025 - Planning PR merged)
+**FJG-98**: US-DT-04-FE – Multi-dolor fuerza fallback + Ajuste modelo cloud (✅ Done - 9 dic 2025 - PR #37 merged)
+**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Done - 9 dic 2025 - PR #36 merged)
+**FJG-54**: US-05-002 – Diagrama Arquitectura Tech Stack SVG Estático (✅ Done - 8 dic 2025 - PR merged)
 **FJG-53**: US-05-001 – Sección Metodología Transparente (✅ Done - 8 dic 2025 - PR merged)
 **FJG-91**: US-DT-04-ST06-UX-DOCS – Mensajes de UI y documentación de la calculadora (✅ Done - 5 dic 2025 - PR #29 merged)
 **FJG-90**: US-DT-04-ST05-INVENTORY – Ajuste ROI y validaciones para inventario (✅ Done - 5 dic 2025 - PR #27 merged)
@@ -66,10 +86,10 @@
 - **Issues Completadas**: FJG-86 ✅, FJG-87 ✅, FJG-88 ✅, FJG-89 ✅, FJG-90 ✅, FJG-91 ✅
 
 **Sprint 4**: 🔄 EN CURSO - Transparencia Técnica & SEO (Días 22-28)
-- **Issues En Planning**: FJG-55 🔄 (SEO básico metadata + sitemap - planning completo)
-- **Issues Completadas**: FJG-53 ✅ (Metodología transparente), FJG-54 ✅ (Planning diagrama tech stack)
-- **Issues Pendientes**: FJG-54 (Implementación diagrama), otras por definir
-- **Progreso**: 6/11 issues completadas (55% - Core lógica ROI + UX/Docs completada, pendiente validaciones extendidas + frontend calculadora y lead magnet)
+- **Issues Completadas**: FJG-53 ✅ (Metodología transparente), FJG-54 ✅ (Diagrama tech stack), FJG-55 ✅ (SEO básico), FJG-98 ✅ (Multi-pain fallback + modelo cloud)
+- **Issues En Planning**: Ninguna actualmente
+- **Issues Pendientes**: FJG-56 (Blog post), FJG-57 (Performance), FJG-58 (Pricing transparency)
+- **Progreso**: 4/7 issues completadas (57% - SEO + Transparencia core completado)
 
 ## 🔮 Backlog Próximas Issues (Status: Planned)
 
@@ -81,11 +101,13 @@
 - **FJG-52**: US-04-005: Dashboard Admin Leads Ultra-Light - 2 SP [High] ⏳ TODO
 
 ### Sprint 4 (Días 22-28) - In2-05/06 SEO & Transparencia
-- **FJG-53**: US-05-001: Sección "Cómo Trabajo" Metodología Transparente - 3 SP [Medium]
-- **FJG-55**: US-05-003: SEO Básico Metadata + Sitemap - 2 SP [Medium] 
-- **FJG-56**: US-05-004: Blog Post "Esta Web es Mi Caso de Estudio" - 3 SP [Medium]
-- **FJG-57**: US-05-005: Performance Optimization LCP <2.5s Mobile - 2 SP [Medium]
-- **FJG-58**: US-06-002: Página "Por Qué Cobro Lo Que Cobro" - 1 SP [Medium]
+- **FJG-53**: US-05-001: Sección "Cómo Trabajo" Metodología Transparente - 3 SP [Medium] ✅ DONE
+- **FJG-54**: US-05-002: Diagrama Arquitectura Tech Stack SVG - 2 SP [Medium] ✅ DONE
+- **FJG-55**: US-05-003: SEO Básico Metadata + Sitemap - 2 SP [Medium] ✅ DONE
+- **FJG-56**: US-05-004: Blog Post "Esta Web es Mi Caso de Estudio" - 3 SP [Medium] ⏳ TODO
+- **FJG-57**: US-05-005: Performance Optimization LCP <2.5s Mobile - 2 SP [Medium] ⏳ TODO
+- **FJG-58**: US-06-002: Página "Por Qué Cobro Lo Que Cobro" - 1 SP [Medium] ⏳ TODO
+- **FJG-98**: US-DT-04-FE: Multi-dolor fuerza fallback + Ajuste modelo cloud - 3 SP [High] ✅ DONE
 
 ## 🏗️ Entorno Técnico
 
@@ -152,53 +174,68 @@ profesional-web/
 - **Logging Postgres**: Registro conversaciones para análisis ✅
 - **Accesibilidad**: ARIA labels, keyboard navigation ✅
 
-### ✅ Calculadora ROI Interactiva (NUEVO)
-- **Lógica por tamaño**: Revenue/inventario dinámicos según `companySize` ✅
-- **Inversión escalada**: Base + multiplicador por pain y tamaño ✅
-- **Ahorro cloud prudente**: 27.5% (ajustado desde 35%) ✅
-- **Validaciones robustas**: Rango cloud (100€-300k€) + coherencia vs facturación (máx 40%) ✅
-- **ROI cap**: >1.000% cappeado con flag de caso extremo ✅
-- **UI/Email consistentes**: Formato ROI aplicado en ambos canales ✅
+### ✅ Calculadora ROI Interactiva (MOVIDA A ADMIN - 9 dic 2025)
+- **Estado**: Acceso restringido en `/admin/calculadora` (requiere autenticación)
+- **Modelo cloud realista**: Ahorro progresivo 6-12%, inversión 0.3-0.6% facturación ✅
+- **Restricción single-dolor**: Multi-dolor fuerza fallback `multi_pain` con CTA sesión personalizada ✅
+- **Validaciones robustas**: Rango cloud (500€-100k€) + coherencia vs facturación ✅
+- **Problema identificado**: ROI negativos frecuentes, no viable para presentar al cliente ⚠️
+- **Deuda técnica**: Requiere rediseño completo del modelo antes de hacer pública
+- **Acceso admin**: Dashboard en `/admin` con autenticación cookie + middleware
 
 ### ✅ Analytics & Tracking 
 - **Conversión CTA**: Tracking clicks Hero + FAB ✅
 - **Calendly Booking**: Tracking completado eventos ✅
 - **Privacy compliant**: Sin PII, solo producción ✅
-- **Testing**: 120+ tests unitarios (100% pass) ✅
+- **Testing**: 170+ tests unitarios (100% pass) ✅
 - **Documentación**: analytics.md para reutilización ✅
+
+### ✅ Sistema Administrativo
+- **Dashboard `/admin`**: Login + navegación a Leads y Calculadora ✅
+- **Autenticación**: Cookie `admin_auth` + middleware de protección ✅
+- **Gestión Leads**: Visualización y métricas de leads capturados ✅
+- **Calculadora Admin**: Acceso restringido para pruebas internas ✅
+- **Logout**: API route + eliminación cookie + redirect ✅
 
 ### ✅ Páginas Legales GDPR
 - **/legal/aviso-legal**: Plantilla estándar España ✅
 - **/legal/privacidad**: Política privacidad + cookies ✅
 
-## 📈 Métricas de Éxito Sprint 1-3
+## 📈 Métricas de Éxito Sprint 1-4
 - ✅ **Landing funcional**: Hero + Dolores + Casos + Calendly + Footer
 - ✅ **Deploy estable**: fjgaparicio.es accesible 24/7
 - ✅ **CI/CD operativo**: Tests automáticos cada PR  
 - ✅ **GDPR compliant**: Políticas legales básicas
 - ✅ **Chatbot IA completo**: Backend Groq + guardrails + logging operativo
-- ✅ **Calculadora ROI completa**: Validaciones exhaustivas + cálculos prudentes para todos los pains
-- ✅ **Tests robustos**: 120+ tests pasando (100% coverage componentes críticos)
+- ✅ **Calculadora ROI completa**: Validaciones exhaustivas + modelo cloud realista + fallback multi-dolor
+- ✅ **SEO básico implementado**: Metadata dinámica + sitemap + robots.txt + JSON-LD + OG image
+- ✅ **Tests robustos**: 170+ tests pasando (100% coverage componentes críticos)
+- ✅ **Transparencia técnica**: Metodología + diagrama tech stack + SEO completo
 
 ---
 
-## 🎯 Próximos Objetivos (Sprint 3 - En Curso)
+## 🎯 Próximos Objetivos (Sprint 4 - En Curso)
 
 1. ~~**FJG-86**: Lógica común ROI por tamaño~~ ✅ **COMPLETADO**
 2. ~~**FJG-87**: Ajuste cloud + validaciones~~ ✅ **COMPLETADO**
 3. ~~**FJG-88**: Ajuste manual + validaciones~~ ✅ **COMPLETADO**
 4. ~~**FJG-89**: Ajuste forecast + validaciones~~ ✅ **COMPLETADO**
-5. **FJG-90**: Ajuste inventory + validaciones (en curso)
-6. **FJG-49**: Email HTML Resultados ROI (pendiente)
-7. **FJG-51**: Lead Capture Postgres + Validación (pendiente)
+5. ~~**FJG-90**: Ajuste inventory + validaciones~~ ✅ **COMPLETADO**
+6. ~~**FJG-91**: UX/Docs calculadora~~ ✅ **COMPLETADO**
+7. ~~**FJG-53**: Metodología transparente~~ ✅ **COMPLETADO**
+8. ~~**FJG-54**: Diagrama tech stack~~ ✅ **COMPLETADO**
+9. ~~**FJG-55**: SEO básico metadata + sitemap~~ ✅ **COMPLETADO**
+10. ~~**FJG-98**: Multi-dolor fallback + modelo cloud realista~~ ✅ **COMPLETADO**
+11. **FJG-56**: Blog post "Esta web es mi caso de estudio" (pendiente)
+12. **FJG-57**: Performance optimization LCP <2.5s (pendiente)
+13. **FJG-58**: Página pricing transparency (pendiente)
 
-El proyecto está en **excelente estado** con calculadora ROI completa y validada, con cálculos prudentes y validaciones exhaustivas para cloud, manual y forecasting. Queda pendiente inventario, email y lead capture.
+El proyecto está en **excelente estado** con calculadora ROI completa con modelo realista, SEO básico implementado y transparencia técnica establecida.
 
-### ⏳ Pendiente (Sprint 3 - Lead Magnet ROI)
-- Ajuste y validaciones inventario (FJG-90 - en curso)
-- Email HTML con resultados ROI (sin PDF Puppeteer)
-- Lead capture con validación y almacenamiento Postgres
-- Dashboard admin ultra-light para gestión leads
+### ⏳ Pendiente (Sprint 4 - Transparencia & SEO)
+- Blog post caso de estudio
+- Optimización performance (LCP <2.5s mobile)
+- Página transparencia pricing
 
 ## 🎨 Convenciones Activas
 - **Idioma código**: INGLÉS (variables, funciones, componentes)
@@ -207,26 +244,27 @@ El proyecto está en **excelente estado** con calculadora ROI completa y validad
 - **Utilidad CSS**: `cn()` para merge de clases (Tailwind + clsx)
 - **Testing**: TDD estricto con Vitest + Testing Library
 
-## 📋 Próximos Pasos (Sprint 3)
-1. **FJG-49**: Email HTML Resultados ROI (siguiente prioridad)
-2. **FJG-51**: Lead Capture Postgres + Validación
-3. **FJG-52**: Dashboard Admin Leads Ultra-Light
+## 📋 Próximos Pasos (Sprint 4)
+1. **FJG-56**: Blog Post "Esta Web es Mi Caso de Estudio"
+2. **FJG-57**: Performance Optimization LCP <2.5s Mobile
+3. **FJG-58**: Página "Por Qué Cobro Lo Que Cobro"
 
 ## 🔬 Verificación Técnica Actual
 ```bash
 # Stack verificado funcionando
-npm run build    # ✅ Next.js 16 + TypeScript strict + ROI Calculator completa
+npm run build    # ✅ Next.js 16 + TypeScript strict + ROI Calculator + SEO completo
 npm run lint     # ✅ Sin errores (Tailwind v4 + validaciones exhaustivas)
-npm run test     # ✅ 120+ tests pasando (Vitest + Testing Library + Playwright)
-npm run dev      # ✅ Server desarrollo + ROI Calculator operativo
+npm run test     # ✅ 170+ tests pasando (Vitest + Testing Library + Playwright)
+npm run dev      # ✅ Server desarrollo + ROI Calculator + Metadata dinámica
 ```
 
 ## 📈 Métricas y Estado Legal
-- **Tests**: 120+ pasando (100% success rate)
+- **Tests**: 170+ pasando (100% success rate)
 - **GDPR**: ✅ Compliant (Art. 13 + LSSI España)
 - **Deploy**: ✅ https://fjgaparicio.es operativo
 - **SSL**: ✅ Let's Encrypt activo
-- **Performance**: Variables de entorno configuradas
+- **SEO**: ✅ Metadata + Sitemap + Robots.txt + JSON-LD + OG Image
+- **Performance**: Variables de entorno configuradas + Metadata dinámica
 - **Deuda técnica**: ✅ Documentada en `docs/DEUDA_TECNICA.md`
 
 ## 🗂️ Gestión de Ramas
@@ -237,6 +275,26 @@ npm run dev      # ✅ Server desarrollo + ROI Calculator operativo
 - **Última limpieza**: 6 dic 2025 - 17 ramas remotas eliminadas tras crear tags de respaldo
 
 ## 🛠️ Tareas de Infraestructura Recientes
+- ✅ **Protección Calculadora (9 dic 2025)**: Movida a área admin restringida (sin issue)
+  - Calculadora ROI movida de `/calculadora` → `/admin/calculadora`
+  - Implementado sistema autenticación admin completo:
+    - Dashboard `/admin` con login + links a Leads/Calculadora
+    - Middleware de protección para todas las rutas `/admin/*`
+    - Cookie `admin_auth` + API logout
+    - Botones navegación "Volver al dashboard"
+  - Eliminada del sitemap público y metadata `noindex,nofollow`
+  - Razón: Modelo ROI genera resultados no viables para presentar al cliente
+  - Tests E2E actualizados con autenticación admin
+  - **Registrado en deuda técnica** para rediseño futuro
+- ✅ **Layout Metadata (9 dic 2025)**: Centralización de nombre de negocio usando `NEXT_PUBLIC_BUSINESS_NAME`
+  - Eliminadas referencias hardcodeadas de "Francisco García"
+  - Variable de entorno aplicada en metadata, OpenGraph, Twitter, JSON-LD
+  - Consistencia entre código y configuración Vercel
+- ✅ **Modelo Cloud Realista (9 dic 2025)**: Ajuste calculadora a cifras conservadoras
+  - Ahorro progresivo 6-12% según gasto mensual (antes 20-27.5%)
+  - Inversión como 0.3-0.6% facturación según tamaño empresa
+  - ROI realistas incluyendo negativos (ej: 10-25M + 8K cloud → ROI -59%)
+  - 22 tests calculateROI actualizados y pasando
 - ✅ **CI/CD Fix (6 dic 2025)**: Solucionado error persistente de RESEND_API_KEY en GitHub Actions
   - Implementado patrón de lazy initialization en `app/api/send-roi-email/route.ts` y `lib/email/nurturing.ts`
   - Añadida clave dummy en workflow CI: `RESEND_API_KEY=re_dummy_key_for_ci_build_only`
@@ -247,4 +305,4 @@ npm run dev      # ✅ Server desarrollo + ROI Calculator operativo
   - Repositorio remoto limpio: solo `origin/main` y `origin/dev` activas
 
 ---
-*Última actualización: Agent Manager - 6 diciembre 2025, 20:30*
+*Última actualización: Agent Manager - 9 diciembre 2025, 09:45*

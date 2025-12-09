@@ -40,7 +40,8 @@ test.describe("SEO básico", () => {
     expect(content).toContain("<?xml");
     expect(content).toContain("<urlset");
     expect(content).toContain("https://fjgaparicio.es");
-    expect(content).toContain("/calculadora-roi");
+    // Calculadora movida a /admin/calculadora (no indexada)
+    expect(content).not.toContain("/calculadora-roi");
     expect(content).toContain("/legal/aviso-legal");
     expect(content).toContain("/legal/privacidad");
 

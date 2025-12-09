@@ -1,6 +1,29 @@
 # 🔧 Deuda Técnica - FJGaparicio.es
 
-*Última actualización: 2 diciembre 2025*
+*Última actualización: 9 diciembre 2025*
+
+---
+
+## 🚨 Deuda Técnica Crítica
+
+### 🧮 Calculadora ROI - Modelo No Viable (9 dic 2025)
+**Estado**: Movida a `/admin/calculadora` (acceso restringido)
+
+**Problema**: El modelo actual de la calculadora genera ROI poco realistas o negativos que no reflejan valor para el usuario:
+- Ahorro cloud progresivo 6-12% resulta en ROI negativos frecuentes
+- Inversión como % facturación (0.3-0.6%) genera cifras muy altas
+- Ejemplo: 10-25M + 8K cloud/mes → ROI -59% (no viable para presentar al cliente)
+
+**Decisión**: Calculadora movida a área admin protegida hasta rediseño del modelo
+
+**Acciones Tomadas** (sin issue asociada):
+- ✅ Ruta `/calculadora` → `/admin/calculadora`
+- ✅ Protección con middleware + cookie auth `admin_auth`
+- ✅ Dashboard admin en `/admin` con links a Leads y Calculadora
+- ✅ Eliminada del sitemap público
+- ✅ Metadata `noindex,nofollow`
+
+**Siguiente Paso**: Requiere rediseño completo del modelo ROI antes de volver a hacer pública
 
 ---
 
