@@ -1,0 +1,251 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - main [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - paragraph [ref=e6]: +37 años dirigiendo operaciones y equipos en empresas reales. Ahora uso la tecnología para mejorar tus números, no para complicarte la vida.
+          - heading "Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud" [level=1] [ref=e7]
+          - paragraph [ref=e8]: Menos costes, menos errores y más tiempo para lo importante.
+          - generic [ref=e9]:
+            - button "Agendar diagnóstico" [ref=e10]:
+              - text: Agendar diagnóstico
+              - img
+            - button "Hablar con el asistente IA" [ref=e11]:
+              - img
+              - text: Hablar con el asistente IA
+        - img "Hero profile - Francisco Javier González" [ref=e14]
+      - generic [ref=e16]:
+        - heading "¿Te pasa esto?" [level=2] [ref=e17]
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - img "Problema" [ref=e20]
+            - paragraph [ref=e23]: Procesos manuales
+            - paragraph [ref=e24]: 2-4 h/día picando facturas/albaranes
+          - generic [ref=e25]:
+            - img "Problema" [ref=e26]
+            - paragraph [ref=e29]: Factura cloud
+            - paragraph [ref=e30]: AWS/Azure subió >30% sin explicación
+          - generic [ref=e31]:
+            - img "Problema" [ref=e32]
+            - paragraph [ref=e35]: Forecasting
+            - paragraph [ref=e36]: Previsiones Excel fallan 20-30%
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "Casos reales, resultados tangibles" [level=2] [ref=e40]
+          - paragraph [ref=e41]: No es teoría. Son soluciones implementadas en empresas reales con ROI medible.
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]:
+                - generic [ref=e46]: Logística
+                - generic [ref=e47]: 8M€
+              - generic [ref=e48]: 42.000€/año verificando albaranes en papel
+              - generic [ref=e49]: "Solución: OCR + flujo automático a ERP"
+              - paragraph [ref=e50]: Validado con CEO (email/contrato)
+            - generic [ref=e51]:
+              - generic [ref=e53]:
+                - img [ref=e54]
+                - generic [ref=e57]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e58]: +35 h/semana liberadas del equipo administrativo
+                  - paragraph [ref=e59]: ≈ 0,8 jornada completa
+                  - paragraph [ref=e60]: "Payback del proyecto: 6 semanas"
+              - button "Ver detalles" [ref=e61]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - generic [ref=e65]: Agencia Marketing
+                - generic [ref=e66]: 12M€
+              - generic [ref=e67]: Factura AWS 8,5K€/mes sin control
+              - generic [ref=e68]: "Solución: Rightsizing + Reserved Instances"
+              - paragraph [ref=e69]: Validado con CEO (email/contrato)
+            - generic [ref=e70]:
+              - generic [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e76]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e77]: +25 h/mes liberadas en análisis manual de costes
+                  - paragraph [ref=e78]: Visibilidad diaria de la factura cloud
+                  - paragraph [ref=e79]: "Payback del proyecto: 4 semanas"
+              - button "Ver detalles" [ref=e80]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]:
+                - generic [ref=e84]: Fabricante Industrial
+                - generic [ref=e85]: 25M€
+              - generic [ref=e86]: Forecasting de demanda falla un 30%
+              - generic [ref=e87]: "Solución: ML predicción + alertas automáticas"
+              - paragraph [ref=e88]: Validado con CEO (email/contrato)
+            - generic [ref=e89]:
+              - generic [ref=e91]:
+                - img [ref=e92]
+                - generic [ref=e95]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e96]: −40 h/mes en rehacer planes de producción
+                  - paragraph [ref=e97]: Menos urgencias y cambios de turno de última hora
+                  - paragraph [ref=e98]: "Payback del proyecto: 5 semanas"
+              - button "Ver detalles" [ref=e99]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - generic [ref=e102]:
+                - generic [ref=e103]: Farmacéutica
+                - generic [ref=e104]: 15M€
+              - generic [ref=e105]: "Validación de lotes manual: 18h/semana en documentación y trazabilidad"
+              - generic [ref=e106]: "Solución: OCR + IA para clasificación automática de documentos de lote y alertas de compliance"
+              - paragraph [ref=e107]: Validado con CEO (email/contrato)
+            - generic [ref=e108]:
+              - generic [ref=e110]:
+                - img [ref=e111]
+                - generic [ref=e114]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e115]: +18 h/semana liberadas del equipo de calidad
+                  - paragraph [ref=e116]: Trazabilidad y alertas automáticas de incumplimiento
+                  - paragraph [ref=e117]: "Payback del proyecto: 7 semanas"
+              - button "Ver detalles" [ref=e118]:
+                - text: Ver detalles
+                - img
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - generic [ref=e122]: Retail e-commerce
+                - generic [ref=e123]: 22M€
+              - generic [ref=e124]: Inventario desincronizado genera 12% de pérdidas por roturas o exceso de stock
+              - generic [ref=e125]: "Solución: Integración automática ERP ↔ e-commerce + alertas de reposición predictivas"
+              - paragraph [ref=e126]: Validado con CEO (email/contrato)
+            - generic [ref=e127]:
+              - generic [ref=e129]:
+                - img [ref=e130]
+                - generic [ref=e133]:
+                  - text: Impacto en el trabajo
+                  - paragraph [ref=e134]: −10 h/semana en ajustes manuales y reclamaciones
+                  - paragraph [ref=e135]: Reducción de roturas y sobrestock con alertas anticipadas
+                  - paragraph [ref=e136]: "Payback del proyecto: 4 semanas"
+              - button "Ver detalles" [ref=e137]:
+                - text: Ver detalles
+                - img
+      - region "metodología" [ref=e138]:
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - 'heading "Cómo Trabajo: 3 Fases Enfocadas en P&L" [level=2] [ref=e141]'
+            - paragraph [ref=e142]: "Transparencia total: auditoría express, roadmap ROI anti-camello y supervisión con garantía de impacto en P&L."
+          - generic [ref=e144]:
+            - generic [ref=e147]:
+              - generic [ref=e149]:
+                - img [ref=e151]
+                - generic [ref=e156]:
+                  - 'heading "Fase 1: Auditoría Express 48h" [level=3] [ref=e157]'
+                  - paragraph [ref=e158]: 48 horas
+              - list [ref=e159]:
+                - listitem [ref=e160]:
+                  - generic [ref=e162]: Análisis factura cloud (AWS/Azure/GCP)
+                - listitem [ref=e163]:
+                  - generic [ref=e165]: Detección procesos manuales > 5h/semana
+                - listitem [ref=e166]:
+                  - generic [ref=e168]: Forecasting actual vs óptimo
+              - paragraph [ref=e170]: "Entregable: Report 1 página con 3 quick wins"
+            - generic [ref=e173]:
+              - generic [ref=e174]:
+                - generic [ref=e175]:
+                  - img [ref=e177]
+                  - generic [ref=e180]:
+                    - 'heading "Fase 2: Roadmap Priorizado ROI" [level=3] [ref=e181]'
+                    - paragraph [ref=e182]: 1 semana
+                - generic [ref=e183]: anti-camello
+              - list [ref=e184]:
+                - listitem [ref=e185]:
+                  - generic [ref=e187]: Priorizamos por payback <6 meses
+                - listitem [ref=e188]:
+                  - generic [ref=e190]: Evitamos over-engineering ("anti-camello")
+                - listitem [ref=e191]:
+                  - generic [ref=e193]: Roadmap 90 días máximo
+              - paragraph [ref=e195]: "Entregable: Roadmap con inversión/ahorro cada item"
+            - generic [ref=e198]:
+              - generic [ref=e200]:
+                - img [ref=e202]
+                - generic [ref=e207]:
+                  - 'heading "Fase 3: Implementación Supervisada" [level=3] [ref=e208]'
+                  - paragraph [ref=e209]: 90 días
+              - list [ref=e210]:
+                - listitem [ref=e211]:
+                  - generic [ref=e213]: Tu equipo ejecuta, yo superviso
+                - listitem [ref=e214]:
+                  - generic [ref=e216]: Revisiones semanales 1h
+                - listitem [ref=e217]:
+                  - generic [ref=e219]: Transferencia conocimiento incluida
+              - paragraph [ref=e221]: "Entregable: Garantía: Si no reduces >20% → no cobro"
+      - region "tech-stack" [ref=e222]:
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - heading "Stack Tecnológico Transparente" [level=2] [ref=e225]
+            - paragraph [ref=e226]: Esta web es un caso de estudio. Tecnologías modernas, 0 legacy, deploy automático.
+          - 'img "Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Postgres Logs)" [ref=e228]'
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - generic [ref=e231]: Next.js 15
+              - generic [ref=e232]: App Router SSR
+            - generic [ref=e233]:
+              - generic [ref=e234]: React 19
+              - generic [ref=e235]: UI Components
+            - generic [ref=e236]:
+              - generic [ref=e237]: TypeScript
+              - generic [ref=e238]: Type Safety
+            - generic [ref=e239]:
+              - generic [ref=e240]: Tailwind CSS
+              - generic [ref=e241]: Styling
+            - generic [ref=e242]:
+              - generic [ref=e243]: Shadcn/ui
+              - generic [ref=e244]: Component Library
+            - generic [ref=e245]:
+              - generic [ref=e246]: Next.js API Routes
+              - generic [ref=e247]: Serverless APIs
+            - generic [ref=e248]:
+              - generic [ref=e249]: Vercel Postgres
+              - generic [ref=e250]: Database
+            - generic [ref=e251]:
+              - generic [ref=e252]: Groq (Llama 3.3)
+              - generic [ref=e253]: Chatbot IA
+            - generic [ref=e254]:
+              - generic [ref=e255]: Resend
+              - generic [ref=e256]: Transactional Email
+            - generic [ref=e257]:
+              - generic [ref=e258]: Vercel
+              - generic [ref=e259]: Deploy + CDN
+            - generic [ref=e260]:
+              - generic [ref=e261]: GitHub Actions
+              - generic [ref=e262]: CI/CD
+            - generic [ref=e263]:
+              - generic [ref=e264]: Vercel Cron
+              - generic [ref=e265]: Email Nurturing
+            - generic [ref=e266]:
+              - generic [ref=e267]: Vercel Analytics
+              - generic [ref=e268]: Performance
+            - generic [ref=e269]:
+              - generic [ref=e270]: Postgres Logs
+              - generic [ref=e271]: Leads + Chat
+  - contentinfo [ref=e272]:
+    - generic [ref=e274]:
+      - generic [ref=e275]:
+        - heading "Legal" [level=3] [ref=e276]
+        - link "Aviso Legal" [ref=e277] [cursor=pointer]:
+          - /url: /legal/aviso-legal
+        - link "Política de Privacidad" [ref=e278] [cursor=pointer]:
+          - /url: /legal/privacidad
+      - generic [ref=e279]:
+        - heading "Social" [level=3] [ref=e280]
+        - link "LinkedIn" [ref=e281] [cursor=pointer]:
+          - /url: www.linkedin.com/in/francisco-javier-gonzález-aparicio-259507222
+        - link "Email" [ref=e282] [cursor=pointer]:
+          - /url: mailto:fjgonzalez25691@gmail.com
+      - paragraph [ref=e284]: © 2025 Francisco Javier González Aparicio
+  - button "Open Next.js Dev Tools" [ref=e290] [cursor=pointer]:
+    - img [ref=e291]
+```
