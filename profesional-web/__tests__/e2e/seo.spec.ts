@@ -5,8 +5,8 @@ test.describe("SEO básico", () => {
     await page.goto("/");
 
     const title = await page.title();
-    expect(title).toContain("Francisco García");
-    expect(title).toContain("Reducción Cloud");
+    expect(title).toContain("Francisco Javier González Aparicio");
+    expect(title).toContain("Soluciones Cloud");
 
     const metaDescription = await page
       .locator('meta[name="description"]')
@@ -46,7 +46,7 @@ test.describe("SEO básico", () => {
     expect(content).toContain("/legal/privacidad");
 
     const urlCount = (content?.match(/<loc>/g) || []).length;
-    expect(urlCount).toBeGreaterThanOrEqual(4);
+    expect(urlCount).toBe(3); // Home + 2 páginas legales (calculadora está en /admin, no indexada)
   });
 
   test("robots.txt permite crawling y referencia al sitemap", async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe("SEO básico", () => {
 
     const schema = JSON.parse(jsonLd!);
     expect(schema["@type"]).toBe("ProfessionalService");
-    expect(schema.name).toContain("Francisco García");
+    expect(schema.name).toContain("Francisco Javier González Aparicio");
     expect(schema.url).toBe("https://fjgaparicio.es");
   });
 });
