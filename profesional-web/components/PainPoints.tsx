@@ -21,10 +21,10 @@ const painPoints = [
 
 export default function PainPoints() {
   return (
-    <section className="bg-[#F9FAFB] py-16">
+    <section className="bg-surface-900 py-16">
       <div className="container mx-auto px-4 md:px-6">
         {/* Título de la sección */}
-        <h2 className="text-3xl font-bold text-center mb-12 text-foreground">
+        <h2 className="text-3xl font-bold text-center mb-12 text-text-primary">
           ¿Te pasa esto?
         </h2>
 
@@ -34,7 +34,7 @@ export default function PainPoints() {
             <div
               key={point.id}
               data-testid="pain-point-item"
-              className="flex flex-col items-start gap-3 p-6 bg-background rounded-lg shadow-sm border border-border"
+              className="flex flex-col items-start gap-3 p-6 bg-surface-800 rounded-lg shadow-sm border border-surface-700"
             >
               {/* Icono X en rojo */}
               <X
@@ -44,12 +44,12 @@ export default function PainPoints() {
               />
 
               {/* Categoría */}
-              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+              <p className="text-sm font-semibold text-text-secondary uppercase tracking-wide">
                 {point.category}
               </p>
 
               {/* Texto del dolor cuantificado */}
-              <p className="text-lg text-foreground leading-relaxed">
+              <p className="text-lg text-text-primary leading-relaxed">
                 {point.text}
               </p>
             </div>

@@ -99,6 +99,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('theme')||'olive';document.documentElement.dataset.theme=s;}catch(e){}})()`,
+          }}
+        />
       </head>
       <body className={`${inter.className} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
         <main className="flex-1">{children}</main>

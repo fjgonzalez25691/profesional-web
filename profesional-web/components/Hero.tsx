@@ -30,21 +30,21 @@ export default function Hero({
   };
 
   return (
-    <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-slate-50 px-4 py-12 text-center md:min-h-screen md:flex-row md:text-left lg:px-24">
+    <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden bg-primary-950 px-4 py-12 text-center md:min-h-screen md:flex-row md:text-left lg:px-24">
       {/* Content Container */}
       <div className="z-10 flex w-full max-w-3xl flex-col items-center gap-6 md:w-7/12 md:max-w-2xl md:items-start md:pr-6 lg:w-3/5 lg:pr-10">
         {/* Badge/Support text */}
-        <p className="max-w-2xl text-sm text-slate-500 font-medium leading-relaxed">
+        <p className="max-w-2xl text-sm text-accent-sage font-medium leading-relaxed">
           {badgeText}
         </p>
 
         {/* Headline */}
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-text-primary sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl">
           {headline}
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-2xl text-lg text-slate-600 md:text-xl">
+        <p className="max-w-2xl text-lg text-text-secondary md:text-xl">
           {subtitle}
         </p>
 
@@ -53,7 +53,7 @@ export default function Hero({
           <Button
             size="lg"
             onClick={handleCtaClick}
-            className="bg-blue-600 text-lg font-semibold hover:bg-blue-700"
+            className="bg-accent-gold-500 text-primary-950 text-lg font-semibold hover:bg-accent-gold-400"
           >
             Agendar diagnóstico
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -63,7 +63,7 @@ export default function Hero({
               size="lg"
               variant="outline"
               onClick={onSecondaryCta}
-              className="border-blue-300 text-blue-700 hover:bg-blue-50 inline-flex items-center gap-2"
+              className="border-accent-teal-500 text-accent-teal-500 hover:bg-accent-teal-500/10 inline-flex items-center gap-2"
             >
               <Bot className="h-5 w-5" aria-hidden />
               Hablar con el asistente IA
@@ -74,7 +74,7 @@ export default function Hero({
 
       {/* Image Container */}
       <div className="relative mt-8 flex w-full max-w-md items-center justify-center md:mt-0 md:w-5/12 md:justify-end md:pl-6 lg:w-2/5 lg:pl-10">
-        <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] overflow-hidden rounded-2xl bg-slate-200 shadow-2xl">
+        <div className="relative aspect-square w-full max-w-[340px] md:max-w-[380px] overflow-hidden rounded-2xl bg-surface-900/50 shadow-2xl border border-surface-700">
           <Image
             src="/hero-profile.webp"
             alt="Hero profile - Francisco Javier Gonzalez"

@@ -32,13 +32,13 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
   }, []);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-surface-950">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">
+          <h2 className="text-3xl font-bold tracking-tight mb-4 text-text-primary">
             Casos reales, resultados tangibles
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
             No es teoría. Son soluciones implementadas en empresas reales con ROI medible.
           </p>
         </div>
@@ -48,32 +48,32 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {CASOS_VISIBLES.map((caso) => (
-            <Card key={caso.id} data-testid={`case-card-${caso.id}`} className="flex flex-col h-full hover:shadow-lg transition-shadow">
+            <Card key={caso.id} data-testid={`case-card-${caso.id}`} className="flex flex-col h-full bg-surface-900 border-surface-700 hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
-                  <Badge variant="secondary">{caso.sector}</Badge>
-                  <span className="text-sm text-muted-foreground font-medium">{caso.company_size}</span>
+                  <Badge variant="secondary" className="bg-primary-500/20 text-primary-400 border-primary-500/30">{caso.sector}</Badge>
+                  <span className="text-sm text-text-secondary font-medium">{caso.company_size}</span>
                 </div>
-                <CardTitle className="text-xl mb-1 line-clamp-2 min-h-14">
+                <CardTitle className="text-xl mb-1 line-clamp-2 min-h-14 text-text-primary">
                   {caso.pain}
                 </CardTitle>
-                <CardDescription className="line-clamp-2 min-h-10">
+                <CardDescription className="line-clamp-2 min-h-10 text-text-secondary">
                   Solución: {caso.solution}
                 </CardDescription>
-                <p className="text-xs text-green-700 font-semibold mt-2">
+                <p className="text-xs text-accent-sage font-semibold mt-2">
                   Validado con CEO (email/contrato)
                 </p>
               </CardHeader>
               
               <CardContent className="grow flex flex-col justify-between pt-0">
-                <div className="bg-muted/30 rounded-lg p-4 my-4 space-y-3">
+                <div className="bg-surface-800/30 rounded-lg p-4 my-4 space-y-3">
                   <div className="flex items-start gap-2 text-sm">
-                    <Clock className="w-4 h-4 mt-0.5 text-blue-600 shrink-0" />
+                    <Clock className="w-4 h-4 mt-0.5 text-accent-teal-500 shrink-0" />
                     <div className="space-y-1">
-                      <span className="text-blue-600 font-medium">Impacto en el trabajo</span>
-                      <p className="font-bold text-foreground">{caso.impact_time}</p>
-                      <p className="text-muted-foreground text-xs">{caso.impact_detail}</p>
-                      <p className="text-blue-700 font-bold text-sm mt-2">
+                      <span className="text-accent-teal-500 font-medium">Impacto en el trabajo</span>
+                      <p className="font-bold text-text-primary">{caso.impact_time}</p>
+                      <p className="text-text-secondary text-xs">{caso.impact_detail}</p>
+                      <p className="text-accent-teal-400 font-bold text-sm mt-2">
                         Payback del proyecto: {caso.payback_weeks} semanas
                       </p>
                     </div>
@@ -82,7 +82,7 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
 
                 <Button
                   type="button"
-                  className="w-full mt-2 group"
+                  className="w-full mt-2 group bg-primary-600 hover:bg-primary-700 text-white"
                   onClick={() => {
                     const utmParams: UtmParams = {
                       utm_source: UTM_SOURCE,
