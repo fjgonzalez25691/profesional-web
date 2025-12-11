@@ -5,6 +5,9 @@ import { getLeads } from '@/lib/admin/get-leads';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
+// Forzar renderizado dinámico para evitar prerender durante build
+export const dynamic = 'force-dynamic';
+
 export default async function AdminLeadsPage() {
   // Middleware ya verificó autenticación, aquí solo obtenemos datos
   const leads = await getLeads();
