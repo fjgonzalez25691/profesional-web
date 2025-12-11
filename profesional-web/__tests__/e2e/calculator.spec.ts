@@ -3,14 +3,17 @@
 test.describe('Calculadora ROI', () => {
   test.beforeEach(async ({ page }) => {
     // Autenticación admin
-    await page.goto('/admin/calculadora');
-    await page.waitForURL('/admin/calculadora');
+    await page.goto('/admin');
     const passwordInput = page.locator('input[type="password"]');
     if (await passwordInput.isVisible()) {
       await passwordInput.fill(process.env.ADMIN_PASSWORD || 'nueva_password_segura_2025');
       await page.getByRole('button', { name: /Acceder/i }).click();
-      await page.waitForURL('/admin/calculadora');
+      // Esperar que la página recargue y muestre el dashboard
+      await page.waitForLoadState('networkidle');
     }
+    // Navegar a la calculadora ahora que estamos autenticados
+    await page.goto('/admin/calculadora');
+    await page.waitForURL('/admin/calculadora');
   });
 
   // ============================================

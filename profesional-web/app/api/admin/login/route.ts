@@ -13,9 +13,13 @@ export async function POST(req: Request) {
 
   const token = process.env.ADMIN_TOKEN;
   const res = NextResponse.json({ success: true });
+  
+  // secure: false en desarrollo para que funcione con http://localhost
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   res.cookies.set('admin_auth', token, {
     httpOnly: true,
-    secure: true,
+    secure: isProduction,
     sameSite: 'strict',
     maxAge: 60 * 60 * 24,
     path: '/',

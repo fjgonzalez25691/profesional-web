@@ -4,7 +4,7 @@ describe('Admin Auth', () => {
   it('POST /admin/login - password correcto', async () => {
     process.env.ADMIN_PASSWORD = 'secret';
     process.env.ADMIN_TOKEN = 'token-123';
-    const { POST } = await import('@/app/admin/login/route');
+    const { POST } = await import('@/app/api/admin/login/route');
     const res = await POST(
       new Request('http://localhost/admin/login', {
         method: 'POST',
@@ -20,7 +20,7 @@ describe('Admin Auth', () => {
   it('POST /admin/login - password incorrecto', async () => {
     process.env.ADMIN_PASSWORD = 'secret';
     process.env.ADMIN_TOKEN = 'token-123';
-    const { POST } = await import('@/app/admin/login/route');
+    const { POST } = await import('@/app/api/admin/login/route');
     const res = await POST(
       new Request('http://localhost/admin/login', {
         method: 'POST',

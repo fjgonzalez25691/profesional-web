@@ -20,7 +20,7 @@ const businessName = process.env.NEXT_PUBLIC_BUSINESS_NAME || "Francisco Javier 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fjgaparicio.es"),
   title: {
-    default: `${businessName} - Reducción Cloud & Automatización | Payback <6 meses`,
+    default: `${businessName} - Soluciones Cloud & IA`,
     template: `%s | ${businessName}`,
   },
   description:

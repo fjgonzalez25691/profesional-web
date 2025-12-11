@@ -55,8 +55,8 @@ describe('Performance Budgets - FJG-57', () => {
     expect(packageJson.scripts).toHaveProperty('build:analyze');
     expect(packageJson.scripts['build:analyze']).toContain('ANALYZE=true');
 
-    // Verificar que @next/bundle-analyzer está instalado
-    expect(packageJson.devDependencies).toHaveProperty('@next/bundle-analyzer');
+    // Verificar que @next/bundle-analyzer está instalado (en dependencies para Vercel)
+    expect(packageJson.dependencies).toHaveProperty('@next/bundle-analyzer');
   });
 
   it('debe tener revalidate configurado en páginas legales', () => {

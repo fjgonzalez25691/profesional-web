@@ -13,7 +13,7 @@ export default function LoginForm() {
     setError('');
 
     try {
-      const response = await fetch('/admin/login', {
+      const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
@@ -22,7 +22,7 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        // Recarga la página para mostrar el dashboard
+        // Recarga la página para que Next.js lea la nueva cookie y muestre el contenido protegido
         window.location.reload();
       } else {
         setError(data.error || 'Error de autenticación');

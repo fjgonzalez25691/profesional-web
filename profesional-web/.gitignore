@@ -53,3 +53,8 @@ scripts/validation-extremes-*.csv
 scripts/validation-results-*.json
 # Keep all TS/JS scripts and MD docs tracked (including validate-roi-v2.ts, register-ts.js, etc.)
 
+# playwright
+playwright-report/
+test-results/
+docs/issues/**/screenshots/*.png
+
