@@ -47,12 +47,12 @@ export default function FloatingCalendlyButton({
         aria-label="🗓️ Reserva 30 min"
         className="fixed top-6 right-6 z-50
                    hidden md:flex items-center gap-2
-                   bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
-                   text-white px-5 py-3 rounded-full shadow-lg hover:shadow-2xl
+                   bg-accent-gold-500 hover:bg-accent-gold-400
+                   text-primary-950 px-5 py-3 rounded-full shadow-xl hover:shadow-2xl
                    transition-all duration-300 ease-out font-bold text-sm
                    hover:scale-110 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                   border border-blue-500/20 backdrop-blur-sm"
+                   focus:outline-none focus:ring-2 focus:ring-accent-gold-500 focus:ring-offset-2
+                   border border-accent-gold-400/30"
         type="button"
       >
         <span className="font-bold">🗓️ Reserva 30 min</span>
@@ -66,15 +66,15 @@ export default function FloatingCalendlyButton({
         aria-label="🗓️ Reserva 30 min"
         className="fixed bottom-20 right-4 z-[90]
                    flex md:hidden items-center justify-center
-                   h-12 w-12 rounded-full bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800
-                   text-white shadow-xl hover:shadow-2xl
+                   h-14 w-14 rounded-full bg-accent-gold-500 hover:bg-accent-gold-400
+                   text-primary-950 shadow-xl hover:shadow-2xl
                    transition-all duration-300 ease-out
                    hover:scale-110 active:scale-95
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                   border border-blue-500/20 backdrop-blur-sm"
+                   focus:outline-none focus:ring-2 focus:ring-accent-gold-500 focus:ring-offset-2
+                   border border-accent-gold-400/30"
         type="button"
       >
-        <span aria-hidden className="text-xl">
+        <span aria-hidden className="text-2xl">
           🗓️
         </span>
       </button>

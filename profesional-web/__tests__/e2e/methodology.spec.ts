@@ -6,7 +6,7 @@ test.describe('Sección Metodología', () => {
   });
 
   test('muestra las 3 fases y badge anti-camello en desktop', async ({ page }) => {
-    const section = page.locator('section#metodologia');
+    const section = page.locator('section#methodology');
     await section.scrollIntoViewIfNeeded();
 
     await expect(section.getByRole('heading', { level: 2, name: /Cómo Trabajo: 3 Fases Enfocadas en P&L/i })).toBeVisible();
@@ -24,7 +24,7 @@ test.describe('Sección Metodología', () => {
 
   test('adapta a mobile con cards verticales', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    const section = page.locator('section#metodologia');
+    const section = page.locator('section#methodology');
     await section.scrollIntoViewIfNeeded();
 
     await expect(section.getByRole('heading', { level: 3, name: /Fase 1: Auditoría Express 48h/i })).toBeVisible();
@@ -34,7 +34,7 @@ test.describe('Sección Metodología', () => {
   });
 
   test('muestra entregables por fase', async ({ page }) => {
-    const section = page.locator('section#metodologia');
+    const section = page.locator('section#methodology');
     await section.scrollIntoViewIfNeeded();
 
     await expect(section.getByText(/Report 1 página con 3 quick wins/i)).toBeVisible();

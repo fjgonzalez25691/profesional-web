@@ -92,11 +92,11 @@ const phases: Phase[] = [
 export default function MethodologySection() {
   return (
     <section
-      id="metodologia"
+      id="methodology"
       aria-label="metodología"
-      className="w-full bg-surface-950 py-16 px-4 sm:px-6 lg:px-8"
+      className="w-full bg-surface-950 py-16 scroll-mt-24"
     >
-      <div className="mx-auto max-w-6xl space-y-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-12">
         <div className="space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
             Cómo Trabajo: 3 Fases Enfocadas en P&L

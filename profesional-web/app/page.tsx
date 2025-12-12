@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
 import PainPoints from "@/components/PainPoints";
 import CaseGrid from "@/components/CaseGrid";
@@ -10,7 +10,7 @@ import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
 import MethodologySection from "@/components/MethodologySection";
 import TechStackDiagram from "@/components/TechStackDiagram";
 
-type ModalSource = 'hero' | 'fab' | 'case_grid';
+type ModalSource = 'hero' | 'fab' | 'case_grid' | 'header';
 
 type UtmParams = {
   utm_source: string;
@@ -35,9 +35,9 @@ export default function Home() {
   const desktopFabRef = useRef<HTMLButtonElement>(null);
   const mobileFabRef = useRef<HTMLButtonElement>(null);
 
-  const openModal = (source: ModalSource, utmParams?: UtmParams) => {
+  const openModal = useCallback((source: ModalSource, utmParams?: UtmParams) => {
     setModalState({ isOpen: true, source, utmParams });
-  };
+  }, []);
 
   const closeModal = () => {
     setModalState(prev => ({ ...prev, isOpen: false }));
@@ -52,20 +52,31 @@ export default function Home() {
     }
   }, [modalState.isOpen, modalState.source]);
 
-  // Mostrar FAB de Calendly y botón flotante de chatbot solo tras 25% de scroll
+  useEffect(() => {
+    const handleOpenCalendly = (event: Event) => {
+      const detail = (event as CustomEvent<{ source?: ModalSource; utmParams?: UtmParams }>).detail;
+      openModal(detail?.source ?? 'header', detail?.utmParams);
+    };
+
+    window.addEventListener('open-calendly', handleOpenCalendly as EventListener);
+    return () => window.removeEventListener('open-calendly', handleOpenCalendly as EventListener);
+  }, [openModal]);
+
+  // Mostrar FAB de Calendly y botón flotante de chatbot cuando el Hero ya no está visible
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const handleScroll = () => {
-      const doc = document.documentElement;
-      const body = document.body;
-      const scrollTop = window.scrollY || window.pageYOffset || doc.scrollTop || body.scrollTop || 0;
-      const scrollHeight = doc.scrollHeight || body.scrollHeight || 1;
-      const clientHeight = doc.clientHeight || window.innerHeight || 1;
-      const maxScrollable = scrollHeight - clientHeight;
-      const percent = maxScrollable > 0 ? (scrollTop / maxScrollable) * 100 : 0;
-      setShowFloatingCTA(percent > 30);
-      setShowFloatingChat(percent > 30);
+      const heroSection = document.getElementById('hero');
+      if (!heroSection) return;
+
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      const headerHeight = 80; // Altura aproximada del header sticky
+
+      // Mostrar flotantes cuando el Hero sale completamente de la vista
+      const shouldShow = heroBottom < headerHeight;
+      setShowFloatingCTA(shouldShow);
+      setShowFloatingChat(shouldShow);
     };
 
     handleScroll();

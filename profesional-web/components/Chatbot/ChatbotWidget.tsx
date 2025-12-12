@@ -109,7 +109,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
           <button
             aria-label="Abrir chatbot"
             onClick={handleToggle}
-            className="fixed bottom-6 right-6 z-95 hidden md:flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="fixed bottom-6 right-6 z-95 hidden md:flex items-center gap-2 rounded-full bg-accent-teal-500 hover:bg-accent-teal-400 px-5 py-3 text-sm font-bold text-primary-950 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent-teal-500 focus:ring-offset-2 border border-accent-teal-400/30"
             type="button"
           >
             🤖 Chat
@@ -118,7 +118,7 @@ export default function ChatbotWidget({ visible = true }: ChatbotWidgetProps) {
           <button
             aria-label="Abrir chatbot"
             onClick={handleToggle}
-            className="fixed bottom-6 right-4 z.95 flex md:hidden items-center justify-center rounded-full bg-slate-900 h-12 w-12 text-lg font-semibold text-white shadow-lg transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="fixed bottom-6 right-4 z-95 flex md:hidden items-center justify-center rounded-full bg-accent-teal-500 hover:bg-accent-teal-400 h-14 w-14 text-2xl font-bold text-primary-950 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent-teal-500 focus:ring-offset-2 border border-accent-teal-400/30"
             type="button"
           >
             🤖

@@ -1,7 +1,33 @@
 # ESTADO ACTUAL DEL PROYECTO
-*Última actualización: 9 de diciembre de 2025, 17:00 (Europe/Madrid)*
+*Última actualización: 12 de diciembre de 2025, 00:30 (Europe/Madrid)*
 
-## 🎯 Issues Activas - SPRINT 4 EN CURSO
+## 🎯 Branch de Acumulación: in2-ui-v0
+**Estrategia:** Acumular múltiples issues sin PR a main hasta el final del ciclo
+- **Branch activa:** `in2-ui-v0`
+- **Issues completadas:** FJG-99 ✅
+- **Objetivo:** Desarrollo iterativo sin exponer cambios parciales hasta versión completa
+
+## 🎯 Issues Activas - SPRINT EN CURSO
+
+**FJG-99**: US-02-005 – Sistema de Temas + Exploración 2 Paletas (Switch) (✅ Done - 11 dic 2025)
+- **Estado:** Implementación completada y documentada (in2-ui-v0)
+- **Contexto:** Sistema de temas con 2 paletas (Olive híbrida y Navy), switch en admin dashboard, persistencia localStorage
+- **Story Points:** 3 SP
+- **Prioridad:** 🟡 Medium
+- **Resultado:** 
+  - Hook `useTheme` con localStorage + data-theme en HTML
+  - Componente `ThemeToggle` visible SOLO en `/admin` (privado para testing)
+  - Tokens CSS para ambas paletas en `globals.css` (Tailwind v4.x)
+  - Script anti-FOUC en layout
+  - 5 secciones adaptadas: Hero, PainPoints, CaseGrid, MethodologySection, TechStackDiagram
+  - Tests: 166/166 E2E pasando, unitarios completos
+  - Paleta elegida: Olive Híbrida (documentada en Linear)
+- **Branch:** `in2-ui-v0` (acumulación)
+- **Documentación:**
+  - Prompts: `FJG-99-prompt-implementacion.md`, `FJG-99-prompt-revision.md`
+  - Informes: `FJG-99-informe-implementacion.md`, `FJG-99-informe-revision.md`
+- **Siguiente paso:** Acumular próxima issue en misma branch
+
 **FJG-57**: US-05-005 – Performance Optimization LCP <2.5s Mobile (🔄 Planning Complete - 9 dic 2025)
 - **Estado:** Planificación Manager completada
 - **Contexto:** Image optimization WebP, lazy loading chatbot, font optimization, edge caching, Lighthouse CI
@@ -11,17 +37,11 @@
 - **Branch:** `fjgonzalez25691-fjg-57-us-05-005-performance-optimization-lcp-25s-mobile`
 - **Siguiente paso:** Developer implementación tras aprobación prompts
 
-**FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Planning Merged - 9 dic 2025 - PR #36)
-- **Estado:** Planificación Manager completada y mergeada
-- **Contexto:** Metadata Next.js, sitemap dinámico, robots.txt, JSON-LD Schema.org, OG Image
-- **Siguiente paso:** Developer implementación pendiente
-
 **FJG-85**: US-DT-04 – Mejora Modelo ROI + Validaciones (⏸️ On Hold - 6 dic 2025)
 - **Estado:** Planificación inicial archivada (branch: `archive/fjg-85-validacion-masiva-descartado`)
 - **Contexto:** Issue con scope expandido (CA4/DoD4: validación script para ≥1000 combinaciones ROI)
 - **Situación:** Pendiente definición de nuevo enfoque tras rechazo de propuesta inicial
 - **Siguiente paso:** Requiere clarificación del usuario sobre estrategia preferida
-*Última actualización: 9 de diciembre de 2025, 09:45 (Europe/Madrid)*
 
 ## 🎯 Issues Activas - SPRINT 4 EN CURSO
 **FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Done - 9 dic 2025)
@@ -41,6 +61,7 @@
 - **Tests:** 34/34 pasando (calculateROI + validation + E2E)
 
 ## ✅ Issues Completadas Recientemente
+**FJG-99**: US-02-005 – Sistema de Temas + Exploración 2 Paletas (Switch) (✅ Done - 11 dic 2025 - Branch in2-ui-v0)
 **FJG-98**: US-DT-04-FE – Multi-dolor fuerza fallback + Ajuste modelo cloud (✅ Done - 9 dic 2025 - PR #37 merged)
 **FJG-55**: US-05-003 – SEO Básico Metadata + Sitemap (✅ Done - 9 dic 2025 - PR #36 merged)
 **FJG-54**: US-05-002 – Diagrama Arquitectura Tech Stack SVG Estático (✅ Done - 8 dic 2025 - PR merged)

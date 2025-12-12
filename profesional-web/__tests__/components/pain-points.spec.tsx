@@ -37,9 +37,9 @@ describe('PainPoints Component', () => {
     expect(screen.getByText(/Previsiones Excel fallan 20-30%/i)).toBeInTheDocument();
   });
 
-  it('tiene el fondo gris especificado', () => {
+  it('tiene el fondo surface-900', () => {
     render(<PainPoints />);
     const section = screen.getByRole('heading', { name: /¿Te pasa esto\?/i }).closest('section');
-    expect(section).toHaveClass('bg-[#F9FAFB]');
+    expect(section).toHaveClass('bg-surface-900');
   });
 });

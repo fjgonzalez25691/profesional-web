@@ -32,8 +32,8 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
   }, []);
 
   return (
-    <section className="py-20 bg-surface-950">
-      <div className="container mx-auto px-4">
+    <section id="cases" className="w-full py-20 bg-surface-950 scroll-mt-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight mb-4 text-text-primary">
             Casos reales, resultados tangibles
