@@ -20,7 +20,7 @@ type UtmParams = {
 interface CalendlyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  source?: 'hero' | 'fab' | 'case_grid'; // Para diferenciar origen del click
+  source?: 'hero' | 'fab' | 'case_grid' | 'header'; // Para diferenciar origen del click
   onBookingComplete?: () => void; // Callback para cuando se complete el booking
   utmParams?: UtmParams;
 }

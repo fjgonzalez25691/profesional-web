@@ -21,7 +21,7 @@ describe('TECH_STACK_MVP', () => {
   it('backend incluye Groq (Llama 3.3)', () => {
     const backendNames = TECH_STACK_MVP.backend.map((t) => t.name);
     expect(backendNames).toContain('Groq (Llama 3.3)');
-    expect(backendNames).toContain('Vercel Postgres');
+    expect(backendNames).toContain('Neon Postgres');
   });
 
   it('cada tecnología tiene name y purpose', () => {

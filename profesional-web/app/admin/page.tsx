@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
 import LoginForm from '@/components/admin/LoginForm';
 import Link from 'next/link';
-import { Users, Calculator } from 'lucide-react';
+import { Users, Calculator, Palette } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default async function AdminDashboard() {
   const cookieStore = await cookies();
@@ -73,6 +74,22 @@ export default async function AdminDashboard() {
               Accede a la calculadora ROI para pruebas y validación interna.
             </p>
           </Link>
+
+          {/* Card Testing Themes */}
+          <div className="block p-6 bg-white rounded-lg shadow border border-slate-200">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <Palette className="w-6 h-6 text-purple-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-slate-900">Testing de Temas</h2>
+            </div>
+            <p className="text-slate-600 mb-4">
+              Cambia la paleta de colores global para probar diferentes estilos visuales.
+            </p>
+            <div className="flex justify-start">
+              <ThemeToggle />
+            </div>
+          </div>
         </div>
       </div>
     </div>

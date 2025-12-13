@@ -8,9 +8,9 @@ type TechBadgeProps = {
 
 function TechBadge({ name, purpose }: TechBadgeProps) {
   return (
-    <div className="flex flex-col items-start rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition-shadow hover:shadow-md">
-      <span className="text-sm font-semibold text-slate-900">{name}</span>
-      <span className="text-xs text-slate-500">{purpose}</span>
+    <div className="flex flex-col items-start rounded-lg border border-surface-700 bg-surface-900 p-3 shadow-sm transition-shadow hover:shadow-md">
+      <span className="text-sm font-semibold text-text-primary">{name}</span>
+      <span className="text-xs text-text-secondary">{purpose}</span>
     </div>
   );
 }
@@ -27,14 +27,14 @@ export default function TechStackDiagram() {
     <section
       id="tech-stack"
       aria-label="tech-stack"
-      className="w-full bg-slate-50 py-16 px-4 sm:px-6 lg:px-8"
+      className="w-full bg-surface-950 py-12 md:py-20"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-slate-900 sm:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-text-primary sm:text-4xl">
             Stack Tecnológico Transparente
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-slate-600">
+          <p className="mx-auto max-w-2xl text-base text-text-secondary">
             Esta web es un caso de estudio. Tecnologías modernas, 0 legacy, deploy automático.
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function TechStackDiagram() {
         <div className="mx-auto mb-12 max-w-4xl">
           <Image
             src="/diagrams/tech-stack.svg"
-            alt="Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Postgres Logs)"
+            alt="Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Neon Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Neon Logs)"
             width={1290}
             height={720}
             className="h-auto w-full"

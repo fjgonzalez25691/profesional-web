@@ -20,7 +20,7 @@ export const TECH_STACK_MVP: TechStack = {
   ],
   backend: [
     { name: 'Next.js API Routes', purpose: 'Serverless APIs' },
-    { name: 'Vercel Postgres', purpose: 'Database' },
+    { name: 'Neon Postgres', purpose: 'Database' },
     { name: 'Groq (Llama 3.3)', purpose: 'Chatbot IA' },
     { name: 'Resend', purpose: 'Transactional Email' },
   ],
@@ -31,6 +31,6 @@ export const TECH_STACK_MVP: TechStack = {
   ],
   analytics: [
     { name: 'Vercel Analytics', purpose: 'Performance' },
-    { name: 'Postgres Logs', purpose: 'Leads + Chat' },
+    { name: 'Neon Logs', purpose: 'Leads + Chat' },
   ],
 };

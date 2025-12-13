@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const inter = Inter({
@@ -93,14 +94,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={inter.variable} data-theme="olive" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('theme')||'olive';document.documentElement.dataset.theme=s;}catch(e){}})()`,
+          }}
+        />
       </head>
       <body className={`${inter.className} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
+        <Header />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
