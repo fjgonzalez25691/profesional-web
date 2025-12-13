@@ -15,7 +15,7 @@ describe('Home Page', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud/i,
+        name: /Impulsa tu negocio: IA, automatización y soluciones Cloud/i,
       }),
     ).toBeInTheDocument();
 
