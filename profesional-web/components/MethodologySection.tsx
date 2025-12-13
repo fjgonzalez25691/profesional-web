@@ -25,7 +25,6 @@ function PhaseCard({ icon, title, duration, actions, deliverable, badge }: Phase
         </div>
         {badge ? (
           <span
-            data-testid={badge === 'anti-camello' ? 'anti-camello-badge' : undefined}
             className="rounded-full border border-accent-gold-400/50 bg-accent-gold-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-tight text-accent-gold-400"
           >
             {badge}
@@ -70,18 +69,18 @@ const phases: Phase[] = [
     duration: '1 semana',
     actions: [
       'Priorizamos por payback <6 meses',
-      'Evitamos over-engineering ("anti-camello")',
+      'Evitamos over-engineering (simplicidad pragmática)',
       'Roadmap 90 días máximo',
     ],
     deliverable: 'Roadmap con inversión/ahorro cada item',
-    badge: 'anti-camello',
+    badge: 'Simplicidad',
   },
   {
     icon: <Users className="h-6 w-6" aria-hidden />,
     title: 'Fase 3: Implementación Supervisada',
     duration: '90 días',
     actions: [
-      'Tu equipo ejecuta, yo superviso',
+      'Acompañamiento continuo durante implementación',
       'Revisiones semanales 1h',
       'Transferencia conocimiento incluida',
     ],
@@ -102,7 +101,7 @@ export default function MethodologySection() {
             Cómo Trabajo: 3 Fases Enfocadas en P&L
           </h2>
           <p className="mx-auto max-w-3xl text-base text-text-secondary">
-            Transparencia total: auditoría express, roadmap ROI anti-camello y supervisión con garantía
+            Transparencia total: auditoría express, roadmap ROI pragmático y supervisión con garantía
             de impacto en P&amp;L.
           </p>
         </div>

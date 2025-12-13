@@ -22,10 +22,14 @@ describe('MethodologySection', () => {
     expect(screen.getByRole('heading', { level: 3, name: /Fase 3: Implementación Supervisada/i })).toBeInTheDocument();
   });
 
-  it('destaca el badge anti-camello en la Fase 2', () => {
+  it('destaca el badge de simplicidad en la Fase 2', () => {
     render(<MethodologySection />);
 
-    expect(screen.getByTestId('anti-camello-badge')).toBeInTheDocument();
+    const badges = screen.getAllByText(/Simplicidad/i);
+    expect(badges.length).toBeGreaterThan(0);
+    // Verificar que al menos uno tiene las clases del badge
+    const badge = badges.find(el => el.className.includes('border-accent-gold'));
+    expect(badge).toBeDefined();
   });
 
   it('muestra timeline visual para desktop', () => {

@@ -42,7 +42,7 @@ export default function TechStackDiagram() {
         <div className="mx-auto mb-12 max-w-4xl">
           <Image
             src="/diagrams/tech-stack.svg"
-            alt="Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Postgres Logs)"
+            alt="Diagrama arquitectura tech stack: Frontend (Next.js, React, TypeScript), Backend (API Routes, Neon Postgres, Groq), Infraestructura (Vercel, GitHub Actions, Vercel Cron), Analytics (Vercel Analytics, Neon Logs)"
             width={1290}
             height={720}
             className="h-auto w-full"
