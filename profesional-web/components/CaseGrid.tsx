@@ -82,7 +82,7 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
 
                 <Button
                   type="button"
-                  className="w-full mt-2 group bg-primary-600 hover:bg-primary-700 text-white"
+                  className="w-full mt-2 group bg-primary-600 hover:bg-primary-700 text-primary-950"
                   onClick={() => {
                     const utmParams: UtmParams = {
                       utm_source: UTM_SOURCE,

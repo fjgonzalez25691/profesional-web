@@ -21,7 +21,7 @@ test.describe('Sección Tech Stack', () => {
     await expect(page.getByText('Next.js 15')).toBeVisible();
     await expect(page.getByText('React 19')).toBeVisible();
     await expect(page.getByText('Groq (Llama 3.3)')).toBeVisible();
-    await expect(page.getByText('Vercel Postgres')).toBeVisible();
+    await expect(page.getByText('Neon Postgres')).toBeVisible();
   });
 
   test('badges muestran purpose', async ({ page }) => {

@@ -13,7 +13,7 @@
     <rect x="300" y="50" width="200" height="150" fill="#8b5cf6" rx="8"/>
     <text x="400" y="80" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Backend</text>
     <text x="400" y="110" text-anchor="middle" fill="white" font-size="14">Next.js API Routes</text>
-    <text x="400" y="135" text-anchor="middle" fill="white" font-size="14">Vercel Postgres</text>
+    <text x="400" y="135" text-anchor="middle" fill="white" font-size="14">Neon Postgres</text>
     <text x="400" y="160" text-anchor="middle" fill="white" font-size="14">Groq (Llama 3.3)</text>
   </g>
 
@@ -31,7 +31,7 @@
     <rect x="300" y="250" width="200" height="100" fill="#10b981" rx="8"/>
     <text x="400" y="280" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Analytics</text>
     <text x="400" y="310" text-anchor="middle" fill="white" font-size="14">Vercel Analytics</text>
-    <text x="400" y="335" text-anchor="middle" fill="white" font-size="14">Postgres Logs</text>
+    <text x="400" y="335" text-anchor="middle" fill="white" font-size="14">Neon Logs</text>
   </g>
 
   <!-- Arrows connecting layers -->

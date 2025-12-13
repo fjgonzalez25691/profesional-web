@@ -5,7 +5,7 @@ test.describe('Sección Metodología', () => {
     await page.goto('/');
   });
 
-  test('muestra las 3 fases y badge anti-camello en desktop', async ({ page }) => {
+  test('muestra las 3 fases y badge de simplicidad en desktop', async ({ page }) => {
     const section = page.locator('section#methodology');
     await section.scrollIntoViewIfNeeded();
 
@@ -13,7 +13,7 @@ test.describe('Sección Metodología', () => {
     await expect(section.getByRole('heading', { level: 3, name: /Fase 1: Auditoría Express 48h/i })).toBeVisible();
     await expect(section.getByRole('heading', { level: 3, name: /Fase 2: Roadmap Priorizado ROI/i })).toBeVisible();
     await expect(section.getByRole('heading', { level: 3, name: /Fase 3: Implementación Supervisada/i })).toBeVisible();
-    await expect(section.getByTestId('anti-camello-badge')).toBeVisible();
+    await expect(section.getByText('Simplicidad', { exact: true })).toBeVisible();
     const viewportWidth = page.viewportSize()?.width ?? 1280;
     if (viewportWidth >= 768) {
       await expect(section.getByTestId('methodology-timeline-desktop')).toBeVisible();

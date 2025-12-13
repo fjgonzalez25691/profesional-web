@@ -25,7 +25,7 @@ describe('TechStackDiagram', () => {
     expect(screen.getByText('Next.js 15')).toBeInTheDocument();
     expect(screen.getByText('React 19')).toBeInTheDocument();
     expect(screen.getByText('Groq (Llama 3.3)')).toBeInTheDocument();
-    expect(screen.getByText('Vercel Postgres')).toBeInTheDocument();
+    expect(screen.getByText('Neon Postgres')).toBeInTheDocument();
   });
 
   it('cada badge muestra propósito', () => {
