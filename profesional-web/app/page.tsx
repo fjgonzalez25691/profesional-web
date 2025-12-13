@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
-import PainPoints from "@/components/PainPoints";
 import CaseGrid from "@/components/CaseGrid";
 import CalendlyModal from "@/components/CalendlyModal";
 import FloatingCalendlyButton from "@/components/FloatingCalendlyButton";
@@ -87,7 +86,7 @@ export default function Home() {
   return (
     <main id="main" className="flex min-h-screen flex-col items-center justify-start">
       <Hero
-        headline="Hago que tu negocio gane más y gaste menos usando IA, automatización y soluciones Cloud"
+        headline="Impulsa tu negocio: IA, automatización y soluciones Cloud"
         subtitle="Menos costes, menos errores y más tiempo para lo importante."
         badgeText="+37 años dirigiendo operaciones y equipos en empresas reales. Ahora uso la tecnología para mejorar tus números, no para complicarte la vida."
         onCtaClick={() => openModal('hero')}
@@ -97,9 +96,6 @@ export default function Home() {
           }
         }}
       />
-
-      {/* Sección de dolores cuantificados */}
-      <PainPoints />
 
       {/* Grid de casos de éxito con ROI */}
       <CaseGrid

@@ -32,7 +32,7 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
   }, []);
 
   return (
-    <section id="cases" className="w-full py-20 bg-surface-950 scroll-mt-24">
+    <section id="cases" className="w-full py-12 md:py-20 bg-surface-950 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight mb-4 text-text-primary">
@@ -43,12 +43,12 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
           </p>
         </div>
 
-        <div 
+        <div
           data-testid="case-grid-container"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
         >
           {CASOS_VISIBLES.map((caso) => (
-            <Card key={caso.id} data-testid={`case-card-${caso.id}`} className="flex flex-col h-full bg-surface-900 border-surface-700 hover:shadow-lg transition-shadow">
+            <Card key={caso.id} data-testid={`case-card-${caso.id}`} className="flex flex-col h-full bg-surface-900 border-surface-700 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-surface-600">
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
                   <Badge variant="secondary" className="bg-primary-500/20 text-primary-400 border-primary-500/30">{caso.sector}</Badge>
@@ -82,7 +82,7 @@ export default function CaseGrid({ onCtaClick }: CaseGridProps) {
 
                 <Button
                   type="button"
-                  className="w-full mt-2 group bg-primary-600 hover:bg-primary-700 text-primary-950"
+                  className="w-full mt-2 group bg-primary-600 hover:bg-primary-700 text-primary-950 transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 focus:ring-offset-surface-900"
                   onClick={() => {
                     const utmParams: UtmParams = {
                       utm_source: UTM_SOURCE,

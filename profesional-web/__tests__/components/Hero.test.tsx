@@ -28,7 +28,7 @@ describe('Hero Component', () => {
 
   it('tracks CTA click event', () => {
     render(<Hero {...defaultProps} />);
-    
+
     const cta = screen.getByRole('button', { name: /agendar/i });
     fireEvent.click(cta);
 
@@ -36,5 +36,33 @@ describe('Hero Component', () => {
       cta_id: 'hero',
     });
     expect(defaultProps.onCtaClick).toHaveBeenCalled();
+  });
+
+  it('renders integrated pain points section', () => {
+    render(<Hero {...defaultProps} />);
+
+    // Verifica que aparece el título de pain points
+    expect(screen.getByRole('heading', { name: /¿Te pasa esto\?/i })).toBeInTheDocument();
+
+    // Verifica que hay exactamente 3 pain points
+    const painPointItems = screen.getAllByTestId('pain-point-item');
+    expect(painPointItems).toHaveLength(3);
+  });
+
+  it('renders all pain point texts', () => {
+    render(<Hero {...defaultProps} />);
+
+    // Verifica los 3 textos específicos de pain points
+    expect(screen.getByText(/2-4 h\/día introduciendo facturas\/albaranes/i)).toBeInTheDocument();
+    expect(screen.getByText(/AWS\/Azure subió >30% sin explicación/i)).toBeInTheDocument();
+    expect(screen.getByText(/Previsiones Excel fallan 20-30%/i)).toBeInTheDocument();
+  });
+
+  it('renders pain point icons', () => {
+    render(<Hero {...defaultProps} />);
+
+    // Verifica que hay 3 iconos X (uno por pain point)
+    const icons = screen.getAllByTestId('pain-point-icon');
+    expect(icons).toHaveLength(3);
   });
 });
