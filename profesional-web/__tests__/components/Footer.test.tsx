@@ -25,14 +25,15 @@ describe('Footer Component', () => {
     const linkedinLink = screen.getByRole('link', { name: /linkedin/i });
     expect(linkedinLink).toBeInTheDocument();
     expect(linkedinLink).toHaveAttribute('href', expect.stringContaining('linkedin.com'));
-    
-    const emailLink = screen.getByRole('link', { name: /email/i });
+
+    const emailLink = screen.getByRole('link', { name: /fjgonzalez25691@gmail\.com/i });
     expect(emailLink).toBeInTheDocument();
     expect(emailLink).toHaveAttribute('href', expect.stringContaining('mailto:'));
   });
 
   it('renders section headers', () => {
     render(<Footer />);
+    expect(screen.getByRole('heading', { name: /contacto/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /legal/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /social/i })).toBeInTheDocument();
   });
