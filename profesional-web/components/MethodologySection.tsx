@@ -93,7 +93,7 @@ export default function MethodologySection() {
     <section
       id="methodology"
       aria-label="metodología"
-      className="w-full bg-surface-950 py-16 scroll-mt-24"
+      className="w-full bg-surface-950 py-12 md:py-20 scroll-mt-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-12">
         <div className="space-y-4 text-center">

@@ -21,7 +21,7 @@ const painPoints = [
 
 export default function PainPoints() {
   return (
-    <section id="pain-points" className="w-full bg-surface-900 py-16 scroll-mt-24">
+    <section id="pain-points" className="w-full bg-surface-900 py-12 md:py-20 scroll-mt-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Título de la sección */}
         <h2 className="text-3xl font-bold text-center mb-12 text-text-primary">
@@ -29,12 +29,12 @@ export default function PainPoints() {
         </h2>
 
         {/* Grid de pain points */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {painPoints.map((point) => (
             <div
               key={point.id}
               data-testid="pain-point-item"
-              className="flex flex-col items-start gap-3 p-6 bg-surface-800 rounded-lg shadow-sm border border-surface-700"
+              className="flex flex-col items-start gap-3 p-6 bg-surface-800 rounded-lg shadow-sm border border-surface-700 transition-all duration-300 hover:shadow-md hover:scale-[1.02] hover:border-surface-600"
             >
               {/* Icono X en rojo */}
               <X

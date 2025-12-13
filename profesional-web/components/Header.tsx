@@ -53,7 +53,7 @@ export function Header() {
         ? "border-surface-700/40 bg-surface-950 shadow-lg"
         : "border-surface-700/20 bg-surface-950/80 backdrop-blur-md"
     }`}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-8">
         {/* Brand */}
         <Link
           href="#hero"

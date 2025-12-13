@@ -27,7 +27,7 @@ export default function TechStackDiagram() {
     <section
       id="tech-stack"
       aria-label="tech-stack"
-      className="w-full bg-surface-950 py-16"
+      className="w-full bg-surface-950 py-12 md:py-20"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-8 text-center">
